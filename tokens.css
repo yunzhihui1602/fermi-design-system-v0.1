@@ -1,0 +1,86 @@
+:root {
+  --brand-50: #f6f1ff;
+  --brand-100: #ede3ff;
+  --brand-200: #dcc8ff;
+  --brand-300: #c5a3ff;
+  --brand-400: #a873ff;
+  --brand-500: #8744f5;
+  --brand-600: #692aec;
+  --brand-700: #5720c7;
+  --brand-800: #471ca0;
+  --brand-900: #3b1a7e;
+
+  --neutral-0: #ffffff;
+  --neutral-25: #fcfcfc;
+  --neutral-50: #f7f8fa;
+  --neutral-100: #efefef;
+  --neutral-200: #e6eaf0;
+  --neutral-300: #d0d5dd;
+  --neutral-400: #98a2b3;
+  --neutral-500: #667085;
+  --neutral-600: #475467;
+  --neutral-700: #303c52;
+  --neutral-800: #1f293b;
+  --neutral-850: #1f2638;
+  --neutral-900: #101828;
+
+  --success: #20a66a;
+  --success-soft: #eaf8f2;
+  --warning: #f5a623;
+  --warning-soft: #fff5da;
+  --danger: #d92d20;
+  --danger-soft: #fdedee;
+  --info: #2e90fa;
+  --info-soft: #eff6ff;
+
+  --surface-page: var(--neutral-50);
+  --surface-card: var(--neutral-0);
+  --surface-sidebar: var(--neutral-25);
+  --surface-selected: var(--neutral-100);
+  --surface-hover: var(--neutral-50);
+  --border-default: var(--neutral-200);
+  --border-strong: var(--neutral-300);
+  --text-strong: var(--neutral-800);
+  --text-primary: var(--neutral-700);
+  --text-secondary: var(--neutral-500);
+  --text-tertiary: var(--neutral-400);
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-20: 20px;
+  --radius-full: 999px;
+
+  --font-sans: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --type-display-size: 24px;
+  --type-display-line: 34px;
+  --type-heading-size: 20px;
+  --type-heading-line: 28px;
+  --type-title-size: 18px;
+  --type-title-line: 26px;
+  --type-body-size: 16px;
+  --type-body-line: 24px;
+  --type-compact-size: 14px;
+  --type-compact-line: 22px;
+  --type-meta-size: 12px;
+  --type-meta-line: 18px;
+  --shadow-float: 0 16px 48px rgba(16, 24, 40, 0.14), 0 2px 8px rgba(16, 24, 40, 0.06);
+
+  --motion-fast: 100ms;
+  --motion-base: 160ms;
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --button-hover-shadow: 0 3px 8px rgba(16, 24, 40, 0.10);
+  --button-pressed-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+}
