@@ -112,10 +112,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 88px; height: 38px; padding: 0 16px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; transition: background .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease; }
 .button.primary { color: white; background: var(--brand-600); border-color: var(--brand-600); }
-.button.primary:hover { background: var(--brand-700); border-color: var(--brand-700); }
+.button.primary:hover { background: var(--brand-700); }
 .button.primary:active { background: var(--brand-800); }
 .button.secondary { color: var(--text-primary); background: white; border-color: var(--border-default); }
-.button.secondary:hover { background: var(--surface-hover); border-color: var(--border-strong); }
+.button.secondary:hover { background: var(--surface-hover); }
 .button.quiet { color: var(--brand-600); background: transparent; }
 .button.quiet:hover { background: var(--brand-50); }
 .button.danger { color: var(--danger); background: white; border-color: #f4c7c3; }
@@ -813,6 +813,8 @@ pre { margin: 0; padding: 16px; overflow: auto; color: var(--neutral-700); backg
 .channel-actions button:focus-visible { outline: 0; border-color: var(--info); box-shadow: 0 0 0 3px var(--info-soft); }
 .channel-actions button svg { display: block; width: 18px; height: 18px; }
 .channel-actions .enable-channel { min-width: 88px; color: var(--info); border-color: var(--info); font-size: 14px; }
+.channel-actions .enable-channel,
+.banner-stack .info button { color: #175cd3; }
 
 .compact-usage-card { margin-bottom: 16px; }
 .compact-usage-examples { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
@@ -870,7 +872,7 @@ button {
     opacity var(--motion-base) var(--ease-out-quart) !important;
 }
 
-/* Filled and bordered action buttons receive a restrained lift on hover. */
+/* Hover feedback uses a background fill. */
 :is(
   .button,
   .figma-link,
@@ -885,14 +887,16 @@ button {
   .date-input-trigger,
   .select-control,
   .model-type-select,
-  .workspace-switch,
   .prompt-model,
-  .prompt-plus,
-  .prompt-send
+  .prompt-plus
 ):not(:disabled):hover {
-  transform: translateY(-1px);
-  box-shadow: var(--button-hover-shadow);
+  background-color: var(--surface-hover);
 }
+
+.button.primary:not(:disabled):hover { background-color: var(--brand-700); }
+.button.danger:not(:disabled):hover { background-color: var(--danger-soft); }
+.button.quiet:not(:disabled):hover { background-color: var(--brand-50); }
+.prompt-send:not(:disabled):hover svg { background-color: var(--brand-700); border-radius: 50%; }
 
 :is(
   .button,
@@ -914,7 +918,6 @@ button {
   .prompt-send
 ):not(:disabled):active {
   transform: translateY(0) scale(.96);
-  box-shadow: var(--button-pressed-shadow);
   transition-duration: var(--motion-fast);
 }
 
@@ -974,8 +977,23 @@ button {
 }
 
 :is(.text-button, .actions button, .key-record > button, .banner-stack button, .permission-notices button, .filter-summary button):not(:disabled):hover {
-  color: var(--brand-700);
+  background-color: var(--surface-hover);
 }
+
+.conversation-disclosure { max-width: 240px; }
+.conversation-disclosure summary { display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-radius: var(--radius-8); }
+.conversation-disclosure summary:hover { background: var(--surface-hover); }
+.conversation-disclosure summary svg { width: 18px; height: 18px; }
+.conversation-disclosure[open] summary svg { transform: rotate(180deg); }
+.conversation-options { display: grid; gap: 4px; margin: 4px 0 0; padding: 0; border: 0; }
+.conversation-options label { position: relative; cursor: pointer; }
+.conversation-options input { position: absolute; opacity: 0; }
+.conversation-options .conversation-item { width: 100%; }
+.conversation-options label:hover .conversation-item { background: var(--surface-hover); }
+.conversation-options input:checked + .conversation-item { background: var(--surface-selected); }
+.conversation-options input:focus-visible + .conversation-item { outline: 2px solid var(--brand-600); outline-offset: -2px; }
+.conversation-options label:has(input:disabled) { cursor: not-allowed; }
+.conversation-options input:disabled + .conversation-item { background: transparent; }
 
 button:focus-visible {
   outline: 2px solid var(--brand-600);

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=25">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -277,7 +277,16 @@
 
         <section class="navigation-block">
           <div class="navigation-block-head"><div><h3>Conversation Group Header 分组标题</h3><p>240×25px；用于“今天、近 7 天、更早”等时间分组，只承担信息组织，不使用强调色。</p></div><span>1 component</span></div>
-          <span class="conversation-group-header">近 7 天</span>
+          <details class="conversation-disclosure" open>
+            <summary class="conversation-group-header">近 7 天<svg data-figma-icon="Name=下" aria-hidden="true"></svg></summary>
+            <fieldset class="conversation-options" aria-label="选择会话">
+              <label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label>
+              <label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label>
+              <label><input type="radio" name="workspace-conversation" disabled><span class="conversation-item disabled">已归档的会话</span></label>
+            </fieldset>
+          </details>
+          <p>点击分组标题或按 Enter / 空格展开与收起。选择会话后显示当前项背景，收起再展开会保留选中项。</p>
+          <p><code>&lt;details&gt;</code> 管理展开状态，<code>input[type="radio"]</code> 管理会话选中状态。<a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6692" target="_blank" rel="noreferrer">会话条目 Figma 源组件</a></p>
         </section>
 
         <section class="navigation-block">

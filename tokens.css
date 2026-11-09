@@ -81,6 +81,4 @@
   --motion-fast: 100ms;
   --motion-base: 160ms;
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-  --button-hover-shadow: 0 3px 8px rgba(16, 24, 40, 0.10);
-  --button-pressed-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
 }
