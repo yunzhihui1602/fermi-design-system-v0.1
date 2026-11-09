@@ -144,7 +144,8 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .core-button.secondary { color: #1f293b; background: white; border: 1px solid #e6eaf0; }.core-button.secondary.hover, .core-button.secondary.focus { background: #f7f8fa; }.core-button.secondary.pressed { background: #efefef; }.core-button.secondary:disabled { color: #98a2b3; background: #f7f8fa; border-color: #e6eaf0; }
 .core-button.outline { color: #1f293b; background: white; border: 1px solid #d0d5dd; }.core-button.outline.hover, .core-button.outline.focus { background: #f7f8fa; }.core-button.outline.pressed { background: #efefef; }.core-button.outline:disabled { color: #98a2b3; background: white; border-color: #e6eaf0; }
 .core-button.ghost { color: #303c52; background: white; border: 0; }.core-button.ghost.hover, .core-button.ghost.focus { background: #f7f8fa; }.core-button.ghost.pressed { background: #efefef; }.core-button.ghost:disabled { color: #98a2b3; background: white; }
-.core-button.focus { outline: 1px solid var(--brand-600); outline-offset: -1px; }
+.core-button.focus,
+.core-button:focus-visible { border: 1px solid var(--brand-600); outline: none; }
 .icon-button-states { display: flex; gap: 16px; }
 .icon-button-states label { display: grid; gap: 8px; justify-items: center; }
 .icon-button-states small, .core-input-grid small, .core-select-row small, .core-sidebar-list small, .appearance-state > small { color: var(--text-secondary); font-size: 12px; line-height: 18px; }
@@ -873,7 +874,7 @@ button {
 }
 
 /* Hover feedback uses a background fill. */
-:is(
+:where(
   .button,
   .figma-link,
   .core-button,
@@ -922,7 +923,7 @@ button {
 }
 
 /* Live core buttons mirror the color states already documented in the matrix. */
-.core-button.primary:not(:disabled):hover { background: #5720c7; }
+.core-button.primary:not(:disabled):hover { background-color: #5720c7; }
 .core-button.primary:not(:disabled):active { background: #471ca0; }
 .core-button:is(.secondary, .outline, .ghost):not(:disabled):hover { background: #f7f8fa; }
 .core-button:is(.secondary, .outline, .ghost):not(:disabled):active { background: #efefef; }
