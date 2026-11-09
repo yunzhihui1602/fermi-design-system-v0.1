@@ -890,14 +890,17 @@ button {
   .model-type-select,
   .prompt-model,
   .prompt-plus
-):not(:disabled):hover {
+):not(:where(:disabled, [aria-disabled="true"], .primary, .selected > button)):hover {
   background-color: var(--surface-hover);
 }
 
 .button.primary:not(:disabled):hover { background-color: var(--brand-700); }
 .button.danger:not(:disabled):hover { background-color: var(--danger-soft); }
 .button.quiet:not(:disabled):hover { background-color: var(--brand-50); }
-.prompt-send:not(:disabled):hover svg { background-color: var(--brand-700); border-radius: 50%; }
+.preset-card.selected button:not(:disabled):hover { background-color: var(--brand-700); }
+.prompt-send:not(:disabled):hover svg circle[fill="#692AEC" i],
+.control-send:not(:disabled):hover svg circle[fill="#692AEC" i] { fill: var(--brand-700); }
+.control-stop:not(:disabled):hover { background-color: var(--brand-700) !important; }
 
 :is(
   .button,
@@ -934,8 +937,6 @@ button {
   .core-icon-button,
   .router-field-action,
   .attachment-action,
-  .control-send,
-  .control-stop,
   .toast-component > button,
   .alert button,
   .date-picker-main header button
