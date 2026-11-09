@@ -15,7 +15,7 @@ svg:not([viewBox]) { fill: none; stroke: currentColor; stroke-width: 1.8; stroke
 .sidebar > .brand strong, .sidebar > .brand small { display: block; }
 .sidebar > .brand strong { color: var(--text-strong); font-size: 16px; line-height: 22px; }
 .sidebar > .brand small { color: var(--text-secondary); font-size: 12px; line-height: 18px; }
-.side-nav { overflow: auto; padding-right: 2px; }
+.side-nav { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; padding-right: 2px; }
 .nav-label { margin: 22px 10px 8px; color: var(--text-secondary); font-size: 12px; line-height: 20px; }
 .nav-label:first-child { margin-top: 0; }
 .nav-link { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 12px; margin-bottom: 2px; border-radius: 8px; color: var(--text-secondary); transition: background .16s ease, color .16s ease; }
@@ -1090,8 +1090,6 @@ button[aria-disabled="true"] {
 }
 
 /* Component specimens reflow within the document rather than scrolling independently. */
-.sidebar { position: absolute; bottom: auto; min-height: 100vh; }
-.side-nav { overflow: visible; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .core-scroll, .basic-state-scroll, .date-state-scroll, .navigation-state-row,
 .toast-component-set, .workspace-row, .prompt-variant-grid, .control-variant-grid,
@@ -1154,7 +1152,6 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
   .model-price-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-  .sidebar { position: static; min-height: 0; }
   .date-picker-panel { grid-template-columns: minmax(0, 1fr); }
   .date-picker-shortcuts { flex-direction: row; flex-wrap: wrap; }
   .date-picker-main { padding: 12px; }
