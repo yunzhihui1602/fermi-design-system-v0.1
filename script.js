@@ -187,8 +187,20 @@ document.querySelectorAll('[data-date-trigger]').forEach((trigger) => {
 document.querySelector('[data-quick-range-demo]')?.addEventListener('click', (event) => {
   const button = event.target.closest('button:not(:disabled)');
   if (!button) return;
-  document.querySelectorAll('[data-quick-range-demo] button').forEach((item) => item.classList.toggle('selected', item === button));
+  event.currentTarget.querySelectorAll('button').forEach((item) => {
+    item.classList.toggle('selected', item === button);
+    item.setAttribute('aria-pressed', String(item === button));
+  });
 });
+
+const switchPlayground = document.querySelector('[data-switch-playground]');
+if (switchPlayground) {
+  const input = switchPlayground.querySelector('[data-switch-input]');
+  const lock = switchPlayground.querySelector('[data-switch-lock]');
+  const sync = () => { input.disabled = lock.checked; };
+  lock.addEventListener('change', sync);
+  sync();
+}
 
 const modelDiscoveryBoard = document.querySelector('.model-discovery-board');
 if (modelDiscoveryBoard) {
@@ -374,6 +386,8 @@ document.querySelectorAll('.demo-tabs').forEach((tabs) => {
         item.classList.toggle('active', active);
         item.setAttribute('aria-selected', String(active));
       });
+      const status = tabs.parentElement.querySelector('[data-header-status]');
+      if (status) status.textContent = `当前标签：${button.textContent.trim()}`;
     });
   });
 });
@@ -389,13 +403,36 @@ document.querySelectorAll('.chip-row').forEach((group) => {
         item.classList.remove('hover');
         item.setAttribute('aria-pressed', String(selected));
       });
-      const summary = group.parentElement?.querySelector('.filter-summary span');
-      if (summary) summary.textContent = button.textContent.trim() === '全部'
-        ? '未应用筛选 · 共 18 条结果'
-        : `已应用：${button.textContent.trim()} · 共 18 条结果`;
     });
   });
 });
+
+const filterToolbar = document.querySelector('[data-filter-toolbar]');
+if (filterToolbar) {
+  const { keyword, state, range } = filterToolbar.elements;
+  const reset = filterToolbar.querySelector('[type="reset"]');
+  const status = filterToolbar.parentElement.querySelector('[data-filter-count]');
+  const records = Array.from({ length: 126 }, (_, index) => ({
+    name: index < 18 ? '锂电池实验' : '材料分析',
+    state: index < 18 || index % 2 === 0 ? 'running' : 'done',
+    age: index < 18 ? index % 7 : 7 + index % 35,
+  }));
+  const refresh = () => {
+    const query = keyword.value.trim();
+    const conditions = [query, state.value, range.value].filter(Boolean).length;
+    const count = records.filter((record) => (!query || record.name.includes(query)) &&
+      (!state.value || record.state === state.value) &&
+      (!range.value || record.age < Number(range.value))).length;
+    status.textContent = `${conditions ? `已应用 ${conditions} 个条件` : '未应用筛选条件'} · 共 ${count} 条结果`;
+    reset.disabled = conditions === 0;
+    reset.textContent = conditions ? '重置筛选' : '暂无筛选';
+  };
+  filterToolbar.addEventListener('input', refresh);
+  filterToolbar.addEventListener('change', refresh);
+  filterToolbar.addEventListener('reset', () => queueMicrotask(refresh));
+  filterToolbar.addEventListener('submit', (event) => event.preventDefault());
+  refresh();
+}
 
 document.querySelectorAll('[data-number-demo]').forEach((control) => {
   const input = control.querySelector('[data-number-value]');
@@ -460,95 +497,105 @@ document.querySelectorAll('[data-core-input]').forEach((input) => {
   input.addEventListener('blur', updateInputState);
 });
 
-document.querySelectorAll('[data-textarea-demo]').forEach((control) => {
+document.querySelectorAll('[data-textarea-playground]').forEach((playground) => {
+  const control = playground.querySelector('[data-textarea-demo]');
   const textarea = control.querySelector('textarea');
   const counter = control.querySelector('[data-textarea-count]');
-  const stateLabel = control.closest('.basic-state-item')?.querySelector(':scope > small');
-  if (!textarea || !counter) return;
+  const error = playground.querySelector('[data-textarea-error]');
+  const lock = playground.querySelector('[data-textarea-lock]');
 
-  const updateTextareaState = ({ validate = false } = {}) => {
-    const length = textarea.value.length;
-    const hasValue = length > 0;
-    const isInvalid = control.hasAttribute('data-required') && validate && !hasValue;
-
-    counter.textContent = `${length} / ${textarea.maxLength}`;
-    control.classList.toggle('filled', hasValue);
-    control.classList.toggle('error', isInvalid);
-    textarea.setAttribute('aria-invalid', String(isInvalid));
-
-    if (!stateLabel || textarea.disabled || control.matches(':focus-within')) return;
-    stateLabel.textContent = isInvalid ? 'State=Error' : hasValue ? 'State=Filled' : 'State=Default';
+  const update = (validate = false) => {
+    const invalid = validate && !textarea.disabled && !textarea.value.trim();
+    counter.textContent = `${textarea.value.length} / ${textarea.maxLength}`;
+    control.classList.toggle('error', invalid);
+    textarea.setAttribute('aria-invalid', String(invalid));
+    error.hidden = !invalid;
   };
 
-  textarea.addEventListener('focus', () => {
-    if (stateLabel) stateLabel.textContent = 'State=Focus';
-  });
-  textarea.addEventListener('input', () => {
-    control.classList.remove('focus');
-    updateTextareaState();
-  });
-  textarea.addEventListener('blur', () => {
-    control.classList.remove('focus');
-    updateTextareaState({ validate: true });
-  });
-  updateTextareaState({ validate: control.classList.contains('error') });
+  const syncDisabled = () => {
+    textarea.disabled = lock.checked;
+    control.classList.toggle('disabled', lock.checked);
+    update();
+  };
+
+  textarea.addEventListener('input', () => update());
+  textarea.addEventListener('blur', () => update(true));
+  lock.addEventListener('change', syncDisabled);
+  syncDisabled();
 });
 
-document.querySelectorAll('[data-number-input]').forEach((control) => {
+document.querySelectorAll('[data-number-playground]').forEach((playground) => {
+  const control = playground.querySelector('[data-number-input]');
   const input = control.querySelector('[data-number-value]');
-  const stateLabel = control.closest('.basic-state-item')?.querySelector(':scope > small');
-  const minimum = Number.parseFloat(control.dataset.min ?? '0');
-  const maximum = Number.parseFloat(control.dataset.max ?? 'Infinity');
-  const step = Number.parseFloat(control.dataset.step ?? '1');
-  const actionButtons = [...control.querySelectorAll('[data-number-action]')];
-  if (!(input instanceof HTMLInputElement) || control.classList.contains('disabled')) return;
+  const lock = playground.querySelector('[data-number-lock]');
+  const buttons = [...control.querySelectorAll('[data-number-action]')];
+  const minimum = Number(input.min);
+  const maximum = Number(input.max);
 
-  const clampValue = (candidate) => Math.min(maximum, Math.max(minimum, candidate));
-  const updateStepAvailability = () => {
-    const current = Number.parseFloat(input.value);
-    actionButtons.forEach((button) => {
-      const atMinimum = button.dataset.numberAction === 'decrease' && Number.isFinite(current) && current <= minimum;
-      const atMaximum = button.dataset.numberAction === 'increase' && Number.isFinite(current) && current >= maximum;
-      button.disabled = atMinimum || atMaximum;
-      button.title = atMinimum ? '已达到最小值' : atMaximum ? '已达到最大值' : '';
+  const syncButtons = () => {
+    buttons.forEach((button) => {
+      const increase = button.dataset.numberAction === 'increase';
+      const atLimit = increase ? input.valueAsNumber >= maximum : input.valueAsNumber <= minimum;
+      button.disabled = input.disabled || atLimit;
+      button.title = input.disabled ? '数值控件已禁用' : atLimit ? (increase ? '已达到最大值' : '已达到最小值') : '';
     });
   };
 
-  const commitValue = () => {
-    const parsed = Number.parseFloat(input.value);
-    input.value = String(clampValue(Number.isFinite(parsed) ? parsed : minimum));
-    control.classList.remove('focus');
-    if (stateLabel) stateLabel.textContent = 'State=Filled';
-    updateStepAvailability();
+  const commit = (offset = 0) => {
+    const value = Number.isFinite(input.valueAsNumber) ? Math.round(input.valueAsNumber) : minimum;
+    input.value = String(Math.min(maximum, Math.max(minimum, value + offset)));
+    syncButtons();
   };
 
-  input.addEventListener('focus', () => {
-    if (stateLabel) stateLabel.textContent = 'State=Focus';
-  });
-  input.addEventListener('input', () => {
-    control.classList.remove('focus');
-    if (stateLabel) stateLabel.textContent = 'State=Filled';
-    updateStepAvailability();
-  });
-  input.addEventListener('blur', commitValue);
-
-  actionButtons.forEach((button) => {
+  input.addEventListener('input', syncButtons);
+  input.addEventListener('blur', () => commit());
+  buttons.forEach((button) => {
     button.addEventListener('click', () => {
-      const current = Number.parseFloat(input.value) || 0;
-      const direction = button.dataset.numberAction === 'increase' ? 1 : -1;
-      input.value = String(clampValue(current + direction * step));
-      control.classList.add('focus');
-      if (stateLabel) stateLabel.textContent = 'State=Focus';
-      updateStepAvailability();
+      input.focus();
+      commit(button.dataset.numberAction === 'increase' ? 1 : -1);
     });
   });
-
-  updateStepAvailability();
+  const syncDisabled = () => {
+    input.disabled = lock.checked;
+    control.classList.toggle('disabled', lock.checked);
+    syncButtons();
+  };
+  lock.addEventListener('change', syncDisabled);
+  syncDisabled();
 });
 
 const uploadFileInput = document.querySelector('[data-upload-input]');
+const uploadLock = document.querySelector('[data-upload-lock]');
+const uploadTrigger = document.querySelector('[data-upload-trigger]');
+const showFiles = (files) => {
+  if (!files.length || uploadLock?.checked) return;
+  uploadTrigger.querySelector('b').textContent = files[0].name;
+  uploadTrigger.querySelector('small').textContent = `已选择 ${files.length} 个文件`;
+};
+if (uploadTrigger && uploadLock) {
+  const syncLock = () => {
+    uploadTrigger.classList.toggle('disabled', uploadLock.checked);
+    uploadTrigger.setAttribute('aria-disabled', String(uploadLock.checked));
+    uploadTrigger.tabIndex = uploadLock.checked ? -1 : 0;
+    uploadFileInput.disabled = uploadLock.checked;
+  };
+  uploadLock.addEventListener('change', syncLock);
+  syncLock();
+  uploadTrigger.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    if (!uploadLock.checked) uploadTrigger.classList.add('dragging');
+  });
+  uploadTrigger.addEventListener('dragleave', (event) => {
+    if (!uploadTrigger.contains(event.relatedTarget)) uploadTrigger.classList.remove('dragging');
+  });
+  uploadTrigger.addEventListener('drop', (event) => {
+    event.preventDefault();
+    uploadTrigger.classList.remove('dragging');
+    showFiles(event.dataTransfer.files);
+  });
+}
 document.querySelectorAll('[data-upload-trigger]').forEach((trigger) => {
-  const openFilePicker = () => uploadFileInput?.click();
+  const openFilePicker = () => { if (trigger.getAttribute('aria-disabled') !== 'true') uploadFileInput?.click(); };
   trigger.addEventListener('click', openFilePicker);
   trigger.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -583,6 +630,8 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
     const index = pages.indexOf(page);
     if (previous) previous.disabled = index === 0;
     if (next) next.disabled = index === pages.length - 1;
+    const status = pagination.parentElement.querySelector('[data-page-status]');
+    if (status) status.textContent = `第 ${index + 1} / ${pages.length} 页 · ${index === 0 ? 'Start' : index === pages.length - 1 ? 'End' : 'Middle'}`;
   };
   pages.forEach((page) => page.addEventListener('click', () => selectPage(page)));
   previous?.addEventListener('click', () => {
@@ -603,6 +652,311 @@ document.querySelector('.table-toolbar input')?.addEventListener('input', (event
 });
 
 const promptModelMenu = document.querySelector('#promptModelMenu');
+const tooltipPosition = document.querySelector('[data-tooltip-position]');
+tooltipPosition?.addEventListener('change', () => {
+  tooltipPosition.closest('.tooltip-playground').querySelector('.tooltip-anchor').dataset.position = tooltipPosition.value;
+});
+
+const headerDemo = document.querySelector('.navigation-page-header');
+if (headerDemo) {
+  const kind = headerDemo.querySelector('[data-header-variant]');
+  const level = headerDemo.querySelector('[data-crumb-variant]');
+  const back = headerDemo.querySelector('[data-header-back]');
+  const breadcrumb = headerDemo.querySelector('.breadcrumb');
+  const middle = breadcrumb.children[2];
+  const divider = breadcrumb.children[3];
+  const sync = () => {
+    back.hidden = kind.value !== 'back';
+    headerDemo.querySelectorAll('.page-title-row > .button').forEach((button) => { button.hidden = kind.value !== 'actions'; });
+    middle.hidden = divider.hidden = level.value === '2';
+    middle.textContent = level.value === 'overflow' ? '…' : '固态电池研发';
+  };
+  kind.addEventListener('change', sync);
+  level.addEventListener('change', sync);
+  back.addEventListener('click', () => headerDemo.querySelector('.demo-tabs button').click());
+  sync();
+}
+
+const permissionDemo = document.querySelector('[data-permission-demo]');
+if (permissionDemo) {
+  const gate = permissionDemo.querySelector('[data-gate-state]');
+  const notice = permissionDemo.querySelector('[data-notice-state]');
+  const action = permissionDemo.querySelector('[data-gate-action]');
+  const states = {
+    request: ['申请访问权限', '提交后由项目管理员审批。', '申请权限'],
+    pending: ['正在等待审批', '权限申请已提交。', '审批中'],
+    denied: ['申请未通过', '可联系管理员或重新申请。', '重新申请'],
+    readonly: ['只读访问', '可查看内容，编辑操作不可用。', '不可编辑'],
+  };
+  const notices = { readonly: '只读模式：编辑操作暂不可用。', approval: '审批通知：请等待管理员处理。', expired: '访问权限已过期，请重新申请。' };
+  const sync = () => {
+    const [title, copy, label] = states[gate.value];
+    permissionDemo.querySelector('[data-gate-title]').textContent = title;
+    permissionDemo.querySelector('[data-gate-copy]').textContent = copy;
+    action.textContent = label;
+    action.disabled = gate.value === 'pending' || gate.value === 'readonly';
+    permissionDemo.querySelector('[data-notice-copy]').textContent = notices[notice.value];
+  };
+  gate.addEventListener('change', sync);
+  notice.addEventListener('change', sync);
+  action.addEventListener('click', () => { gate.value = 'pending'; notice.value = 'approval'; sync(); gate.focus(); });
+  sync();
+}
+
+const bulkDemo = document.querySelector('[data-bulk-demo]');
+if (bulkDemo) {
+  const selection = bulkDemo.querySelector('input');
+  const clear = bulkDemo.querySelector('[data-bulk-clear]');
+  const submit = bulkDemo.querySelector('[data-bulk-submit]');
+  const status = bulkDemo.querySelector('[role="status"]');
+  const sync = () => {
+    clear.disabled = submit.disabled = !selection.checked;
+    status.textContent = selection.checked ? '已选择 3 项' : '未选择成员';
+  };
+  selection.addEventListener('change', sync);
+  clear.addEventListener('click', () => { selection.checked = false; sync(); selection.focus(); });
+  submit.addEventListener('click', () => {
+    selection.disabled = clear.disabled = submit.disabled = true;
+    status.textContent = '处理中…';
+    setTimeout(() => {
+      selection.disabled = selection.checked = false;
+      sync();
+      status.textContent = '批量停用完成（演示）';
+    }, 900);
+  });
+  sync();
+}
+
+document.querySelectorAll('.chart-grid > .component-card').forEach((card) => {
+  const trend = Boolean(card.querySelector('.trend-chart'));
+  const label = document.createElement('label');
+  const select = document.createElement('select');
+  label.className = 'chart-demo-mode';
+  label.append('图表模式 ', select);
+  for (const [value, text] of [['single', '单系列'], ['compare', '对比'], trend ? ['hover', '查看数据点'] : ['threshold', '阈值']]) {
+    select.add(new Option(text, value));
+  }
+  const status = document.createElement('p');
+  status.setAttribute('role', 'status');
+  status.className = 'component-demo-status';
+  status.hidden = true;
+  card.querySelector('.chart-head').after(label);
+  card.append(status);
+  const sync = () => {
+    card.dataset.chartMode = select.value;
+    status.hidden = select.value !== 'hover';
+    status.textContent = select.value === 'hover' ? '将鼠标移到趋势图上查看采样点。' : '';
+  };
+  select.value = 'compare';
+  select.addEventListener('change', sync);
+  card.querySelector('.trend-chart svg')?.addEventListener('pointermove', (event) => {
+    if (select.value !== 'hover') return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const index = Math.max(0, Math.min(6, Math.round((event.clientX - bounds.left) / bounds.width * 6)));
+    status.textContent = `采样点 ${index + 1} · 实验值 ${[12, 24, 19, 37, 31, 50, 43][index]} °C`;
+  });
+  sync();
+});
+document.querySelectorAll('.prompt-variant-grid .prompt-plus:not(:disabled)').forEach((button) => {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.hidden = true;
+  const result = document.createElement('span');
+  result.className = 'prompt-file-result';
+  result.setAttribute('role', 'status');
+  button.after(picker, result);
+  button.addEventListener('click', () => picker.click());
+  picker.addEventListener('change', () => {
+    const name = picker.files[0]?.name;
+    result.textContent = name ?? '';
+    result.title = name ?? '';
+    picker.value = '';
+  });
+});
+const checkboxPlayground = document.querySelector('[data-checkbox-playground]');
+if (checkboxPlayground) {
+  const all = checkboxPlayground.querySelector('[data-check-all]');
+  const items = [...checkboxPlayground.querySelectorAll('[data-check-item]')];
+  const lock = checkboxPlayground.parentElement.querySelector('[data-check-lock]');
+  const sync = () => {
+    const count = items.filter((item) => item.checked).length;
+    all.checked = count === items.length;
+    all.indeterminate = count > 0 && count < items.length;
+  };
+  all.addEventListener('change', () => {
+    items.forEach((item) => { item.checked = all.checked; });
+    sync();
+  });
+  items.forEach((item) => item.addEventListener('change', sync));
+  lock.addEventListener('change', () => { checkboxPlayground.disabled = lock.checked; });
+  checkboxPlayground.disabled = lock.checked;
+  sync();
+}
+const feedbackPlayground = document.querySelector('[data-feedback-playground]');
+if (feedbackPlayground) {
+  const menus = [...feedbackPlayground.querySelectorAll('details')];
+  const status = feedbackPlayground.querySelector('[data-playground-status]');
+  const close = (menu, restoreFocus = false) => {
+    menu.open = false;
+    if (restoreFocus) menu.querySelector('summary').focus();
+  };
+  feedbackPlayground.addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    const menu = button?.closest('details');
+    if (!menu || button.disabled) return;
+    if (button.hasAttribute('data-menu-choice')) {
+      menu.querySelectorAll('[data-menu-choice]').forEach((option) => {
+        option.classList.toggle('selected', option === button);
+        option.setAttribute('aria-pressed', String(option === button));
+      });
+      menu.querySelector('[data-menu-value]').textContent = button.textContent;
+    }
+    status.textContent = button.dataset.demoMessage ?? `已选择 ${button.textContent}`;
+    close(menu, true);
+  });
+  document.addEventListener('click', (event) => {
+    menus.filter((menu) => menu.open && !menu.contains(event.target)).forEach((menu) => close(menu));
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const menu = menus.find((item) => item.open && item.contains(document.activeElement));
+    if (menu) close(menu, true);
+  });
+}
+const emptyPlayground = document.querySelector('[data-empty-playground]');
+if (emptyPlayground) {
+  const choice = emptyPlayground.querySelector('[data-empty-choice]');
+  const size = emptyPlayground.querySelector('[data-empty-size]');
+  const preview = emptyPlayground.querySelector('.empty-state-preview');
+  const icon = preview.querySelector('.empty-state-icon');
+  const title = emptyPlayground.querySelector('[data-empty-title]');
+  const message = emptyPlayground.querySelector('[data-empty-message]');
+  const action = emptyPlayground.querySelector('[data-empty-action]');
+  const variants = {
+    'no-data': ['暂无数据', '当前项目还没有可展示的数据。', '导入数据'],
+    'no-result': ['未找到匹配结果', '请调整关键词或筛选条件后重试。', '清除筛选'],
+    'first-use': ['开始创建第一个研发任务', '配置数据与工具后即可开始运行。', '创建任务'],
+    'load-error': ['数据加载失败', '请检查网络状态后重新加载。', '重新加载'],
+  };
+  const compactVariants = {
+    'no-data': ['暂无数据', '当前区域暂无内容', '添加数据'],
+    'no-result': ['没有匹配结果', '调整关键词后重试', '清除筛选'],
+    'load-error': ['加载失败', '检查网络后重新加载', '重新加载'],
+  };
+  const update = () => {
+    const compact = size.value === 'compact';
+    const firstUse = choice.querySelector('[value="first-use"]');
+    firstUse.disabled = compact;
+    if (compact && choice.value === 'first-use') choice.value = 'no-data';
+    const [heading, copy, label] = (compact ? compactVariants : variants)[choice.value];
+    const primary = !compact && ['no-data', 'first-use'].includes(choice.value);
+    const error = choice.value === 'load-error' || (!compact && choice.value !== 'first-use');
+    preview.dataset.size = size.value;
+    icon.classList.toggle('error', error);
+    action.classList.toggle('primary', primary);
+    action.classList.toggle('secondary', !primary);
+    title.textContent = heading;
+    message.textContent = copy;
+    action.textContent = label;
+  };
+  choice.addEventListener('change', update);
+  size.addEventListener('change', update);
+  update();
+  action.addEventListener('click', () => {
+    if (['no-result', 'load-error'].includes(choice.value)) {
+      choice.value = 'no-data';
+      update();
+      choice.focus();
+    } else {
+      message.textContent = `已触发「${action.textContent}」（组件演示）。`;
+    }
+  });
+}
+const agentFlow = document.querySelector('[data-agent-flow]');
+if (agentFlow) {
+  const find = (selector) => agentFlow.querySelector(selector);
+  const form = find('form');
+  const prompt = find('[data-flow-prompt]');
+  const file = find('[data-flow-file]');
+  const outcome = find('[data-flow-outcome]');
+  const send = find('[type="submit"]');
+  const stop = find('[data-flow-stop]');
+  const retry = find('[data-flow-retry]');
+  const remove = find('[data-flow-remove]');
+  let taskTimer;
+  let fileTimer;
+  let busy = false;
+  let attachment = '';
+  let fileState = '';
+
+  const refresh = () => {
+    send.hidden = busy;
+    send.disabled = !(prompt.value.trim() || attachment) || ['uploading', 'error'].includes(fileState);
+    stop.hidden = !busy;
+    prompt.readOnly = busy;
+    file.disabled = outcome.disabled = remove.disabled = busy;
+    find('.prompt-model').disabled = busy;
+  };
+  const showTask = (state, message) => {
+    const task = find('[data-flow-task]');
+    task.hidden = false;
+    task.className = `task-card agent-flow-task ${state}`;
+    find('[data-flow-status]').textContent = message;
+    retry.hidden = !['failed', 'cancelled'].includes(state);
+    refresh();
+  };
+  const showFile = (state, message) => {
+    fileState = state;
+    find('[data-flow-attachment]').hidden = !attachment;
+    find('[data-flow-file-name]').textContent = attachment;
+    const status = find('[data-flow-file-status]');
+    status.className = `attachment-status ${state === 'error' ? 'danger' : state === 'parsed' ? 'success' : 'info'}`;
+    status.textContent = message;
+    refresh();
+  };
+  const start = (fail) => {
+    if (busy || send.disabled) return;
+    busy = true;
+    showTask('queued', '任务排队中');
+    taskTimer = setTimeout(() => {
+      showTask('running', '正在生成结果…');
+      taskTimer = setTimeout(() => {
+        busy = false;
+        showTask(fail ? 'failed' : 'success', fail ? '任务失败，可重新运行。' : '任务已完成（模拟）。');
+      }, 1800);
+    }, 450);
+  };
+  prompt.addEventListener('input', refresh);
+  file.addEventListener('change', () => {
+    if (!file.files[0]) return;
+    clearTimeout(fileTimer);
+    attachment = file.files[0].name;
+    const fail = outcome.value === 'attachment-error';
+    showFile('uploading', '上传中');
+    fileTimer = setTimeout(() => {
+      if (fail) { showFile('error', '附件处理失败'); return; }
+      showFile('ready', '待解析');
+      fileTimer = setTimeout(() => showFile('parsed', '已解析'), 700);
+    }, 650);
+  });
+  remove.addEventListener('click', () => {
+    clearTimeout(fileTimer);
+    attachment = file.value = '';
+    showFile('', '');
+  });
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    start(outcome.value === 'failed');
+  });
+  stop.addEventListener('click', () => {
+    clearTimeout(taskTimer);
+    busy = false;
+    showTask('cancelled', '任务已取消，可重新运行。');
+    retry.focus();
+  });
+  retry.addEventListener('click', () => start(false));
+  refresh();
+}
 let activePromptModel = null;
 
 const placePromptModelMenu = (trigger) => {
@@ -704,6 +1058,31 @@ coreSelectMenu?.querySelectorAll('[data-core-select-option]').forEach((option) =
 });
 
 const accountTrigger = document.querySelector('[data-account-trigger]');
+const workspaceMenus = [...document.querySelectorAll('.workspace-action-menu')];
+for (const menu of workspaceMenus) {
+  const trigger = menu.querySelector('summary');
+  menu.addEventListener('toggle', () => {
+    if (menu.open) workspaceMenus.filter((other) => other !== menu).forEach((other) => { other.open = false; });
+  });
+  menu.querySelectorAll('button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const status = menu.closest('.navigation-block')?.querySelector('.workspace-action-result');
+      if (status) status.textContent = `已选择「${button.textContent.trim()}」（组件演示）`;
+      menu.open = false;
+      trigger.focus();
+    });
+  });
+}
+document.addEventListener('click', (event) => {
+  workspaceMenus.filter((menu) => menu.open && !menu.contains(event.target)).forEach((menu) => { menu.open = false; });
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  const menu = workspaceMenus.find((item) => item.open);
+  if (!menu) return;
+  menu.open = false;
+  menu.querySelector('summary').focus();
+});
 const accountDemoMenu = document.querySelector('#accountDemoMenu');
 
 const placeAccountMenu = () => {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=31">
+  <link rel="stylesheet" href="styles.css?v=46">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -277,30 +277,40 @@
 
         <section class="navigation-block">
           <div class="navigation-block-head"><div><h3>Conversation Group Header 分组标题</h3><p>240×25px；用于“今天、近 7 天、更早”等时间分组，只承担信息组织，不使用强调色。</p></div><span>1 component</span></div>
+          <!-- fermi-component: {"id":"910:6677","name":"Sidebar Navigation Item","properties":["Label","Icon","State"],"variants":["State=Default","State=Hover","State=Current","State=Disabled"]} -->
+          <h4>主导航 · 交互演示</h4>
+          <fieldset class="conversation-options workspace-nav-options" aria-label="选择工作区">
+            <label><input type="radio" name="workspace-navigation" checked><span class="workspace-nav-item"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>新聊天</span></label>
+            <label><input type="radio" name="workspace-navigation"><span class="workspace-nav-item"><svg data-figma-icon="Name=模型" aria-hidden="true"></svg>实验数据</span></label>
+            <label><input type="radio" name="workspace-navigation" disabled><span class="workspace-nav-item disabled">不可用工作区</span></label>
+          </fieldset>
+          <!-- fermi-component: {"id":"910:6692","name":"Conversation List Item","properties":["Title","More Icon","State"],"variants":["State=Default","State=Hover","State=Current","State=Disabled"]} -->
           <h4 id="conversation-demo">可展开会话列表 · 交互演示</h4>
           <details class="conversation-disclosure" open>
             <summary class="conversation-group-header">近 7 天<svg data-figma-icon="Name=下" aria-hidden="true"></svg></summary>
             <fieldset class="conversation-options" aria-label="选择会话">
-              <label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label>
-              <label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label>
+              <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label><details class="workspace-action-menu"><summary aria-label="固态电池研发任务的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
+              <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label><details class="workspace-action-menu"><summary aria-label="实验数据分析的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
               <label><input type="radio" name="workspace-conversation" disabled><span class="conversation-item disabled">已归档的会话</span></label>
             </fieldset>
           </details>
+          <p class="workspace-action-result" role="status"></p>
           <p>点击分组标题或按 Enter / 空格展开与收起。选择会话后显示当前项背景，收起再展开会保留选中项。</p>
           <p><code>&lt;details&gt;</code> 管理展开状态，<code>input[type="radio"]</code> 管理会话选中状态。<a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6692" target="_blank" rel="noreferrer">会话条目 Figma 源组件</a></p>
         </section>
 
         <section class="navigation-block">
           <div class="navigation-block-head"><div><h3>Account Menu Row 账户入口</h3><p>240×48px；默认不添加分隔装饰，悬停和展开仅使用白灰层级。</p></div><span>3 variants</span></div>
-          <div class="navigation-state-row account-state-row">
-            <label><small>State=Default</small><span class="account-menu-row"><i class="account-avatar-source"></i><b>阿利雅</b><svg data-figma-icon="Name=更多"></svg></span></label>
-            <label><small>State=Hover</small><span class="account-menu-row hover"><i class="account-avatar-source"></i><b>阿利雅</b><svg data-figma-icon="Name=更多"></svg></span></label>
-            <label><small>State=Open</small><span class="account-menu-row open"><i class="account-avatar-source"></i><b>阿利雅</b><svg data-figma-icon="Name=更多"></svg></span></label>
-          </div>
+          <!-- fermi-component: {"id":"910:6710","name":"Account Menu Row","properties":["Name","More Icon","State"],"variants":["State=Default","State=Hover","State=Open"]} -->
+          <details class="workspace-action-menu workspace-account-demo">
+            <summary class="account-menu-row"><i class="account-avatar-source"></i><b>阿利雅</b><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary>
+            <div class="menu-demo"><button type="button">个人资料</button><button type="button">账户设置</button><button type="button" class="danger">退出登录</button></div>
+          </details>
+          <p class="workspace-action-result" role="status"></p>
         </section>
       </div>
-      <div class="component-card navigation-page-header"><h3>Page Header / Base</h3><div class="page-header-demo"><div class="breadcrumb"><span>项目空间</span><svg><use href="#i-chevron"/></svg><span>固态电池研发</span><svg><use href="#i-chevron"/></svg><b>项目概览</b></div><div class="page-title-row"><div><h4>固态电池研发</h4><p>管理项目成员、实验数据与研发任务。</p></div><button class="button secondary">导出</button><button class="button primary">新建任务</button></div><div class="demo-tabs"><button class="active">概览</button><button>实验数据</button><button>运行记录</button><button disabled>项目设置</button></div></div></div>
-      <div class="component-card compact-card"><h3>Breadcrumb / Tabs / Account Menu</h3><div class="inline-component-row"><div class="crumb-variants"><span>两级：项目空间 / 项目概览</span><span>三级：工作区 / 项目 / 任务</span><span>溢出：工作区 / … / 当前页面</span></div><button type="button" class="account-demo" data-account-trigger aria-haspopup="menu" aria-expanded="false"><span class="avatar small">研</span><span class="account-demo-copy"><b>研究员</b><small>researcher@fermi.ai</small></span><span class="account-demo-action" aria-hidden="true"><svg><use href="#i-grid"/></svg></span></button></div></div>
+      <div class="component-card navigation-page-header"><h3>Page Header / Base</h3><p><label>页头 <select data-header-variant><option value="actions">带操作</option><option value="standard">标准</option><option value="back">返回</option></select></label> <label>面包屑 <select data-crumb-variant><option value="3">三级</option><option value="2">两级</option><option value="overflow">溢出</option></select></label></p><div class="page-header-demo"><div class="breadcrumb"><span>项目空间</span><svg><use href="#i-chevron"/></svg><span>固态电池研发</span><svg><use href="#i-chevron"/></svg><b>项目概览</b></div><div class="page-title-row"><button class="icon-button" type="button" data-header-back aria-label="返回概览" hidden><svg data-figma-icon="Name=左" aria-hidden="true"></svg></button><div><h4>固态电池研发</h4><p>管理项目成员、实验数据与研发任务。</p></div><button class="button secondary">导出</button><button class="button primary">新建任务</button></div><div class="demo-tabs"><button class="active">概览</button><button>实验数据</button><button>运行记录</button><button disabled>项目设置</button></div><p class="component-demo-status" data-header-status role="status">当前标签：概览</p></div></div>
+      <div class="component-card compact-card"><h3>Breadcrumb / Tabs / Account Menu</h3><div class="inline-component-row"><div class="crumb-variants"><span>两级：项目空间 / 项目概览</span><span>三级：工作区 / 项目 / 任务</span><span>溢出：工作区 / … / 当前页面</span></div><button type="button" class="account-demo" data-account-trigger aria-haspopup="menu" aria-expanded="false"><span class="avatar small">研</span><span class="account-demo-copy"><b>研究员</b><small>researcher@fermi.ai</small></span><span class="account-demo-action" aria-hidden="true"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></button></div></div>
     </section>
 
     <section class="doc-section component-section" id="forms" data-search="表单 输入框 input select checkbox radio switch search textarea">
@@ -318,59 +328,54 @@
 
         <section class="basic-control-block" aria-labelledby="checkbox-title">
           <div class="basic-control-head"><div><h4 id="checkbox-title">Checkbox / Base</h4><p>18×18px；选中使用功能蓝，焦点使用品牌紫描边。</p></div><span>6 variants</span></div>
-          <div class="basic-state-scroll"><div class="basic-state-row checkbox-state-row">
-            <div class="basic-state-item"><small>State=Default</small><label class="base-choice"><i class="base-checkbox"></i><span>允许共享实验数据</span></label></div>
-            <div class="basic-state-item"><small>State=Hover</small><label class="base-choice hover"><i class="base-checkbox"></i><span>允许共享实验数据</span></label></div>
-            <div class="basic-state-item"><small>State=Checked</small><label class="base-choice"><i class="base-checkbox checked"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="m4.5 9.2 2.8 2.8 6.2-6.2"/></svg></i><span>允许共享实验数据</span></label></div>
-            <div class="basic-state-item"><small>State=Indeterminate</small><label class="base-choice"><i class="base-checkbox indeterminate"></i><span>允许共享实验数据</span></label></div>
-            <div class="basic-state-item"><small>State=Disabled</small><label class="base-choice disabled"><i class="base-checkbox"></i><span>不可选择</span></label></div>
-            <div class="basic-state-item"><small>State=Focus</small><label class="base-choice focus"><i class="base-checkbox"></i><span>允许共享实验数据</span></label></div>
-          </div></div>
+          <fieldset class="choice-playground" aria-labelledby="checkbox-title" data-checkbox-playground>
+            <label class="base-choice"><input type="checkbox" data-check-all><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i><span>允许共享实验数据</span></label>
+            <label class="base-choice"><input type="checkbox" data-check-item><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i><span>实验记录</span></label>
+            <label class="base-choice"><input type="checkbox" data-check-item><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i><span>分析结果</span></label>
+          </fieldset>
+          <label><input type="checkbox" data-check-lock> 禁用复选框</label>
+          <p>只选一个子项可查看半选状态。用 Tab 聚焦，按空格切换。</p>
         </section>
 
         <section class="basic-control-block" aria-labelledby="radio-title">
           <div class="basic-control-head"><div><h4 id="radio-title">Radio / Base</h4><p>18×18px；单选状态保持轻量描边，不增加额外阴影。</p></div><span>5 variants</span></div>
-          <div class="basic-state-scroll"><div class="basic-state-row radio-state-row">
-            <div class="basic-state-item"><small>State=Default</small><label class="base-choice"><i class="base-radio"></i><span>使用默认实验模型</span></label></div>
-            <div class="basic-state-item"><small>State=Hover</small><label class="base-choice hover"><i class="base-radio"></i><span>使用默认实验模型</span></label></div>
-            <div class="basic-state-item"><small>State=Selected</small><label class="base-choice"><i class="base-radio selected"></i><span>使用默认实验模型</span></label></div>
-            <div class="basic-state-item"><small>State=Disabled</small><label class="base-choice disabled"><i class="base-radio"></i><span>选项不可用</span></label></div>
-            <div class="basic-state-item"><small>State=Focus</small><label class="base-choice focus"><i class="base-radio"></i><span>使用默认实验模型</span></label></div>
-          </div></div>
+          <fieldset class="choice-playground" aria-labelledby="radio-title">
+            <label class="base-choice"><input type="radio" name="experiment-model" value="default"><i class="base-radio" aria-hidden="true"></i><span>使用默认实验模型</span></label>
+            <label class="base-choice"><input type="radio" name="experiment-model" value="alternate"><i class="base-radio" aria-hidden="true"></i><span>使用备用实验模型</span></label>
+            <label class="base-choice"><input type="radio" name="experiment-model" value="unavailable" disabled><i class="base-radio" aria-hidden="true"></i><span>选项不可用</span></label>
+          </fieldset>
+          <p>悬停查看反馈，点击切换模型。也可用 Tab 聚焦，再用方向键选择。</p>
         </section>
 
         <section class="basic-control-block" aria-labelledby="switch-title">
           <div class="basic-control-head"><div><h4 id="switch-title">Switch / Base</h4><p>38×22px；仅开启状态使用功能蓝，不使用渐变与发光。</p></div><span>5 variants</span></div>
-          <div class="basic-state-scroll"><div class="basic-state-row switch-state-row">
-            <div class="basic-state-item"><small>State=Off</small><label class="base-choice"><i class="base-switch"></i><span>自动解析已关闭</span></label></div>
-            <div class="basic-state-item"><small>State=Hover</small><label class="base-choice hover"><i class="base-switch"></i><span>自动解析已关闭</span></label></div>
-            <div class="basic-state-item"><small>State=On</small><label class="base-choice"><i class="base-switch on"></i><span>自动解析已开启</span></label></div>
-            <div class="basic-state-item"><small>State=Disabled</small><label class="base-choice disabled"><i class="base-switch"></i><span>功能不可用</span></label></div>
-            <div class="basic-state-item"><small>State=Focus</small><label class="base-choice focus"><i class="base-switch"></i><span>自动解析已关闭</span></label></div>
-          </div></div>
+          <div class="choice-playground" data-switch-playground>
+            <label class="base-choice"><input type="checkbox" role="switch" data-switch-input><i class="base-switch" aria-hidden="true"></i><span>自动解析</span></label>
+            <label><input type="checkbox" data-switch-lock> 禁用开关</label>
+          </div>
+          <p>点击或按空格切换。开启为蓝色，关闭为灰色。</p>
         </section>
 
         <section class="basic-control-block" aria-labelledby="textarea-title">
           <div class="basic-control-head"><div><h4 id="textarea-title">Textarea / Base</h4><p>312×104px；状态沿用 Input 的边框、填充和提示规则，右下角显示字数。</p></div><span>6 variants</span></div>
-          <div class="basic-state-scroll"><div class="textarea-state-grid">
-            <div class="basic-state-item textarea-state"><small>State=Default</small><div class="base-textarea" data-textarea-demo><textarea maxlength="500" placeholder="请输入实验说明" aria-label="默认实验说明"></textarea><em data-textarea-count aria-live="polite">0 / 500</em></div></div>
-            <div class="basic-state-item textarea-state"><small>State=Hover</small><div class="base-textarea hover" data-textarea-demo><textarea maxlength="500" placeholder="请输入实验说明" aria-label="悬停状态实验说明"></textarea><em data-textarea-count aria-live="polite">0 / 500</em></div></div>
-            <div class="basic-state-item textarea-state"><small>State=Focus</small><div class="base-textarea focus" data-textarea-demo><textarea maxlength="500" placeholder="请输入实验说明" aria-label="聚焦状态实验说明"></textarea><em data-textarea-count aria-live="polite">0 / 500</em></div></div>
-            <div class="basic-state-item textarea-state"><small>State=Filled</small><div class="base-textarea filled" data-textarea-demo><textarea maxlength="500" aria-label="已填写实验说明">记录实验条件、参数和观察结果。</textarea><em data-textarea-count aria-live="polite">16 / 500</em></div></div>
-            <div class="basic-state-item textarea-state"><small>State=Error</small><div class="base-textarea error" data-textarea-demo data-required><textarea maxlength="500" placeholder="内容不能为空" aria-label="必填实验说明" aria-invalid="true"></textarea><em data-textarea-count aria-live="polite">0 / 500</em></div></div>
-            <div class="basic-state-item textarea-state"><small>State=Disabled</small><div class="base-textarea disabled" data-textarea-demo><textarea maxlength="500" placeholder="不可编辑" aria-label="禁用实验说明" disabled></textarea><em data-textarea-count>0 / 500</em></div></div>
-          </div></div>
+          <div class="choice-playground" data-textarea-playground>
+            <p>悬浮或点击查看样式。输入后可查看字数，清空并移开焦点可触发必填提示。</p>
+            <label class="base-choice"><input type="checkbox" data-textarea-lock><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i>禁用输入</label>
+            <div class="base-textarea" data-textarea-demo>
+              <textarea required maxlength="500" placeholder="请输入实验说明" aria-label="实验说明" aria-describedby="textarea-count textarea-error"></textarea>
+              <em id="textarea-count" data-textarea-count>0 / 500</em>
+            </div>
+            <p id="textarea-error" class="textarea-error" data-textarea-error role="status" hidden>内容不能为空</p>
+          </div>
         </section>
 
         <section class="basic-control-block" aria-labelledby="number-title">
           <div class="basic-control-head"><div><h4 id="number-title">Number Input / Base</h4><p>312×42px；上下步进直接复用现有“上 / 下”图标组件，不重复绘制。</p></div><span>5 variants</span></div>
-          <div class="basic-state-scroll"><div class="basic-state-row number-state-row">
-            <div class="basic-state-item number-state"><small>State=Default</small><div class="base-number" data-number-input data-min="0" data-step="1"><input type="number" value="0" min="0" step="1" inputmode="numeric" data-number-value aria-label="默认数值"><em>次</em><i class="number-stepper"><button type="button" data-number-action="increase" aria-label="增加"><svg data-figma-icon="Name=上"></svg></button><button type="button" data-number-action="decrease" aria-label="减少"><svg data-figma-icon="Name=下"></svg></button></i></div></div>
-            <div class="basic-state-item number-state"><small>State=Hover</small><div class="base-number hover" data-number-input data-min="0" data-step="1"><input type="number" value="0" min="0" step="1" inputmode="numeric" data-number-value aria-label="悬停状态数值"><em>次</em><i class="number-stepper"><button type="button" data-number-action="increase" aria-label="增加"><svg data-figma-icon="Name=上"></svg></button><button type="button" data-number-action="decrease" aria-label="减少"><svg data-figma-icon="Name=下"></svg></button></i></div></div>
-            <div class="basic-state-item number-state"><small>State=Focus</small><div class="base-number focus" data-number-input data-min="0" data-step="1"><input type="number" value="0" min="0" step="1" inputmode="numeric" data-number-value aria-label="聚焦状态数值"><em>次</em><i class="number-stepper"><button type="button" data-number-action="increase" aria-label="增加"><svg data-figma-icon="Name=上"></svg></button><button type="button" data-number-action="decrease" aria-label="减少"><svg data-figma-icon="Name=下"></svg></button></i></div></div>
-            <div class="basic-state-item number-state"><small>State=Filled</small><div class="base-number" data-number-input data-min="0" data-step="1"><input type="number" value="128" min="0" step="1" inputmode="numeric" data-number-value aria-label="已填写数值"><em>次</em><i class="number-stepper"><button type="button" data-number-action="increase" aria-label="增加"><svg data-figma-icon="Name=上"></svg></button><button type="button" data-number-action="decrease" aria-label="减少"><svg data-figma-icon="Name=下"></svg></button></i></div></div>
-            <div class="basic-state-item number-state"><small>State=Disabled</small><div class="base-number disabled" data-number-input data-min="0" data-step="1" aria-disabled="true" title="数值控件已禁用"><input type="number" value="0" min="0" step="1" data-number-value aria-label="禁用数值" disabled><em>次</em><i class="number-stepper"><button type="button" aria-label="增加" title="数值控件已禁用" disabled><svg data-figma-icon="Name=上"></svg></button><button type="button" aria-label="减少" title="数值控件已禁用" disabled><svg data-figma-icon="Name=下"></svg></button></i></div></div>
-          </div></div>
+          <div class="choice-playground" data-number-playground>
+            <p id="number-demo-help">演示范围为 0–128 次。可直接输入整数，也可用右侧按钮或键盘上下键调整。</p>
+            <label class="base-choice"><input type="checkbox" data-number-lock><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i>禁用输入</label>
+            <div class="base-number" data-number-input><input type="number" value="0" min="0" max="128" step="1" inputmode="numeric" data-number-value aria-label="次数" aria-describedby="number-demo-help"><em>次</em><i class="number-stepper"><button type="button" data-number-action="increase" aria-label="增加"><svg data-figma-icon="Name=上"></svg></button><button type="button" data-number-action="decrease" aria-label="减少"><svg data-figma-icon="Name=下"></svg></button></i></div>
+          </div>
         </section>
 
         <aside class="basic-control-note"><strong>复用原则</strong><p>优先组合现有 Input 视觉规则和原始线性图标组件；新增图形仅限 Checkbox 勾选、Radio 圆点和 Switch 滑块等不可避免的基础状态。</p><span>禁止用字符代替图标；同一页面不混用不同描边粗细和圆角风格。</span></aside>
@@ -380,8 +385,20 @@
     <section class="doc-section component-section" id="advanced-forms" data-search="日期 date picker 筛选 filter chip toolbar upload dropzone number input">
       <div class="section-heading"><div><span class="section-index">10</span><h2>日期、筛选与上传</h2><p>补齐日期范围、筛选工具栏、数值输入和文件上传的状态组合。</p></div><span class="component-count">8 components</span></div>
       <div class="showcase-grid two-up">
-        <div class="component-card"><h3>Filter Chip</h3><div class="chip-row"><button>全部</button><button class="hover">运行中</button><button class="selected">已选择 3</button><button disabled>不可用</button></div><div class="filter-summary"><svg><use href="#i-filter"/></svg><span>已应用 3 个条件 · 共 18 条结果</span><button>重置筛选</button></div></div>
+        <div class="component-card"><h3>Filter Chip / Base</h3><div class="chip-row"><button type="button" class="selected">全部</button><button type="button">运行中</button><button type="button">已完成</button><button type="button" disabled>不可用</button></div></div>
         <div class="component-card"><h3>Number Input</h3><div class="number-demo" data-number-demo data-min="0" data-step="1"><button type="button" data-number-action="decrease" aria-label="减少像素值">−</button><input type="number" value="14" min="0" step="1" inputmode="numeric" data-number-value aria-label="像素数值"><em>px</em><button type="button" data-number-action="increase" aria-label="增加像素值">＋</button></div><div class="number-demo focus" data-number-demo data-min="0" data-step="1"><button type="button" data-number-action="decrease" aria-label="减少百分比">−</button><input type="number" value="100" min="0" step="1" inputmode="numeric" data-number-value aria-label="百分比数值"><em>%</em><button type="button" data-number-action="increase" aria-label="增加百分比">＋</button></div><div class="number-demo disabled" data-number-demo data-min="0" data-step="1" aria-disabled="true" title="数值控件已禁用"><button type="button" aria-label="减少容量" title="数值控件已禁用" disabled>−</button><input type="number" value="0" min="0" step="1" data-number-value aria-label="禁用容量数值" disabled><em>GB</em><button type="button" aria-label="增加容量" title="数值控件已禁用" disabled>＋</button></div></div>
+      </div>
+      <div class="component-card variant-playground">
+        <h3>Filter Toolbar / Base</h3>
+        <form data-filter-toolbar class="filter-toolbar-controls">
+          <label class="model-search"><svg aria-hidden="true"><use href="#i-search"/></svg><input type="search" name="keyword" aria-label="搜索名称" placeholder="搜索名称"></label>
+          <label>状态 <select name="state"><option value="">全部状态</option><option value="running">运行中</option><option value="done">已完成</option></select></label>
+          <label>时间 <select name="range"><option value="">全部时间</option><option value="7">近 7 天</option><option value="30">近 30 天</option></select></label>
+          <button class="button secondary" type="reset" disabled>暂无筛选</button>
+        </form>
+        <div class="filter-summary"><svg aria-hidden="true"><use href="#i-filter"/></svg><span role="status" data-filter-count>未应用筛选条件 · 共 126 条结果</span></div>
+        <p>结果数来自演示数据。同一工具栏最多保留 3 个高频条件。</p>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6793">查看 Figma 原件</a>
       </div>
       <div class="date-component-board" aria-label="日期选择组件，来源 Figma 910:7191">
         <section class="date-component-block">
@@ -396,18 +413,17 @@
         </section>
 
         <section class="date-component-block">
-          <div class="date-component-head"><div><h3>Quick Range 日期快捷范围</h3><p>常用范围保持文字化选择；选中使用功能蓝，禁用态不隐藏。</p></div><span>5 variants</span></div>
-          <div class="date-state-scroll"><div class="date-quick-state-row" data-quick-range-demo>
-            <label><small>State=Default</small><button>今天</button></label>
-            <label><small>State=Hover</small><button class="hover">今天</button></label>
-            <label><small>State=Selected</small><button class="selected">近 7 天</button></label>
-            <label><small>State=Disabled</small><button disabled>今天</button></label>
-            <label><small>State=Focus</small><button class="focus">今天</button></label>
-          </div></div>
+          <div class="date-component-head"><div><h3>Quick Range 日期快捷范围</h3><p>常用范围保持文字化选择；选中使用品牌紫，禁用态不隐藏。</p></div><span>5 variants</span></div>
+          <div class="date-quick-state-row" role="group" aria-label="日期快捷范围" data-quick-range-demo>
+            <button type="button" aria-pressed="false">今天</button>
+            <button type="button" aria-pressed="true" class="selected">近 7 天</button>
+            <button type="button" aria-pressed="false">近 30 天</button>
+            <button type="button" aria-pressed="false" disabled>本月</button>
+          </div>
         </section>
 
         <section class="date-component-block">
-          <div class="date-component-head"><div><h3>Date Picker Panel 日期面板</h3><p>单日与范围使用同一尺寸；左侧仅保留高频快捷项，日期区不使用紫色填充。</p></div><span>2 variants</span></div>
+          <div class="date-component-head"><div><h3>Date Picker Panel 日期面板</h3><p>单日与范围使用同一尺寸；左侧仅保留高频快捷项，选中日期与范围端点使用品牌紫，范围中段使用浅紫。</p></div><span>2 variants</span></div>
           <div class="date-state-scroll"><div class="date-picker-row">
             <article class="date-picker-panel" data-date-picker="single" aria-label="单日日期面板">
               <aside class="date-picker-shortcuts"><b>快捷选择</b><button class="active" data-range="today">今天</button><button data-range="7">近 7 天</button><button data-range="30">近 30 天</button><button data-range="month">本月</button><button data-range="custom">自定义</button></aside>
@@ -420,9 +436,9 @@
           </div></div>
         </section>
 
-        <aside class="date-usage-note"><strong>使用规则</strong><p>日期筛选默认提供明确时区与范围；实验周期优先使用 Range，单次记录使用 Single。</p><span>日期区使用功能蓝表达选中与范围，不使用紫色填充。</span></aside>
+        <aside class="date-usage-note"><strong>使用规则</strong><p>日期筛选默认提供明确时区与范围；实验周期优先使用 Range，单次记录使用 Single。</p><span>日期输入聚焦使用功能蓝；日历选中和范围使用品牌紫及浅紫。</span></aside>
       </div>
-      <div class="component-card"><h3>Upload Dropzone / Base</h3><div class="dropzone-grid"><div data-upload-trigger role="button" tabindex="0" aria-label="选择实验文件"><svg><use href="#i-plus"/></svg><b>点击或拖拽文件到此处</b><small>Default</small></div><div class="hover" data-upload-trigger role="button" tabindex="0" aria-label="选择实验文件"><svg><use href="#i-plus"/></svg><b>选择实验文件</b><small>Hover</small></div><div class="dragging"><svg><use href="#i-plus"/></svg><b>释放以上传文件</b><small>Dragging</small></div><div class="disabled" aria-disabled="true" title="当前不可上传"><svg><use href="#i-plus"/></svg><b>当前不可上传</b><small>Disabled</small></div></div><input class="upload-file-input" type="file" data-upload-input multiple aria-label="选择实验文件"></div>
+      <div class="component-card" data-upload-demo><h3>Upload Dropzone / Base</h3><p>点击或拖入本地文件。可切换禁用态，文件只在本地演示。</p><div class="dropzone-grid upload-live-grid"><div data-upload-trigger role="button" tabindex="0" aria-label="选择实验文件" aria-disabled="false"><svg aria-hidden="true"><use href="#i-plus"/></svg><b>点击或拖拽文件到此处</b><small role="status">等待选择</small></div></div><label><input type="checkbox" data-upload-lock> 禁用文件选择</label><input class="upload-file-input" type="file" data-upload-input multiple tabindex="-1" aria-label="选择实验文件"></div>
     </section>
 
     <section class="doc-section component-section" id="feedback" data-search="反馈 状态 alert toast banner success warning danger info">
@@ -442,7 +458,21 @@
         </div>
       </div>
       <div class="component-card"><h3>Page Banner / Base</h3><div class="banner-stack"><div class="info"><svg><use href="#i-info"/></svg><span><b>模型同步中</b><small>完成后将自动更新列表</small></span><button>查看详情</button></div><div class="warning"><svg><use href="#i-alert"/></svg><span><b>渠道余额不足</b><small>部分模型可能不可用</small></span><button>立即处理</button></div></div></div>
-      <div class="component-card compact-card"><h3>Tooltip / Menu / Popover</h3><div class="floating-demo"><span class="tooltip-demo">复制密钥</span><div class="menu-demo"><button>查看详情</button><button class="selected">设为默认</button><button>复制 ID</button><button class="danger">删除记录</button><button disabled>不可操作</button></div><div class="popover-demo"><div><svg><use href="#i-info"/></svg><b>额度说明</b></div><p>额度由企业管理员统一分配，可在成员管理中调整。</p><button class="button secondary">知道了</button></div></div></div>
+    </section>
+
+    <section class="component-card variant-playground" aria-label="下拉菜单与浮层交互" data-feedback-playground>
+      <h3>Dropdown Menu / Popover · 交互演示</h3>
+      <div class="tooltip-playground"><label>提示位置 <select data-tooltip-position><option value="top">上方</option><option value="bottom">下方</option><option value="left">左侧</option><option value="right">右侧</option></select></label><span class="tooltip-anchor" data-position="top"><button class="button secondary" type="button" aria-describedby="overlay-tooltip">复制密钥</button><span id="overlay-tooltip" class="tooltip-demo" role="tooltip">复制到剪贴板</span></span></div>
+      <div class="variant-playground-grid">
+        <details><summary class="button secondary">命令菜单</summary><div class="menu-demo"><button type="button" data-demo-message="已选择查看详情">查看详情</button><button type="button" data-demo-message="已选择设为默认">设为默认</button><button disabled>不可操作</button></div></details>
+        <details><summary class="button secondary">可选菜单<span data-menu-value>全部</span></summary><div class="menu-demo"><button type="button" data-menu-choice aria-pressed="true" class="selected">全部</button><button type="button" data-menu-choice aria-pressed="false">运行中</button><button type="button" data-menu-choice aria-pressed="false">已完成</button></div></details>
+        <details><summary class="button secondary">行操作菜单</summary><div class="menu-demo"><button type="button" data-demo-message="已选择重命名">重命名</button><button type="button" class="danger" data-demo-message="已选择移除（演示）">移除</button></div></details>
+        <details><summary class="button secondary">信息浮层</summary><div class="popover-demo"><p>额度由企业管理员统一分配。</p><button class="button secondary" type="button" data-demo-message="已关闭额度说明">知道了</button></div></details>
+        <details><summary class="button secondary">操作浮层</summary><div class="popover-demo"><p>将当前视图设为默认？</p><button class="button primary" type="button" data-demo-message="已确认（演示）">确认</button></div></details>
+        <details><summary class="button secondary">警告浮层</summary><div class="popover-demo"><p>关闭前请保存当前修改。</p><button class="button secondary" type="button" data-demo-message="已关闭警告">关闭</button></div></details>
+      </div>
+      <p role="status" data-playground-status></p>
+      <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7775">下拉菜单 Figma</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7793">浮层 Figma</a>
     </section>
 
     <section class="doc-section component-section" id="agent" data-search="AI 工作台 Prompt Composer Agent Preset Asset Tool Control Bar Attachment Task Execution">
@@ -458,6 +488,26 @@
           <article class="prompt-variant ready" aria-label="Ready"><p>在“固态电池研发”中开始一个研发任务</p><div class="prompt-controls"><button class="prompt-plus" aria-label="添加"><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model active"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
           <article class="prompt-variant disabled" aria-label="Disabled"><p>当前不可输入</p><div class="prompt-controls"><button class="prompt-plus plain" aria-label="添加" disabled><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model" disabled><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
         </div>
+      </div>
+
+      <div class="workspace-block agent-flow" data-agent-flow>
+        <div class="workspace-block-head"><div><h3>输入与任务 · 交互演示</h3><p>输入内容或选择文件后发送。任务与附件状态在浏览器中模拟，文件仅显示名称。</p></div></div>
+        <form class="prompt-variant agent-flow-composer">
+          <textarea rows="2" aria-label="提示词" placeholder="问点什么，和费米一起探索" data-flow-prompt></textarea>
+          <div class="prompt-controls">
+            <label class="agent-flow-file" title="添加附件"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg><input type="file" aria-label="添加附件" data-flow-file></label>
+            <span class="prompt-spacer"></span>
+            <button class="prompt-model" type="button"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button>
+            <button class="prompt-send" type="submit" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base" aria-hidden="true"></svg></button>
+            <button class="control-stop" type="button" aria-label="停止任务" data-flow-stop hidden><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1" fill="currentColor"/></svg></button>
+          </div>
+        </form>
+        <div class="agent-flow-options">
+          <label>模拟结果 <select data-flow-outcome><option value="success">任务成功</option><option value="failed">任务失败</option><option value="attachment-error">附件失败</option></select></label>
+          <div class="agent-flow-attachment" data-flow-attachment hidden><span data-flow-file-name></span><span class="attachment-status" data-flow-file-status role="status"></span><button type="button" class="text-button" data-flow-remove>移除</button></div>
+        </div>
+        <article class="task-card agent-flow-task" data-flow-task hidden><div role="status" data-flow-status></div><footer><button type="button" data-flow-retry hidden>重新运行</button></footer></article>
+        <p class="agent-flow-source">Figma：<a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6305">输入框</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6452">工具栏</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6548">附件</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6595">任务状态</a></p>
       </div>
 
       <div class="workspace-block">
@@ -523,8 +573,11 @@
 
     <section class="doc-section component-section" id="permissions" data-search="权限 permission gate notice member approval readonly upload access">
       <div class="section-heading"><div><span class="section-index">13</span><h2>权限与访问状态</h2><p>页面级权限限制、可继续浏览提示与成员权限编辑使用同一套状态语义。</p></div><span class="component-count">7 components</span></div>
-      <div class="permission-grid"><article><svg><use href="#i-users"/></svg><h3>申请访问权限</h3><p>你暂时无法查看该科研项目，提交申请后由管理员审批。</p><button class="button primary">申请权限</button><small>Requestable</small></article><article><svg><use href="#i-info"/></svg><h3>正在等待审批</h3><p>权限申请已提交，审批完成后将通过通知提醒。</p><button class="button secondary" disabled>审批中</button><small>Pending</small></article><article><svg><use href="#i-alert"/></svg><h3>申请未通过</h3><p>当前申请被拒绝，请联系项目管理员了解原因。</p><button class="button secondary">重新申请</button><small>Denied</small></article><article><svg><use href="#i-book"/></svg><h3>只读访问</h3><p>你可以查看当前内容，但不能修改、删除或导出。</p><button class="button secondary">查看权限</button><small>ReadOnly</small></article></div>
-      <div class="component-card"><h3>Permission Notice / Item</h3><div class="permission-notices"><div><svg><use href="#i-info"/></svg><span><b>当前为只读模式</b><small>编辑操作已暂时关闭</small></span></div><div><svg><use href="#i-alert"/></svg><span><b>访问权限即将过期</b><small>请在 3 天内申请续期</small></span><button>申请续期</button></div></div><div class="permission-items"><label><span>查看模型</span><button class="switch active"><i></i></button></label><label><span>编辑渠道</span><button class="switch"><i></i></button></label><label class="locked"><span>管理成员</span><button class="switch active" disabled><i></i></button></label><label class="disabled"><span>删除项目</span><button class="switch" disabled><i></i></button></label></div></div>
+      <div class="component-card" data-permission-demo><h3>Permission Gate / Notice · 交互演示</h3><label>访问状态 <select data-gate-state><option value="request">可申请</option><option value="pending">待审批</option><option value="denied">未通过</option><option value="readonly">只读</option></select></label> <label>通知 <select data-notice-state><option value="readonly">只读</option><option value="approval">审批</option><option value="expired">已过期</option></select></label>
+        <div class="permission-grid permission-live-grid"><article><h4 data-gate-title></h4><p data-gate-copy></p><button type="button" class="button secondary" data-gate-action></button></article></div>
+        <div class="filter-summary" role="status" data-notice-copy></div>
+      </div>
+      <div class="component-card"><h3>Permission Item / Base</h3><div class="permission-items"><label><span>查看模型</span><button class="switch active"><i></i></button></label><label><span>编辑渠道</span><button class="switch"><i></i></button></label><label class="locked"><span>管理成员</span><button class="switch active" disabled><i></i></button></label><label class="disabled"><span>删除项目</span><button class="switch" disabled><i></i></button></label></div></div>
       <div class="component-card permission-matrix-card">
         <div class="component-title-row"><div><h3>Permission Matrix / Base</h3><p>三项管理权限独立授权；全选时为管理员，选中 1–2 项时为部分管理权限。</p></div><em class="status info" data-permission-role>部分管理权限</em></div>
         <div class="permission-matrix" role="table" aria-label="权限矩阵">
@@ -561,11 +614,24 @@
 
     <section class="doc-section component-section" id="data-states" data-search="table loading empty selected bulk action pagination state summary">
       <div class="section-heading"><div><span class="section-index">15</span><h2>表格状态与批量操作</h2><p>补齐加载、空数据、搜索无结果、选中、异常与批量处理状态。</p></div><span class="component-count">8 states</span></div>
-      <div class="bulk-toolbar"><div><label class="check"><input type="checkbox" checked><i><svg><use href="#i-check"/></svg></i></label><b>已选择 3 项</b><span>可批量调整成员权限</span></div><button class="button secondary">取消选择</button><button class="button danger">批量停用</button></div>
+      <div class="bulk-toolbar" data-bulk-demo><div><label class="check"><input type="checkbox" checked aria-label="选择演示成员"><i><svg><use href="#i-check"/></svg></i></label><b role="status">已选择 3 项</b><span>批量操作演示</span></div><button type="button" class="button secondary" data-bulk-clear>取消选择</button><button type="button" class="button danger" data-bulk-submit>批量停用</button></div>
       <div class="showcase-grid three-up table-state-grid">
         <div class="component-card"><h3>Loading</h3><div class="skeleton-table"><i></i><i></i><i></i><i></i></div></div>
         <div class="component-card"><h3>Empty</h3><div class="compact-empty"><svg><use href="#i-book"/></svg><b>暂无数据</b><p>创建第一条记录后将在这里显示。</p><button class="button secondary">新建记录</button></div></div>
         <div class="component-card"><h3>No Result</h3><div class="compact-empty"><svg><use href="#i-search"/></svg><b>未找到匹配结果</b><p>请尝试调整关键词或筛选条件。</p><button class="text-button">清除筛选</button></div></div>
+      </div>
+      <div class="component-card variant-playground">
+        <h3>Pagination / Base · 交互演示</h3>
+        <nav class="pagination" aria-label="分页示例"><button type="button" disabled>上一页</button><button type="button" class="current" aria-current="page">1</button><button type="button">2</button><button type="button">3</button><button type="button">下一页</button></nav>
+        <p role="status" data-page-status>第 1 / 3 页 · Start</p>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7058">分页 Figma</a>
+      </div>
+      <div class="component-card variant-playground" data-empty-playground>
+        <h3>复杂空状态 · 交互演示</h3>
+        <label>规格 <select data-empty-size><option value="base">页面级</option><option value="compact">紧凑型</option></select></label>
+        <label>场景 <select data-empty-choice><option value="no-data">无数据</option><option value="no-result">无结果</option><option value="first-use">首次使用</option><option value="load-error">加载失败</option></select></label>
+        <div class="empty-state-preview" data-size="base"><span class="empty-state-icon"><svg aria-hidden="true"><use href="#i-info"/></svg></span><div role="status"><b data-empty-title>暂无数据</b><p data-empty-message>当前项目还没有可展示的数据。</p></div><button type="button" class="button primary" data-empty-action>导入数据</button></div>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7660">空状态 Figma</a>
       </div>
       <div class="summary-bars">
         <div><span><b>共 14 条记录</b><small>最近更新 2026-10-18 04:00</small></span><em class="summary-badge neutral">数据完整</em></div>
@@ -748,6 +814,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=20"></script>
+  <script src="script.js?v=32"></script>
 </body>
 </html>
