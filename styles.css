@@ -1088,3 +1088,83 @@ button[aria-disabled="true"] {
   .one-time-secret-grid, .compact-usage-examples, .state-mapping-grid { grid-template-columns: 1fr; }
   .state-mapping-grid > div { border-top: 1px solid var(--border-default); border-left: 0; }.state-mapping-grid > div:first-child { border-top: 0; }
 }
+
+/* Component specimens reflow within the document rather than scrolling independently. */
+.sidebar { position: absolute; bottom: auto; min-height: 100vh; }
+.side-nav { overflow: visible; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
+.core-scroll, .basic-state-scroll, .date-state-scroll, .navigation-state-row,
+.toast-component-set, .workspace-row, .prompt-variant-grid, .control-variant-grid,
+.model-discovery-panel, .model-discovery-table, .model-config-table,
+.model-pricing-panel.compact, .model-price-scroll, .model-price-table.reusable,
+.channel-management-card, .permission-matrix-card { overflow: visible; }
+
+.basic-state-row, .navigation-state-row, .core-select-row, .core-card-row,
+.core-modal-row, .appearance-state-row, .date-input-state-row, .date-quick-state-row,
+.date-picker-row, .toast-component-set, .workspace-row, .icon-button-states { width: 100%; flex-wrap: wrap; }
+:is(.core-select-row, .core-card-row, .core-modal-row, .appearance-state-row,
+.date-input-state-row, .date-picker-row, .toast-component-set, .workspace-row,
+.basic-state-row, .navigation-state-row) > * { min-width: 0; max-width: 100%; }
+:is(.core-input, .core-select, .base-choice, .base-textarea, .base-number,
+.date-input-trigger, .workspace-nav-item, .conversation-item, .account-menu-row) { max-width: 100%; }
+.toast-component { flex-basis: min(390px, 100%); }
+.appearance-state > div { flex-wrap: wrap; }
+.core-input-grid, .textarea-state-grid { width: 100%; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); grid-auto-rows: auto; }
+.button-state-matrix { width: 100%; }
+.button-state-axis, .button-state-row { grid-template-columns: minmax(65px, .7fr) repeat(5, minmax(0, 1fr)); gap: 8px; }
+.button-state-row .core-button { width: 100%; min-width: 0; padding-inline: 4px; }
+.date-picker-panel { width: min(780px, 100%); height: auto; grid-template-columns: 156px minmax(0, 1fr); }
+.date-weekdays, .date-calendar-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: 4px; }
+.date-day { width: 100%; }
+.ai-workspace-board :is(.prompt-variant-grid, .control-variant-grid) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr)); grid-auto-rows: auto; }
+.ai-workspace-board .control-bar { min-height: 56px; height: auto; flex-wrap: wrap; }
+.ai-workspace-board .control-bar > div { flex-wrap: wrap; }
+.model-discovery-toolbar, .model-discovery-table, .model-discovery-footer, .model-discovery-row,
+.model-price-table, .data-table, .permission-matrix-row, .channel-table-title, .channel-management-table { min-width: 0; }
+.model-discovery-toolbar { grid-template-columns: repeat(auto-fit, minmax(min(100%, 132px), 1fr)); }
+.model-discovery-toolbar > i { display: none; }
+.model-discovery-footer { flex-wrap: wrap; }
+.model-discovery-row { grid-template-columns: 24px minmax(0, 1fr) repeat(2, minmax(54px, .4fr)); overflow-wrap: anywhere; }
+.model-config-row { width: 100%; min-height: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 155px), 1fr)); }
+.model-price-row { grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 12px; overflow-wrap: anywhere; }
+.model-price-row input, .model-price-row button { width: 100%; min-width: 0; }
+.model-price-row label { min-width: 0; }
+.model-price-row label > span { display: block; color: var(--text-secondary); font-size: 12px; }
+.tr { grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr)); overflow-wrap: anywhere; }
+.permission-matrix-row { grid-template-columns: minmax(0, 1.5fr) repeat(4, minmax(0, 1fr)); }
+.permission-matrix-row > span:first-child { grid-template-columns: minmax(0, 1fr); }
+.permission-matrix-row > span { padding: 8px 12px; }
+.channel-row { overflow-wrap: anywhere; }
+.channel-actions { flex-wrap: wrap; }
+.mapping-table code { overflow-wrap: anywhere; }
+
+@media (max-width: 1100px) {
+  .channel-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 12px; }
+  .channel-row.head, .model-price-row.head { display: none; }
+  .channel-row > span, .channel-row > span:first-child { padding: 0; }
+  .channel-row > span::before { display: block; color: var(--text-secondary); font-size: 12px; }
+  .channel-row > span:nth-child(1)::before { content: "渠道 / 厂商"; }
+  .channel-row > span:nth-child(2)::before { content: "接入地址"; }
+  .channel-row > span:nth-child(3)::before { content: "密钥"; }
+  .channel-row > span:nth-child(4)::before { content: "模型数"; }
+  .channel-row > span:nth-child(5)::before { content: "价格来源"; }
+  .channel-row > span:nth-child(6)::before { content: "状态"; }
+  .channel-row > span:nth-child(7)::before { content: "更新时间"; }
+  .channel-row > span:nth-child(8)::before { content: "操作"; }
+  .model-price-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .sidebar { position: static; min-height: 0; }
+  .date-picker-panel { grid-template-columns: minmax(0, 1fr); }
+  .date-picker-shortcuts { flex-direction: row; flex-wrap: wrap; }
+  .date-picker-main { padding: 12px; }
+  .button-state-axis, .button-state-row { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+  .button-state-axis > span { display: none; }
+  .button-state-row > b { grid-column: 1 / -1; }
+  .button-state-row .core-button { font-size: 12px; overflow-wrap: anywhere; height: auto; min-height: 34px; }
+  .channel-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .channel-row > .channel-actions { grid-column: 1 / -1; }
+  .permission-matrix-row > span { padding: 6px; overflow-wrap: anywhere; }
+  .permission-matrix-row label { flex-wrap: wrap; gap: 4px; font-size: 12px; }
+  .drawer { width: min(420px, 100%); }
+}

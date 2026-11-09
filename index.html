@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=29">
+  <link rel="stylesheet" href="styles.css?v=30">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -627,16 +627,16 @@
 
         <section class="model-pricing-panel compact">
           <div class="model-panel-head"><h3>可复用模型价格行</h3><p>同一行组件覆盖自动待拉取与人工覆盖状态；每个模型独立记录来源。</p></div>
-          <div class="model-price-table reusable"><div class="model-price-row automatic"><b>GPT-5 mini（备用）</b><span>gpt-5-mini-bk</span><input value="等自动拉取" disabled><input value="等自动拉取" disabled><input value="等自动拉取" disabled><span>自动 · 待接入</span><small>等待日常任务同步</small></div><div class="model-price-row manual"><b>Claude Sonnet 4.5（备用）</b><span>claude-sonnet-4.5-bk</span><input value="9.00"><input value="0.90"><input value="45.00"><span>人工</span><button class="core-button secondary" type="button" data-restore-price>恢复自动</button></div></div>
+          <div class="model-price-table reusable"><div class="model-price-row automatic"><b>GPT-5 mini（备用）</b><span>gpt-5-mini-bk</span><label><span>输入价</span><input value="等自动拉取" disabled></label><label><span>缓存输入价</span><input value="等自动拉取" disabled></label><label><span>输出价</span><input value="等自动拉取" disabled></label><span>自动 · 待接入</span><small>等待日常任务同步</small></div><div class="model-price-row manual"><b>Claude Sonnet 4.5（备用）</b><span>claude-sonnet-4.5-bk</span><label><span>输入价</span><input value="9.00"></label><label><span>缓存输入价</span><input value="0.90"></label><label><span>输出价</span><input value="45.00"></label><span>人工</span><button class="core-button secondary" type="button" data-restore-price>恢复自动</button></div></div>
         </section>
 
         <section class="model-pricing-panel">
           <div class="model-panel-head"><h3>模型价格</h3><p>自动来源：等待每日任务拉取；人工填价后不再被自动覆盖，可恢复自动。</p></div>
           <div class="model-price-scroll"><div class="model-price-table full">
             <div class="model-price-row head"><span>显示名称</span><span>客户端调用名</span><span>输入价</span><span>缓存输入价</span><span>输出价</span><span>来源 / 状态</span><span></span></div>
-            <div class="model-price-row automatic"><b>GPT-5 mini（备用）</b><span>gpt-5-mini-bk</span><input value="等自动拉取" disabled><input value="等自动拉取" disabled><input value="等自动拉取" disabled><span>自动 · 待接入</span><small>等待日常任务同步</small></div>
-            <div class="model-price-row automatic"><b>GPT-5.2 mini（备用）</b><span>gpt-5.2-mini-bk</span><input value="等自动拉取" disabled><input value="等自动拉取" disabled><input value="等自动拉取" disabled><span>自动 · 待接入</span><small>等待日常任务同步</small></div>
-            <div class="model-price-row manual"><b>Claude Sonnet 4.5（备用）</b><span>claude-sonnet-4.5-bk</span><input value="9.00"><input value="0.90"><input value="45.00"><span>人工</span><button class="core-button secondary" type="button" data-restore-price>恢复自动</button></div>
+            <div class="model-price-row automatic"><b>GPT-5 mini（备用）</b><span>gpt-5-mini-bk</span><label><span>输入价</span><input value="等自动拉取" disabled></label><label><span>缓存输入价</span><input value="等自动拉取" disabled></label><label><span>输出价</span><input value="等自动拉取" disabled></label><span>自动 · 待接入</span><small>等待日常任务同步</small></div>
+            <div class="model-price-row automatic"><b>GPT-5.2 mini（备用）</b><span>gpt-5.2-mini-bk</span><label><span>输入价</span><input value="等自动拉取" disabled></label><label><span>缓存输入价</span><input value="等自动拉取" disabled></label><label><span>输出价</span><input value="等自动拉取" disabled></label><span>自动 · 待接入</span><small>等待日常任务同步</small></div>
+            <div class="model-price-row manual"><b>Claude Sonnet 4.5（备用）</b><span>claude-sonnet-4.5-bk</span><label><span>输入价</span><input value="9.00"></label><label><span>缓存输入价</span><input value="0.90"></label><label><span>输出价</span><input value="45.00"></label><span>人工</span><button class="core-button secondary" type="button" data-restore-price>恢复自动</button></div>
           </div></div>
           <p class="model-panel-note">自动示例：等待拉取时模型为“待接入”；人工示例：9.00 / 0.90 / 45.00 元 / 百万 tokens。所有价格均为原型示例，不代表实际报价。</p>
         </section>
