@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=63">
+  <link rel="stylesheet" href="styles.css?v=64">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -301,9 +301,14 @@
           <div class="core-scroll"><div class="core-card-row"><article class="core-card"><small>State=Base</small><h4>基础卡片</h4><p>承载信息分组、配置或业务操作。</p><i></i></article><article class="core-card interactive"><small>State=Interactive</small><h4>可交互卡片</h4><p>承载信息分组、配置或业务操作。</p><i></i></article><article class="core-card selected"><small>State=Selected</small><h4>已选中卡片</h4><p>承载信息分组、配置或业务操作。</p><i></i></article></div></div>
         </section>
 
-        <section class="core-block">
-          <div class="core-block-head"><div><h3>Sidebar Item 侧栏项</h3><p>遵循原稿 240×42px、10px 圆角与 12px 侧栏边距。</p></div><span>4 variants</span></div>
-          <div class="core-sidebar-list"><div><small>Default</small><span class="core-sidebar-item"><svg data-figma-icon="Name=添加"></svg>导航菜单</span></div><div><small>Hover</small><span class="core-sidebar-item hover"><svg data-figma-icon="Name=添加"></svg>导航菜单</span></div><div><small>Selected</small><span class="core-sidebar-item selected"><svg data-figma-icon="Name=添加"></svg>智能体工作台</span></div><div><small>Disabled</small><span class="core-sidebar-item disabled"><svg data-figma-icon="Name=添加"></svg>导航菜单</span></div></div>
+        <section class="core-block" id="core-sidebar-demo">
+          <div class="core-block-head"><div><h3 id="core-sidebar-heading">Sidebar Item 侧栏项</h3><p>240×42px，10px 圆角，左右内边距 12px。悬停查看反馈，点击或用方向键切换选中项。</p></div><span>4 variants</span></div>
+          <!-- fermi-component: {"id":"910:6211","name":"Sidebar Item","properties":["Icon","State"],"variants":["State=Default","State=Hover","State=Selected","State=Disabled"]} -->
+          <fieldset class="conversation-options workspace-nav-options" aria-labelledby="core-sidebar-heading">
+            <label><input type="radio" name="core-sidebar-item"><span class="core-sidebar-item"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>导航菜单</span></label>
+            <label><input type="radio" name="core-sidebar-item" checked><span class="core-sidebar-item"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>智能体工作台</span></label>
+            <label><input type="radio" name="core-sidebar-item" disabled><span class="core-sidebar-item"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>不可用菜单</span></label>
+          </fieldset>
         </section>
 
         <section class="core-block">
