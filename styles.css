@@ -10,9 +10,9 @@ svg:not([viewBox]) { fill: none; stroke: currentColor; stroke-width: 1.8; stroke
 .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 20; display: flex; flex-direction: column; width: 265px; padding: 22px 16px 16px; background: var(--surface-sidebar); border-right: 1px solid var(--border-default); }
-.sidebar > .brand { display: flex; gap: 12px; align-items: center; min-height: 46px; padding: 0 8px; margin-bottom: 24px; }
-.brand-mark { display: grid; place-items: center; width: 34px; height: 34px; color: white; font-size: 18px; font-weight: 600; background: var(--brand-600); border-radius: 10px; }
-.sidebar > .brand strong, .sidebar > .brand small { display: block; }
+.sidebar > .brand { display: grid; justify-items: start; gap: var(--space-8); min-height: 46px; padding: 0 8px; margin-bottom: 24px; }
+.sidebar-brand-logo { display: block; width: 120px; max-width: 100%; height: auto; }
+.sidebar > .brand small { display: block; }
 .sidebar > .brand strong { color: var(--text-strong); font-size: 16px; line-height: 22px; }
 .sidebar > .brand small { color: var(--text-secondary); font-size: 12px; line-height: 18px; }
 .side-nav { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-width: none; padding-right: 2px; }
