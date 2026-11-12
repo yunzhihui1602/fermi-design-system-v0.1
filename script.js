@@ -1548,9 +1548,12 @@ if (mobileAgent) {
   });
   const setAuthStep = (next) => {
     step = next;
-    const title = {email:'登录费米', code:'查看收件箱', passkey:'设置通行密钥'};
+    authForm.dataset.authStep = next;
+    const titles = {email:'', code:'查看收件箱', passkey:'设置通行密钥'};
     const copy = {email:'使用演示邮箱继续。此流程在浏览器内模拟。', code:'输入演示验证码 123456。', passkey:'下次可通过设备验证快速登录。'};
-    authForm.querySelector('h3').textContent = title[next];
+    const heading = authForm.querySelector('h3');
+    heading.textContent = titles[next];
+    heading.hidden = next === 'email';
     authForm.querySelector('h3 + p').textContent = copy[next];
     email.disabled = email.parentElement.hidden = next !== 'email';
     code.disabled = code.parentElement.hidden = next !== 'code';

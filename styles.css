@@ -1346,6 +1346,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .mobile-auth-form > h3, .mobile-auth-form > p { text-align: center; }
 .mobile-auth-form > h3 + p { margin: 0 0 var(--space-12); }
 .mobile-auth-form label { display: grid; gap: 4px; }
+.mobile-auth-form[data-auth-step="email"] > :is(label, button[type="submit"]) { justify-self: center; width: calc(100% - 40px); }
 .mobile-auth-form .mobile-auth-status:empty { display: none; }
 
 .mobile-agent-phone .core-input { width: 100%; min-height: 44px; }
