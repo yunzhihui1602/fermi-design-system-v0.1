@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=51">
+  <link rel="stylesheet" href="styles.css?v=52">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -661,46 +661,56 @@
         <div class="mobile-agent-phone">
           <div class="mobile-agent-app">
             <header class="mobile-agent-header">
-              <button class="mobile-icon" type="button" data-mobile-open aria-label="打开会话" aria-expanded="false" aria-controls="mobile-agent-drawer"><svg data-figma-icon="Name=折叠" aria-hidden="true"></svg></button>
-              <div class="mobile-segments" role="group" aria-label="工作区模式"><button type="button" data-mobile-mode="chat" aria-pressed="true">聊天</button><button type="button" data-mobile-mode="work" aria-pressed="false">工作</button></div>
+              <button class="icon-button mobile-icon" type="button" data-mobile-open aria-label="打开会话" aria-expanded="false" aria-controls="mobile-agent-drawer"><svg data-figma-icon="Name=折叠" aria-hidden="true"></svg></button>
+              <div class="chip-row mobile-segments" role="group" aria-label="工作区模式"><button type="button" class="selected" data-mobile-mode="chat" aria-pressed="true">聊天</button><button type="button" data-mobile-mode="work" aria-pressed="false">工作</button></div>
               <button class="button secondary" type="button" data-mobile-auth>登录</button>
             </header>
             <div class="mobile-agent-scroll" tabindex="0" aria-label="对话内容">
               <div class="mobile-welcome"><h3>开始一段新对话</h3><p>问点什么，和费米一起探索。</p></div>
               <div class="mobile-work-cards" hidden>
-                <button type="button" class="mobile-work-card"><b>整理实验结果</b><span>从记录中提取关键发现与待确认问题。</span></button>
-                <button type="button" class="mobile-work-card"><b>梳理研究资料</b><span>按主题归纳资料并标注来源。</span></button>
+                <button type="button" class="tool-card mobile-work-card"><span class="workspace-icon neutral"><svg data-figma-icon="Name=报表" aria-hidden="true"></svg></span><span><strong>整理实验结果</strong><small>从记录中提取关键发现与待确认问题。</small></span></button>
+                <button type="button" class="tool-card mobile-work-card"><span class="workspace-icon neutral"><svg data-figma-icon="Name=文件" aria-hidden="true"></svg></span><span><strong>梳理研究资料</strong><small>按主题归纳资料并标注来源。</small></span></button>
               </div>
               <div class="mobile-message-list" aria-live="polite"></div>
             </div>
-            <button type="button" class="mobile-icon mobile-jump" data-mobile-jump aria-label="回到最新消息" hidden><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button>
-            <form class="mobile-composer">
+            <button type="button" class="icon-button mobile-icon mobile-jump" data-mobile-jump aria-label="回到最新消息" hidden><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button>
+            <form class="prompt-variant mobile-composer">
               <div class="mobile-attachment" hidden></div>
-              <div class="mobile-composer-row">
-                <label class="mobile-icon mobile-file" title="添加附件"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg><input type="file" aria-label="添加附件"></label>
+              <div class="prompt-controls mobile-composer-row">
+                <label class="icon-button mobile-icon prompt-plus compact mobile-file" title="添加附件"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg><input type="file" aria-label="添加附件"></label>
                 <textarea rows="1" aria-label="消息" placeholder="问费米"></textarea>
-                <button class="mobile-icon mobile-voice" type="button" aria-pressed="false">语音</button>
-                <button class="mobile-icon mobile-send" type="submit" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base" aria-hidden="true"></svg></button>
-                <button class="mobile-icon" type="button" data-mobile-stop hidden>停止</button>
+                <button class="prompt-model" type="button"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button><button class="button quiet mobile-voice" type="button" aria-pressed="false">语音</button>
+                <button class="icon-button mobile-icon prompt-send mobile-send" type="submit" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base" aria-hidden="true"></svg></button>
+                <button class="icon-button mobile-icon control-stop" type="button" data-mobile-stop aria-label="停止生成" hidden><i aria-hidden="true"></i></button>
               </div>
             </form>
           </div>
           <div class="mobile-drawer-layer" hidden>
             <button type="button" class="mobile-backdrop" aria-label="关闭会话抽屉"></button>
             <aside class="mobile-drawer" id="mobile-agent-drawer" role="dialog" aria-modal="true" aria-label="会话抽屉">
-              <header><b>费米</b><button type="button" class="mobile-icon" data-mobile-close aria-label="关闭"><svg data-figma-icon="Icon / Close / Base" aria-hidden="true"></svg></button></header>
-              <input type="search" aria-label="搜索会话" placeholder="搜索会话">
-              <nav aria-label="会话列表"><b>置顶</b><button class="conversation-item" type="button" data-mobile-session="固态电池研发">固态电池研发</button><b>最近会话</b><button class="conversation-item" type="button" data-mobile-session="实验数据分析">实验数据分析</button><p data-mobile-no-sessions hidden>没有匹配的会话</p></nav>
-              <footer><button class="button primary" type="button" data-mobile-new>新对话</button><button class="button secondary" type="button" data-mobile-auth>账户</button></footer>
+              <header><b>FERMIVERSE</b><div class="mobile-drawer-tools">
+                <button type="button" class="icon-button mobile-icon" data-mobile-search aria-label="搜索会话" aria-expanded="false" aria-controls="mobile-drawer-search"><svg data-figma-icon="Name=搜索" aria-hidden="true"></svg></button>
+                <button type="button" class="icon-button mobile-icon" data-mobile-close aria-label="收起侧栏"><svg data-figma-icon="Name=折叠" aria-hidden="true"></svg></button>
+              </div></header>
+              <nav aria-label="费米工作区">
+                <button class="workspace-nav-item" type="button" data-mobile-new><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>新聊天</button>
+                <button class="workspace-nav-item" type="button" data-mobile-destination="work"><svg data-figma-icon="Name=模型" aria-hidden="true"></svg>体验中心</button>
+                <button class="workspace-nav-item" type="button" data-mobile-destination="compare"><svg data-figma-icon="对比" aria-hidden="true"></svg>添加模型对比</button>
+                <input class="core-input" id="mobile-drawer-search" type="search" aria-label="搜索会话" placeholder="搜索会话" autocomplete="off" hidden>
+                <b class="conversation-group-header">今天</b><button class="conversation-item" type="button" data-mobile-session="固态电池研发">固态电池研发<svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button>
+                <b class="conversation-group-header">近 7 天</b><button class="conversation-item" type="button" data-mobile-session="实验数据分析">实验数据分析<svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button>
+                <p data-mobile-no-sessions hidden>没有匹配的会话</p>
+              </nav>
+              <footer><button class="account-menu-row" type="button" data-mobile-auth><i class="account-avatar-source" aria-hidden="true"></i><b>账户</b><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button></footer>
             </aside>
           </div>
           <div class="mobile-auth-screen" hidden>
-            <button type="button" class="mobile-icon" data-mobile-back aria-label="返回"><svg data-figma-icon="Name=左" aria-hidden="true"></svg></button>
+            <button type="button" class="icon-button mobile-icon" data-mobile-back aria-label="返回"><svg data-figma-icon="Name=左" aria-hidden="true"></svg></button>
             <form class="mobile-auth-form">
               <h3>登录费米</h3><p>使用演示邮箱继续。此流程在浏览器内模拟。</p>
-              <label>电子邮箱<input name="email" type="email" autocomplete="email" value="demo@example.com" required></label>
-              <label hidden>验证码<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" disabled></label>
-              <p class="mobile-auth-status" role="status" aria-live="polite"></p>
+              <label>电子邮箱<input class="core-input" name="email" type="email" autocomplete="email" placeholder="demo@example.com" required></label>
+              <label hidden>验证码<input class="core-input" name="code" aria-describedby="mobile-auth-status" inputmode="numeric" autocomplete="one-time-code" maxlength="6" disabled></label>
+              <p class="mobile-auth-status core-input-note" id="mobile-auth-status" role="status" aria-live="polite"></p>
               <button class="button primary" type="submit">继续</button>
               <button class="button secondary" type="button" data-mobile-resend hidden>重新发送</button>
               <button class="button secondary" type="button" data-mobile-skip hidden>跳过</button>
@@ -955,6 +965,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=35"></script>
+  <script src="script.js?v=36"></script>
 </body>
 </html>

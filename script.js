@@ -1016,7 +1016,7 @@ const placePromptModelMenu = (trigger) => {
   if (!promptModelMenu) return;
   const rect = trigger.getBoundingClientRect();
   const menuWidth = 196;
-  const narrowPreview = trigger.closest('[data-width-preview]');
+  const narrowPreview = trigger.closest('[data-width-preview], .mobile-agent-phone');
   promptModelMenu.classList.toggle('prompt-model-mobile', Boolean(narrowPreview && narrowPreview.clientWidth < 600));
   const left = Math.min(rect.left, window.innerWidth - menuWidth - 12);
   promptModelMenu.style.left = `${Math.max(12, left)}px`;
@@ -1373,6 +1373,7 @@ if (mobileAgent) {
   const drawer = find('.mobile-drawer-layer');
   const opener = find('[data-mobile-open]');
   const search = find('.mobile-drawer input');
+  const searchToggle = find('[data-mobile-search]');
   const sessions = all('[data-mobile-session]');
   const scroll = find('.mobile-agent-scroll');
   const list = find('.mobile-message-list');
@@ -1426,6 +1427,7 @@ if (mobileAgent) {
         for (const action of ['复制', '有帮助', '无帮助', '朗读', '更多']) {
           const button = document.createElement('button');
           button.type = 'button';
+          button.className = 'button quiet';
           button.textContent = action;
           if (action === '有帮助' || action === '无帮助') button.setAttribute('aria-pressed', String(message.feedback === action));
           button.addEventListener('click', async () => {
@@ -1451,19 +1453,38 @@ if (mobileAgent) {
     drawer.hidden = !open;
     app.inert = open;
     opener.setAttribute('aria-expanded', String(open));
-    if (open) search.focus();
+    if (open) {
+      if (search.hidden) searchToggle.focus();
+      else search.focus();
+    }
     else if (restore) opener.focus();
   };
   opener.addEventListener('click', () => toggleDrawer(true));
   all('[data-mobile-close], .mobile-backdrop').forEach(button => button.addEventListener('click', () => toggleDrawer(false)));
+  searchToggle.addEventListener('click', () => {
+    search.hidden = !search.hidden;
+    searchToggle.setAttribute('aria-expanded', String(!search.hidden));
+    if (!search.hidden) search.focus();
+    else {
+      search.value = '';
+      search.dispatchEvent(new Event('input'));
+    }
+  });
   search.addEventListener('input', () => {
     const query = search.value.trim().toLowerCase();
-    sessions.forEach(button => { button.hidden = !button.textContent.toLowerCase().includes(query); });
+    sessions.forEach(button => {
+      button.hidden = !button.textContent.toLowerCase().includes(query);
+      button.previousElementSibling.hidden = button.hidden;
+    });
     find('[data-mobile-no-sessions]').hidden = sessions.some(button => !button.hidden);
   });
   const openThread = (key) => {
     active = key;
-    sessions.forEach(button => button.setAttribute('aria-current', String(button.dataset.mobileSession === key)));
+    sessions.forEach(button => {
+      const selected = button.dataset.mobileSession === key;
+      button.setAttribute('aria-current', String(selected));
+      button.classList.toggle('current', selected);
+    });
     draft.value = '';
     file.value = '';
     attachment.hidden = true;
@@ -1480,8 +1501,19 @@ if (mobileAgent) {
     all('[data-mobile-mode]').forEach(control => control.setAttribute('aria-pressed', String(control === button)));
     render();
   }));
+  all('[data-mobile-destination]').forEach(button => button.addEventListener('click', () => {
+    toggleDrawer(false);
+    if (button.dataset.mobileDestination === 'work') {
+      find('[data-mobile-mode="work"]').click();
+    } else {
+      find('[data-mobile-mode="chat"]').click();
+      draft.value = '请对比以下模型：';
+      syncComposer();
+      find('.mobile-composer .prompt-model').click();
+    }
+  }));
   all('.mobile-work-card').forEach(button => button.addEventListener('click', () => {
-    draft.value = button.querySelector('b').textContent;
+    draft.value = button.querySelector('strong').textContent;
     syncComposer();
     draft.focus();
   }));
@@ -1533,6 +1565,9 @@ if (mobileAgent) {
     skip.hidden = next !== 'passkey';
     submit.textContent = next === 'passkey' ? '设置通行密钥' : '继续';
     submit.disabled = false;
+    code.classList.remove('error');
+    code.removeAttribute('aria-invalid');
+    authStatus.classList.remove('error');
     authStatus.textContent = '';
   };
   const closeAuth = () => {
@@ -1544,7 +1579,7 @@ if (mobileAgent) {
     opener.focus();
   };
   const login = () => {
-    all('[data-mobile-auth]').forEach(button => { button.textContent = '账户'; });
+    find('.mobile-agent-header [data-mobile-auth]').textContent = '账户';
     closeAuth();
     showToast('已完成演示登录');
   };
@@ -1564,6 +1599,12 @@ if (mobileAgent) {
     if (event.key === 'Escape' && !drawer.hidden) toggleDrawer(false);
     else if (event.key === 'Escape' && !auth.hidden) closeAuth();
   });
+  code.addEventListener('input', () => {
+    code.classList.remove('error');
+    code.removeAttribute('aria-invalid');
+    authStatus.classList.remove('error');
+    authStatus.textContent = '';
+  });
   resend.addEventListener('click', () => {
     resend.disabled = true;
     authStatus.textContent = '已重新发送演示验证码。';
@@ -1578,7 +1619,14 @@ if (mobileAgent) {
     authStatus.textContent = '正在验证…';
     authTimer = setTimeout(() => {
       if (code.value.trim() === '123456') setAuthStep('passkey');
-      else { authStatus.textContent = '验证码有误，请重试。'; submit.disabled = false; code.focus(); }
+      else {
+        code.classList.add('error');
+        code.setAttribute('aria-invalid', 'true');
+        authStatus.classList.add('error');
+        authStatus.textContent = '验证码有误，请重试。';
+        submit.disabled = false;
+        code.focus();
+      }
     }, 500);
   });
   render();
