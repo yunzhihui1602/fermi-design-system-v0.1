@@ -528,7 +528,7 @@ pre { margin: 0; padding: 16px; overflow: auto; color: var(--neutral-700); backg
 .tx-note p { font-size: 12px; line-height: 18px; }
 .tx-preview { padding: var(--space-12); background: var(--surface-page); border-radius: var(--radius-8); }
 .tx-details { margin: 0; font-size: 12px; }
-.tx-details > div { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); min-height: 44px; border-bottom: 1px solid var(--border-default); }
+.tx-details > div { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); min-height: 44px; padding: var(--space-8) 0; border-bottom: 1px solid var(--border-default); }
 .tx-details > div:last-child { border-bottom: 0; }
 .tx-details dt { color: var(--text-secondary); }
 .tx-details dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
