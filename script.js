@@ -53,7 +53,7 @@ const FIGMA_ICON_BINDINGS = {
   '#i-filter': 'Name=筛选'
 };
 
-const bindFigmaIcons = () => {
+const bindFigmaIcons = (root = document) => {
   if (!window.FERMI_ICONS) return;
   const iconMap = new Map(window.FERMI_ICONS.map((icon) => [icon.name, icon]));
   const replaceWithFigmaIcon = (svg, componentName) => {
@@ -68,12 +68,12 @@ const bindFigmaIcons = () => {
     replacement.setAttribute('aria-hidden', 'true');
     svg.replaceWith(replacement);
   };
-  document.querySelectorAll('svg > use').forEach((use) => {
+  root.querySelectorAll('svg > use').forEach((use) => {
     const componentName = FIGMA_ICON_BINDINGS[use.getAttribute('href')];
     if (!componentName) return;
     replaceWithFigmaIcon(use.parentElement, componentName);
   });
-  document.querySelectorAll('svg[data-figma-icon]').forEach((svg) => replaceWithFigmaIcon(svg, svg.dataset.figmaIcon));
+  root.querySelectorAll('svg[data-figma-icon]').forEach((svg) => replaceWithFigmaIcon(svg, svg.dataset.figmaIcon));
 };
 
 bindFigmaIcons();
@@ -1377,6 +1377,10 @@ if (mobileAgent) {
   const sessions = all('[data-mobile-session]');
   const scroll = find('.mobile-agent-scroll');
   const list = find('.mobile-message-list');
+  const exampleAnswer = find('[data-mobile-example-answer]');
+  const answerFooter = find('[data-mobile-answer-footer]');
+  bindFigmaIcons(exampleAnswer.content);
+  bindFigmaIcons(answerFooter.content);
   const jump = find('[data-mobile-jump]');
   const composer = find('.mobile-composer');
   const draft = composer.querySelector('textarea');
@@ -1395,7 +1399,7 @@ if (mobileAgent) {
   const resend = find('[data-mobile-resend]');
   const skip = find('[data-mobile-skip]');
   const threads = new Map();
-  let active = '新对话';
+  let active = sessions[0].dataset.mobileSession;
   let newCount = 0;
   let mode = 'chat';
   let timer;
@@ -1418,31 +1422,31 @@ if (mobileAgent) {
     for (const message of current()) {
       const item = document.createElement('div');
       item.className = 'mobile-message ' + message.role;
-      item.textContent = message.text;
+      const richExample = message.example && message.done;
+      if (richExample) item.append(exampleAnswer.content.cloneNode(true));
+      else item.textContent = message.text;
       list.append(item);
       if (message.role === 'assistant' && message.done) {
-        const actions = document.createElement('div');
-        actions.className = 'mobile-response-actions';
-        for (const action of ['复制', '有帮助', '无帮助', '朗读', '更多']) {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'button quiet';
-          button.textContent = action;
-          if (action === '有帮助' || action === '无帮助') button.setAttribute('aria-pressed', String(message.feedback === action));
-          button.addEventListener('click', async () => {
-            if (action === '复制') {
-              try { await navigator.clipboard.writeText(message.text); showToast('已复制'); }
-              catch { showToast('无法写入剪贴板'); }
-            } else if (action === '有帮助' || action === '无帮助') {
-              message.feedback = message.feedback === action ? '' : action;
-              actions.querySelectorAll('[aria-pressed]').forEach(control => control.setAttribute('aria-pressed', String(control.textContent === message.feedback)));
-            } else {
-              showToast(action === '朗读' ? '朗读状态演示' : '更多操作：复制或评价此回复');
-            }
-          });
-          actions.append(button);
-        }
-        list.append(actions);
+        const footer = answerFooter.content.firstElementChild.cloneNode(true);
+        if (!richExample) footer.querySelector('small').remove();
+        footer.querySelector('[data-mobile-copy]').addEventListener('click', async () => {
+          const reply = richExample
+            ? [...item.querySelectorAll(':scope > p, :scope > blockquote, :scope > h4, :scope > ul')].map(block => block.innerText).join('\n\n')
+            : message.text;
+          try { await navigator.clipboard.writeText(reply); showToast('已复制'); }
+          catch { showToast('无法写入剪贴板'); }
+        });
+        const regenerate = footer.querySelector('[data-mobile-regenerate]');
+        regenerate.disabled = Boolean(pending);
+        regenerate.addEventListener('click', () => {
+          const previous = message.text;
+          pending = message;
+          message.done = false;
+          message.text = '正在生成…';
+          render();
+          timer = setTimeout(() => finish(false, previous), 1400);
+        });
+        item.append(footer);
       }
     }
     syncComposer();
@@ -1488,10 +1492,13 @@ if (mobileAgent) {
     file.value = '';
     attachment.hidden = true;
     toggleDrawer(false);
-    render();
-    goLatest();
+    find('[data-mobile-mode="chat"]').click();
+    scroll.scrollTop = 0;
   };
-  threads.set('固态电池研发', [{role:'assistant', text:'可以从实验条件、测量结果和异常值三个方面梳理这份记录。', done:true}]);
+  threads.set(active, [
+    {role: 'user', text: active},
+    {role: 'assistant', example: true, done: true}
+  ]);
   threads.set('实验数据分析', [{role:'assistant', text:'请添加实验记录，我可以帮你整理结果与待复核项。', done:true}]);
   sessions.forEach(button => button.addEventListener('click', () => openThread(button.dataset.mobileSession)));
   find('[data-mobile-new]').addEventListener('click', () => openThread('新对话 ' + ++newCount));
@@ -1524,8 +1531,8 @@ if (mobileAgent) {
     attachment.hidden = !file.files.length;
     syncComposer();
   });
-  const finish = (stopped) => {
-    pending.text = stopped ? '已停止生成。' : '已收到请求。可继续补充实验条件，或让我将关键发现整理成清单。（演示）';
+  const finish = (stopped, reply = '已收到请求。可继续补充实验条件，或让我将关键发现整理成清单。（演示）') => {
+    pending.text = stopped ? '已停止生成。' : reply;
     pending.done = !stopped;
     pending = null;
     render();

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=58">
+  <link rel="stylesheet" href="styles.css?v=59">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -672,6 +672,30 @@
                 <button type="button" class="tool-card mobile-work-card"><span class="workspace-icon neutral"><svg data-figma-icon="Name=文件" aria-hidden="true"></svg></span><span><strong>梳理研究资料</strong><small>按主题归纳资料并标注来源。</small></span></button>
               </div>
               <div class="mobile-message-list" aria-live="polite"></div>
+              <template data-mobile-example-answer>
+                <div class="mobile-thought"><svg data-figma-icon="Name=模型-1"></svg><span>已思考（15秒）</span></div>
+                <p><strong>“量子模型计算”可以分两种常见理解：一是量子计算模型下的计算，二是对量子物理模型做数值/量子模拟计算。两者整体思路相近，可概括为一句话：</strong></p>
+                <blockquote>把问题映射成量子态或哈密顿量，通过可控的量子演化产生干涉，再测量采样，最后由经典计算做优化与后处理。</blockquote>
+                <h4>1. 核心思想</h4>
+                <p>经典计算围绕比特和逻辑门；量子模型计算围绕：</p>
+                <ul>
+                  <li><strong>量子比特/量子模式：</strong>信息载体；</li>
+                  <li><strong>叠加：</strong>一个量子态可同时包含多个基态分量；</li>
+                  <li><strong>纠缠：</strong>形成经典难以表示的强关联；</li>
+                  <li><strong>干涉：</strong>让错误路径相消、正确路径增强；</li>
+                </ul>
+                <p>其本质是：用可控量子系统表示问题，用叠加和纠缠扩展状态空间，用干涉筛选答案，用测量和经典计算提取结果。</p>
+                <p><strong>如果你指的是量子化学、组合优化、量子机器学习或张量网络某个具体方向，我们可以进一步展开成技术路线来为您描述。</strong></p>
+              </template>
+              <template data-mobile-answer-footer>
+                <footer class="mobile-response-footer">
+                  <small>耗时15秒 <span aria-hidden="true">｜</span> 消耗<b>176</b>个代币</small>
+                  <div class="mobile-response-actions">
+                    <button class="icon-button" type="button" data-mobile-copy aria-label="复制回复" title="复制回复"><svg data-figma-icon="Name=复制"></svg></button>
+                    <button class="icon-button" type="button" data-mobile-regenerate aria-label="重新生成" title="重新生成"><svg data-figma-icon="Name=刷新"></svg></button>
+                  </div>
+                </footer>
+              </template>
             </div>
             <button type="button" class="icon-button mobile-icon mobile-jump" data-mobile-jump aria-label="回到最新消息" hidden><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button>
             <form class="prompt-variant mobile-composer">
@@ -697,7 +721,7 @@
                 <button class="workspace-nav-item" type="button" data-mobile-destination="work"><svg data-figma-icon="Name=模型" aria-hidden="true"></svg>体验中心</button>
                 <button class="workspace-nav-item" type="button" data-mobile-destination="compare"><svg data-figma-icon="对比" aria-hidden="true"></svg>添加模型对比</button>
                 <input class="core-input" id="mobile-drawer-search" type="search" aria-label="搜索会话" placeholder="搜索会话" autocomplete="off" hidden>
-                <b class="conversation-group-header">今天</b><button class="conversation-item" type="button" data-mobile-session="固态电池研发">固态电池研发<svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button>
+                <b class="conversation-group-header">今天</b><button class="conversation-item current" type="button" data-mobile-session="量子模型计算的整体思路" aria-current="true">量子模型计算的整体思路<svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button>
                 <b class="conversation-group-header">近 7 天</b><button class="conversation-item" type="button" data-mobile-session="实验数据分析">实验数据分析<svg data-figma-icon="Name=更多" aria-hidden="true"></svg></button>
                 <p data-mobile-no-sessions hidden>没有匹配的会话</p>
               </nav>
@@ -966,6 +990,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=38"></script>
+  <script src="script.js?v=39"></script>
 </body>
 </html>
