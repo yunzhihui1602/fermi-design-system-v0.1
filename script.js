@@ -324,13 +324,14 @@ document.querySelectorAll('.spec-tabs').forEach((tabs) => {
   });
 });
 
-document.querySelectorAll('.switch').forEach((control) => {
+document.querySelectorAll('.switch, .workspace-switch').forEach((control) => {
   control.setAttribute('role', 'switch');
   control.setAttribute('aria-checked', String(control.classList.contains('active')));
   control.addEventListener('click', () => {
     if (control.disabled) return;
     control.classList.toggle('active');
     control.setAttribute('aria-checked', String(control.classList.contains('active')));
+    control.closest('.tool-card')?.classList.toggle('enabled', control.classList.contains('active'));
   });
 });
 
@@ -681,7 +682,8 @@ if (headerDemo) {
   const sync = () => {
     back.hidden = kind.value !== 'back';
     headerDemo.querySelectorAll('.page-title-row > .button').forEach((button) => { button.hidden = kind.value !== 'actions'; });
-    middle.hidden = divider.hidden = level.value === '2';
+    middle.hidden = level.value === '2';
+    divider.toggleAttribute('hidden', middle.hidden);
     middle.textContent = level.value === 'overflow' ? '…' : '固态电池研发';
   };
   kind.addEventListener('change', sync);
@@ -770,20 +772,16 @@ document.querySelectorAll('.chart-grid > .component-card').forEach((card) => {
   });
   sync();
 });
-document.querySelectorAll('.prompt-variant-grid .prompt-plus:not(:disabled)').forEach((button) => {
-  const picker = document.createElement('input');
-  picker.type = 'file';
-  picker.hidden = true;
-  const result = document.createElement('span');
-  result.className = 'prompt-file-result';
-  result.setAttribute('role', 'status');
-  button.after(picker, result);
-  button.addEventListener('click', () => picker.click());
-  picker.addEventListener('change', () => {
-    const name = picker.files[0]?.name;
-    result.textContent = name ?? '';
-    result.title = name ?? '';
-    picker.value = '';
+document.querySelectorAll('.preset-row .preset-card > button').forEach((button, _, buttons) => {
+  button.setAttribute('aria-pressed', 'false');
+  button.addEventListener('click', () => {
+    const activate = button.getAttribute('aria-pressed') === 'false';
+    buttons.forEach((option) => {
+      const selected = activate && option === button;
+      option.setAttribute('aria-pressed', String(selected));
+      option.closest('.preset-card').classList.toggle('selected', selected);
+      option.textContent = selected ? '已选择' : '开始使用';
+    });
   });
 });
 const checkboxPlayground = document.querySelector('[data-checkbox-playground]');
@@ -809,6 +807,10 @@ const feedbackPlayground = document.querySelector('[data-feedback-playground]');
 if (feedbackPlayground) {
   const menus = [...feedbackPlayground.querySelectorAll('details')];
   const status = feedbackPlayground.querySelector('[data-playground-status]');
+  const confirmation = feedbackPlayground.querySelector('dialog');
+  confirmation.addEventListener('close', () => {
+    if (confirmation.returnValue === 'delete') showToast('已删除任务（演示）');
+  });
   const close = (menu, restoreFocus = false) => {
     menu.open = false;
     if (restoreFocus) menu.querySelector('summary').focus();
@@ -817,6 +819,12 @@ if (feedbackPlayground) {
     const button = event.target.closest('button');
     const menu = button?.closest('details');
     if (!menu || button.disabled) return;
+    if (button.hasAttribute('data-delete-task')) {
+      close(menu, true);
+      confirmation.returnValue = '';
+      confirmation.showModal();
+      return;
+    }
     if (button.hasAttribute('data-menu-choice')) {
       menu.querySelectorAll('[data-menu-choice]').forEach((option) => {
         option.classList.toggle('selected', option === button);
@@ -825,6 +833,7 @@ if (feedbackPlayground) {
       menu.querySelector('[data-menu-value]').textContent = button.textContent;
     }
     status.textContent = button.dataset.demoMessage ?? `已选择 ${button.textContent}`;
+    if (status.textContent) showToast(status.textContent);
     close(menu, true);
   });
   document.addEventListener('click', (event) => {
@@ -834,6 +843,49 @@ if (feedbackPlayground) {
     if (event.key !== 'Escape') return;
     const menu = menus.find((item) => item.open && item.contains(document.activeElement));
     if (menu) close(menu, true);
+  });
+}
+const controlBar = document.querySelector('[data-control-bar]');
+if (controlBar) {
+  const picker = controlBar.querySelector('input[type="file"]');
+  const searchTool = controlBar.querySelector('.tool-chip');
+  const send = controlBar.querySelector('.control-send');
+  const stop = controlBar.querySelector('.control-stop');
+  const model = controlBar.querySelector('.prompt-model');
+  const result = controlBar.nextElementSibling;
+  let timer;
+  const setRunning = (running) => {
+    send.hidden = running;
+    stop.hidden = !running;
+    picker.disabled = searchTool.disabled = model.disabled = running;
+    send.disabled = !picker.files.length;
+  };
+  searchTool.addEventListener('click', () => {
+    const enabled = searchTool.classList.toggle('active');
+    searchTool.setAttribute('aria-pressed', String(enabled));
+  });
+  picker.addEventListener('change', () => {
+    send.disabled = !picker.files.length;
+    result.textContent = picker.files[0]?.name ?? '';
+  });
+  controlBar.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (send.disabled || send.hidden) return;
+    setRunning(true);
+    stop.focus();
+    result.textContent = '正在处理附件…';
+    timer = setTimeout(() => {
+      const restoreFocus = document.activeElement === stop;
+      setRunning(false);
+      if (restoreFocus) send.focus();
+      result.textContent = '附件处理完成（演示）。';
+    }, 1800);
+  });
+  stop.addEventListener('click', () => {
+    clearTimeout(timer);
+    setRunning(false);
+    send.focus();
+    result.textContent = '已停止处理。';
   });
 }
 const emptyPlayground = document.querySelector('[data-empty-playground]');
@@ -921,6 +973,7 @@ if (agentFlow) {
     send.disabled = !(prompt.value.trim() || attachment) || ['uploading', 'error'].includes(fileState);
     stop.hidden = !busy;
     prompt.readOnly = busy;
+    form.classList.toggle('has-draft', Boolean(prompt.value.trim() || attachment));
     file.disabled = outcome.disabled = remove.disabled = busy;
     find('.prompt-model').disabled = busy;
     sessions.forEach((session) => { session.disabled = busy; });
@@ -937,9 +990,10 @@ if (agentFlow) {
     fileState = state;
     find('[data-flow-attachment]').hidden = !attachment;
     find('[data-flow-file-name]').textContent = attachment;
-    const status = find('[data-flow-file-status]');
+    const status = find('[data-flow-file-status]').parentElement;
     status.className = `attachment-status ${state === 'error' ? 'danger' : state === 'parsed' ? 'success' : 'info'}`;
-    status.textContent = message;
+    status.querySelector('[data-flow-file-status]').textContent = message;
+    status.querySelector('[data-flow-spinner]').hidden = state !== 'uploading';
     refresh();
   };
   const start = (fail) => {
@@ -1015,21 +1069,24 @@ let activePromptModel = null;
 const placePromptModelMenu = (trigger) => {
   if (!promptModelMenu) return;
   const rect = trigger.getBoundingClientRect();
-  const menuWidth = 196;
-  const narrowPreview = trigger.closest('[data-width-preview], .mobile-agent-phone');
-  promptModelMenu.classList.toggle('prompt-model-mobile', Boolean(narrowPreview && narrowPreview.clientWidth < 600));
-  const left = Math.min(rect.left, window.innerWidth - menuWidth - 12);
+  const { width: menuWidth, height: menuHeight } = promptModelMenu.getBoundingClientRect();
+  const left = Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 12);
   promptModelMenu.style.left = `${Math.max(12, left)}px`;
-  const menuHeight = promptModelMenu.querySelectorAll('button').length * 36 + 14;
-  const top = rect.bottom + menuHeight + 18 <= window.innerHeight ? rect.bottom + 6 : rect.top - menuHeight - 6;
+  const top = rect.top - menuHeight - 6;
   promptModelMenu.style.top = `${Math.max(12, top)}px`;
 };
 
 document.querySelectorAll('.prompt-model:not(:disabled)').forEach((button) => {
   button.setAttribute('aria-haspopup', 'menu');
+  button.setAttribute('aria-controls', 'promptModelMenu');
   button.setAttribute('aria-expanded', 'false');
   button.addEventListener('click', () => {
     if (!promptModelMenu) return;
+    if (activePromptModel === button && promptModelMenu.matches(':popover-open')) {
+      promptModelMenu.hidePopover();
+      return;
+    }
+    activePromptModel?.setAttribute('aria-expanded', 'false');
     activePromptModel = button;
     const current = button.querySelector('span')?.textContent.trim();
     promptModelMenu.querySelectorAll('[data-model-option]').forEach((option) => {
@@ -1037,8 +1094,9 @@ document.querySelectorAll('.prompt-model:not(:disabled)').forEach((button) => {
       option.classList.toggle('selected', selected);
       option.setAttribute('aria-checked', String(selected));
     });
+    promptModelMenu.classList.toggle('prompt-model-mobile', Boolean(button.closest('.mobile-agent-phone')));
+    if (!promptModelMenu.matches(':popover-open')) promptModelMenu.showPopover({ source: button });
     placePromptModelMenu(button);
-    promptModelMenu.showPopover();
     button.setAttribute('aria-expanded', 'true');
   });
 });
@@ -1052,6 +1110,7 @@ promptModelMenu?.querySelectorAll('[data-model-option]').forEach((option) => {
     const label = activePromptModel?.querySelector('span');
     if (label) label.textContent = option.dataset.modelOption;
     promptModelMenu.hidePopover();
+    activePromptModel?.focus();
   });
 });
 
@@ -1147,29 +1206,23 @@ const placeAccountMenu = () => {
   const rect = accountTrigger.getBoundingClientRect();
   const menuWidth = 220;
   const left = Math.min(rect.right - menuWidth, window.innerWidth - menuWidth - 12);
+  const menuHeight = accountDemoMenu.querySelectorAll('button').length * 34 + 14;
+  const top = rect.bottom + menuHeight + 12 < window.innerHeight ? rect.bottom + 6 : rect.top - menuHeight - 6;
   accountDemoMenu.style.left = `${Math.max(12, left)}px`;
-  accountDemoMenu.style.top = `${rect.bottom + 6}px`;
+  accountDemoMenu.style.top = `${Math.max(12, top)}px`;
 };
 
 accountTrigger?.addEventListener('click', () => {
-  if (!accountDemoMenu) return;
-  if (accountDemoMenu.matches(':popover-open')) {
-    accountDemoMenu.hidePopover();
-    return;
-  }
   placeAccountMenu();
-  accountTrigger.classList.add('open');
-  accountTrigger.setAttribute('aria-expanded', 'true');
-  accountDemoMenu.showPopover();
 });
 
 accountDemoMenu?.addEventListener('toggle', (event) => {
-  if (event.newState !== 'closed') return;
-  accountTrigger?.classList.remove('open');
-  accountTrigger?.setAttribute('aria-expanded', 'false');
+  const open = event.newState === 'open';
+  accountTrigger?.classList.toggle('open', open);
+  accountTrigger?.setAttribute('aria-expanded', String(open));
 });
 
-accountDemoMenu?.querySelectorAll('[role="menuitem"]').forEach((item) => {
+accountDemoMenu?.querySelectorAll('button').forEach((item) => {
   item.addEventListener('click', () => accountDemoMenu.hidePopover());
 });
 

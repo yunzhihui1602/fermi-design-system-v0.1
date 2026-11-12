@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=59">
+  <link rel="stylesheet" href="styles.css?v=60">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -327,46 +327,35 @@
       <div class="navigation-workspace-board" aria-label="导航与工作区组件，来源 Figma 910:6671">
         <section class="navigation-block">
           <div class="navigation-block-head"><div><h3>Sidebar Navigation Item 主导航项</h3><p>240×42px，左右 12px；默认白底，悬停使用极浅灰，当前项使用 #EFEFEF，不增加彩色描边。</p></div><span>4 variants</span></div>
-          <div class="navigation-state-row main-nav-state-row">
-            <label><small>State=Default</small><span class="workspace-nav-item"><svg data-figma-icon="Name=添加"></svg>新聊天</span></label>
-            <label><small>State=Hover</small><span class="workspace-nav-item hover"><svg data-figma-icon="Name=添加"></svg>新聊天</span></label>
-            <label><small>State=Current</small><span class="workspace-nav-item current"><svg data-figma-icon="Name=添加"></svg>新聊天</span></label>
-            <label><small>State=Disabled</small><span class="workspace-nav-item disabled"><svg data-figma-icon="Name=添加"></svg>新聊天</span></label>
-          </div>
-        </section>
-
-        <section class="navigation-block">
-          <div class="navigation-block-head"><div><h3>Conversation List Item 会话条目</h3><p>240×38px；更多操作只在 Hover 与 Current 状态显示，避免持续占用注意力。</p></div><span>4 variants</span></div>
-          <div class="navigation-state-row conversation-state-row">
-            <label><small>State=Default</small><span class="conversation-item">固态电池研发任务<svg data-figma-icon="Name=更多"></svg></span></label>
-            <label><small>State=Hover</small><span class="conversation-item hover">固态电池研发任务<svg data-figma-icon="Name=更多"></svg></span></label>
-            <label><small>State=Current</small><span class="conversation-item current">固态电池研发任务<svg data-figma-icon="Name=更多"></svg></span></label>
-            <label><small>State=Disabled</small><span class="conversation-item disabled">固态电池研发任务<svg data-figma-icon="Name=更多"></svg></span></label>
-          </div>
-        </section>
-
-        <section class="navigation-block">
-          <div class="navigation-block-head"><div><h3>Conversation Group Header 分组标题</h3><p>240×25px；用于“今天、近 7 天、更早”等时间分组，只承担信息组织，不使用强调色。</p></div><span>1 component</span></div>
           <!-- fermi-component: {"id":"910:6677","name":"Sidebar Navigation Item","properties":["Label","Icon","State"],"variants":["State=Default","State=Hover","State=Current","State=Disabled"]} -->
-          <h4>主导航 · 交互演示</h4>
           <fieldset class="conversation-options workspace-nav-options" aria-label="选择工作区">
             <label><input type="radio" name="workspace-navigation" checked><span class="workspace-nav-item"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg>新聊天</span></label>
             <label><input type="radio" name="workspace-navigation"><span class="workspace-nav-item"><svg data-figma-icon="Name=模型" aria-hidden="true"></svg>实验数据</span></label>
             <label><input type="radio" name="workspace-navigation" disabled><span class="workspace-nav-item disabled">不可用工作区</span></label>
           </fieldset>
+        </section>
+
+        <section class="navigation-block">
+          <div class="navigation-block-head"><div><h3>Conversation List Item 会话条目</h3><p>240×38px；更多操作只在 Hover 与 Current 状态显示，避免持续占用注意力。</p></div><span>4 variants</span></div>
           <!-- fermi-component: {"id":"910:6692","name":"Conversation List Item","properties":["Title","More Icon","State"],"variants":["State=Default","State=Hover","State=Current","State=Disabled"]} -->
-          <h4 id="conversation-demo">可展开会话列表 · 交互演示</h4>
-          <details class="conversation-disclosure" open>
-            <summary class="conversation-group-header">近 7 天<svg data-figma-icon="Name=下" aria-hidden="true"></svg></summary>
+          <div id="conversation-demo">
             <fieldset class="conversation-options" aria-label="选择会话">
               <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label><details class="workspace-action-menu"><summary aria-label="固态电池研发任务的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
               <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label><details class="workspace-action-menu"><summary aria-label="实验数据分析的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
               <label><input type="radio" name="workspace-conversation" disabled><span class="conversation-item disabled">已归档的会话</span></label>
             </fieldset>
-          </details>
+          </div>
           <p class="workspace-action-result" role="status"></p>
-          <p>点击分组标题或按 Enter / 空格展开与收起。选择会话后显示当前项背景，收起再展开会保留选中项。</p>
-          <p><code>&lt;details&gt;</code> 管理展开状态，<code>input[type="radio"]</code> 管理会话选中状态。<a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6692" target="_blank" rel="noreferrer">会话条目 Figma 源组件</a></p>
+          <p>选择会话以切换当前项；悬停或键盘聚焦可打开更多操作。</p>
+          <p><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6692" target="_blank" rel="noreferrer">会话条目 Figma 源组件</a></p>
+        </section>
+
+        <section class="navigation-block">
+          <div class="navigation-block-head"><div><h3>Conversation Group Header 分组标题</h3><p>240×25px；用于“今天、近 7 天、更早”等时间分组，只承担信息组织，不使用强调色。</p></div><span>1 component</span></div>
+          <details class="conversation-disclosure">
+            <summary class="conversation-group-header">近 7 天<svg data-figma-icon="Name=下" aria-hidden="true"></svg></summary>
+            <a class="conversation-item" href="#conversation-demo">查看会话条目演示</a>
+          </details>
         </section>
 
         <section class="navigation-block">
@@ -380,7 +369,7 @@
         </section>
       </div>
       <div class="component-card navigation-page-header"><h3>Page Header / Base</h3><p><label>页头 <select data-header-variant><option value="actions">带操作</option><option value="standard">标准</option><option value="back">返回</option></select></label> <label>面包屑 <select data-crumb-variant><option value="3">三级</option><option value="2">两级</option><option value="overflow">溢出</option></select></label></p><div class="page-header-demo"><div class="breadcrumb"><span>项目空间</span><svg><use href="#i-chevron"/></svg><span>固态电池研发</span><svg><use href="#i-chevron"/></svg><b>项目概览</b></div><div class="page-title-row"><button class="icon-button" type="button" data-header-back aria-label="返回概览" hidden><svg data-figma-icon="Name=左" aria-hidden="true"></svg></button><div><h4>固态电池研发</h4><p>管理项目成员、实验数据与研发任务。</p></div><button class="button secondary">导出</button><button class="button primary">新建任务</button></div><div class="demo-tabs"><button class="active">概览</button><button>实验数据</button><button>运行记录</button><button disabled>项目设置</button></div><p class="component-demo-status" data-header-status role="status">当前标签：概览</p></div></div>
-      <div class="component-card compact-card"><h3>Breadcrumb / Tabs / Account Menu</h3><div class="inline-component-row"><div class="crumb-variants"><span>两级：项目空间 / 项目概览</span><span>三级：工作区 / 项目 / 任务</span><span>溢出：工作区 / … / 当前页面</span></div><button type="button" class="account-demo" data-account-trigger aria-haspopup="menu" aria-expanded="false"><span class="avatar small">研</span><span class="account-demo-copy"><b>研究员</b><small>researcher@fermi.ai</small></span><span class="account-demo-action" aria-hidden="true"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></button></div></div>
+      <div class="component-card compact-card"><h3>Breadcrumb / Tabs / Account Menu</h3><div class="inline-component-row"><div class="crumb-variants"><span>两级：项目空间 / 项目概览</span><span>三级：工作区 / 项目 / 任务</span><span>溢出：工作区 / … / 当前页面</span></div><button type="button" class="account-demo" data-account-trigger aria-controls="accountDemoMenu" aria-expanded="false" popovertarget="accountDemoMenu"><span class="avatar small">研</span><span class="account-demo-copy"><b>研究员</b><small>researcher@fermi.ai</small></span><span class="account-demo-action" aria-hidden="true"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></button></div></div>
     </section>
 
     <section class="doc-section component-section" id="forms" data-search="表单 输入框 input select checkbox radio switch search textarea">
@@ -462,8 +451,8 @@
         <h3>Filter Toolbar / Base</h3>
         <form data-filter-toolbar class="filter-toolbar-controls">
           <label class="model-search"><svg aria-hidden="true"><use href="#i-search"/></svg><input type="search" name="keyword" aria-label="搜索名称" placeholder="搜索名称"></label>
-          <label>状态 <select name="state"><option value="">全部状态</option><option value="running">运行中</option><option value="done">已完成</option></select></label>
-          <label>时间 <select name="range"><option value="">全部时间</option><option value="7">近 7 天</option><option value="30">近 30 天</option></select></label>
+          <label>状态 <span class="filter-select"><select name="state"><option value="">全部状态</option><option value="running">运行中</option><option value="done">已完成</option></select><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></label>
+          <label>时间 <span class="filter-select"><select name="range"><option value="">全部时间</option><option value="7">近 7 天</option><option value="30">近 30 天</option></select><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></label>
           <button class="button secondary" type="reset" disabled>暂无筛选</button>
         </form>
         <div class="filter-summary"><svg aria-hidden="true"><use href="#i-filter"/></svg><span role="status" data-filter-count>未应用筛选条件 · 共 126 条结果</span></div>
@@ -511,7 +500,7 @@
       <div class="component-card" data-upload-demo><h3>Upload Dropzone / Base</h3><p>点击或拖入本地文件。可切换禁用态，文件只在本地演示。</p><div class="dropzone-grid upload-live-grid"><div data-upload-trigger role="button" tabindex="0" aria-label="选择实验文件" aria-disabled="false"><svg aria-hidden="true"><use href="#i-plus"/></svg><b>点击或拖拽文件到此处</b><small role="status">等待选择</small></div></div><label><input type="checkbox" data-upload-lock> 禁用文件选择</label><input class="upload-file-input" type="file" data-upload-input multiple tabindex="-1" aria-label="选择实验文件"></div>
     </section>
 
-    <section class="doc-section component-section" id="feedback" data-search="反馈 状态 alert toast banner success warning danger info">
+    <section class="doc-section component-section" id="feedback" data-search="反馈 状态 浮层 菜单 Tooltip Dropdown Popover alert toast banner success warning danger info">
       <div class="section-heading"><div><span class="section-index">11</span><h2>反馈与状态</h2><p>四类语义状态使用统一图标结构与轻量背景。</p></div><span class="component-count">7 components</span></div>
       <div class="alert-stack">
         <div class="alert info"><svg><use href="#i-info"/></svg><div><b>信息提示</b><p>模型同步将在后台继续运行，你可以离开当前页面。</p></div><button aria-label="关闭"><svg><use href="#i-close"/></svg></button></div>
@@ -528,21 +517,68 @@
         </div>
       </div>
       <div class="component-card"><h3>Page Banner / Base</h3><div class="banner-stack"><div class="info"><svg><use href="#i-info"/></svg><span><b>模型同步中</b><small>完成后将自动更新列表</small></span><button>查看详情</button></div><div class="warning"><svg><use href="#i-alert"/></svg><span><b>渠道余额不足</b><small>部分模型可能不可用</small></span><button>立即处理</button></div></div></div>
-    </section>
 
-    <section class="component-card variant-playground" aria-label="下拉菜单与浮层交互" data-feedback-playground>
-      <h3>Dropdown Menu / Popover · 交互演示</h3>
-      <div class="tooltip-playground"><label>提示位置 <select data-tooltip-position><option value="top">上方</option><option value="bottom">下方</option><option value="left">左侧</option><option value="right">右侧</option></select></label><span class="tooltip-anchor" data-position="top"><button class="button secondary" type="button" aria-describedby="overlay-tooltip">复制密钥</button><span id="overlay-tooltip" class="tooltip-demo" role="tooltip">复制到剪贴板</span></span></div>
-      <div class="variant-playground-grid">
-        <details><summary class="button secondary">命令菜单</summary><div class="menu-demo"><button type="button" data-demo-message="已选择查看详情">查看详情</button><button type="button" data-demo-message="已选择设为默认">设为默认</button><button disabled>不可操作</button></div></details>
-        <details><summary class="button secondary">可选菜单<span data-menu-value>全部</span></summary><div class="menu-demo"><button type="button" data-menu-choice aria-pressed="true" class="selected">全部</button><button type="button" data-menu-choice aria-pressed="false">运行中</button><button type="button" data-menu-choice aria-pressed="false">已完成</button></div></details>
-        <details><summary class="button secondary">行操作菜单</summary><div class="menu-demo"><button type="button" data-demo-message="已选择重命名">重命名</button><button type="button" class="danger" data-demo-message="已选择移除（演示）">移除</button></div></details>
-        <details><summary class="button secondary">信息浮层</summary><div class="popover-demo"><p>额度由企业管理员统一分配。</p><button class="button secondary" type="button" data-demo-message="已关闭额度说明">知道了</button></div></details>
-        <details><summary class="button secondary">操作浮层</summary><div class="popover-demo"><p>将当前视图设为默认？</p><button class="button primary" type="button" data-demo-message="已确认（演示）">确认</button></div></details>
-        <details><summary class="button secondary">警告浮层</summary><div class="popover-demo"><p>关闭前请保存当前修改。</p><button class="button secondary" type="button" data-demo-message="已关闭警告">关闭</button></div></details>
-      </div>
-      <p role="status" data-playground-status></p>
-      <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7775">下拉菜单 Figma</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7793">浮层 Figma</a>
+      <section class="component-card variant-playground overlay-feedback" id="overlay-feedback" data-feedback-playground aria-labelledby="overlay-feedback-title">
+        <h3 id="overlay-feedback-title">浮层反馈</h3>
+        <p>即时说明、菜单项、下拉菜单和操作浮层。结果反馈复用 Toast，破坏性确认使用 Modal。</p>
+        <h4>Tooltip 即时说明</h4>
+        <p>36 px 高，仅用于短说明。切换方向后，悬停或聚焦触发按钮。</p>
+        <div class="tooltip-playground">
+          <label>提示位置 <select data-tooltip-position><option value="top">上方</option><option value="bottom">下方</option><option value="left">左侧</option><option value="right">右侧</option></select></label>
+          <span class="tooltip-anchor" data-position="top"><button class="button secondary" type="button" aria-describedby="overlay-tooltip">字段说明</button><span id="overlay-tooltip" class="tooltip-demo" role="tooltip">查看字段说明与数据来源</span></span>
+        </div>
+        <h4>Menu Item 菜单项与 Dropdown Menu 下拉菜单</h4>
+        <p>菜单项基准为 304 × 36 px，下拉容器基准为 360 × 176 px。选中态显示侧边标记，危险项使用危险色文字。</p>
+        <div class="overlay-feedback-controls">
+          <details name="overlay-feedback"><summary class="button secondary">命令菜单</summary><div class="menu-demo overlay-menu">
+            <button type="button" data-demo-message="已选择新建任务">新建任务 <kbd>⌘ N</kbd></button>
+            <button type="button" data-demo-message="已选择重命名">重命名 <kbd>⌘ R</kbd></button>
+            <button type="button" data-demo-message="已选择复制链接">复制链接 <kbd>⌘ C</kbd></button>
+            <button type="button" class="danger" data-delete-task>删除任务</button>
+          </div></details>
+          <details name="overlay-feedback"><summary class="button secondary">选择菜单<span data-menu-value>舒适密度</span></summary><div class="menu-demo overlay-menu">
+            <button type="button" data-menu-choice aria-pressed="false">紧凑密度</button>
+            <button type="button" data-menu-choice aria-pressed="true" class="selected">舒适密度</button>
+            <button type="button" data-menu-choice aria-pressed="false">宽松密度</button>
+            <button type="button" data-menu-choice aria-pressed="false">跟随系统</button>
+          </div></details>
+          <details name="overlay-feedback"><summary class="button secondary">上下文菜单</summary><div class="menu-demo overlay-menu">
+            <button type="button" data-demo-message="已选择打开">打开</button>
+            <button type="button" data-demo-message="已选择在新页面打开">在新页面打开</button>
+            <button type="button" data-demo-message="已选择复制链接">复制链接</button>
+            <button type="button" disabled>导出数据</button>
+            <button type="button" class="danger" data-delete-task>删除</button>
+          </div></details>
+        </div>
+        <h4>Popover 操作浮层</h4>
+        <p>用于当前操作附近的说明与轻量操作。</p>
+        <div class="overlay-feedback-controls">
+          <details name="overlay-feedback"><summary class="button secondary">信息浮层</summary><div class="popover-demo overlay-popover">
+            <button class="icon-button overlay-popover-close" type="button" aria-label="关闭" data-demo-message=""><svg><use href="#i-close"/></svg></button>
+            <svg data-figma-icon="Type=Info"></svg><b>数据来源说明</b><p>该字段来自最近一次实验数据同步。</p>
+            <div class="overlay-popover-actions"><button class="button secondary" type="button" data-demo-message="已查看数据来源说明">了解更多</button></div>
+          </div></details>
+          <details name="overlay-feedback"><summary class="button secondary">操作浮层</summary><div class="popover-demo overlay-popover">
+            <button class="icon-button overlay-popover-close" type="button" aria-label="关闭" data-demo-message=""><svg><use href="#i-close"/></svg></button>
+            <svg data-figma-icon="Type=Info"></svg><b>保存当前视图</b><p>将筛选条件保存为团队可复用视图。</p>
+            <div class="overlay-popover-actions"><button class="button secondary" type="button" data-demo-message="">取消</button><button class="button primary" type="button" data-demo-message="已保存视图（演示）">保存视图</button></div>
+          </div></details>
+          <details name="overlay-feedback"><summary class="button secondary">警告浮层</summary><div class="popover-demo overlay-popover warning">
+            <button class="icon-button overlay-popover-close" type="button" aria-label="关闭" data-demo-message=""><svg><use href="#i-close"/></svg></button>
+            <svg data-figma-icon="Type=Warning"></svg><b>尚有未保存的修改</b><p>离开后这些修改将丢失。</p>
+            <div class="overlay-popover-actions"><button class="button secondary" type="button" data-demo-message="">取消</button><button class="button primary" type="button" data-demo-message="已放弃修改（演示）">放弃修改并离开</button></div>
+          </div></details>
+        </div>
+        <p role="status" data-playground-status></p>
+        <dialog class="overlay-delete-dialog" aria-labelledby="overlay-delete-title">
+          <form method="dialog">
+            <h4 id="overlay-delete-title">删除任务</h4><p>确认删除当前任务？</p>
+            <div class="overlay-popover-actions"><button class="button secondary" value="cancel" autofocus>取消</button><button class="button primary" value="delete">确认删除</button></div>
+          </form>
+        </dialog>
+        <p class="rule-note">Tooltip 最多两行。Popover 复用状态图标、关闭按钮与基础按钮，浮层使用低透明度阴影。</p>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7727">查看 Figma 浮层反馈规范</a>
+      </section>
     </section>
 
     <section class="doc-section component-section" id="agent" data-search="AI 工作台 Prompt Composer Agent Preset Asset Tool Control Bar Attachment Task Execution">
@@ -550,18 +586,8 @@
       <div class="ai-workspace-board" aria-label="AI 工作台组件，来源 Figma 910:6299">
         <div class="ai-workspace-intro"><span>FERMI DESIGN SYSTEM</span><h3>AI 工作台组件</h3><p>对话输入、预设、资产与科研工具结构</p></div>
 
-      <div class="workspace-block">
-        <div class="workspace-block-head"><h3>Prompt Composer 提示词输入</h3><p>尺寸与默认态以 487:3149 为准；Focused 点击态除 487:3392 为准。参考图仅补充“固态电池研发”任务语义。</p></div>
-        <div class="prompt-variant-grid">
-          <article class="prompt-variant empty" aria-label="Empty"><p>问点什么，和费米一起探索</p><div class="prompt-controls"><button class="prompt-plus plain" aria-label="添加"><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
-          <article class="prompt-variant focused" aria-label="Focused"><p>正在整理固态电池研发任务…</p><div class="prompt-controls"><button class="prompt-plus" aria-label="添加"><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model active"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
-          <article class="prompt-variant ready" aria-label="Ready"><p>在“固态电池研发”中开始一个研发任务</p><div class="prompt-controls"><button class="prompt-plus" aria-label="添加"><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model active"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
-          <article class="prompt-variant disabled" aria-label="Disabled"><p>当前不可输入</p><div class="prompt-controls"><button class="prompt-plus plain" aria-label="添加" disabled><svg data-figma-icon="Name=添加"></svg></button><span class="prompt-spacer"></span><button class="prompt-model" disabled><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button><button class="prompt-send" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base"></svg></button></div></article>
-        </div>
-      </div>
-
       <div class="workspace-block agent-flow" data-agent-flow data-width-demo>
-        <div class="workspace-block-head"><div><h3>Agent 对话 · 跨端交互演示</h3><p>手机预览保留附件、模型与发送入口。生成时，发送切换为停止。任务与附件处理在浏览器中模拟。</p></div></div>
+        <div class="workspace-block-head"><div><h3>Prompt Composer 提示词输入 · 跨端交互演示</h3><p>手机预览保留附件、模型与发送入口。生成时，发送切换为停止。任务与附件处理在浏览器中模拟。</p></div></div>
         <label>预览宽度 <select data-preview-width><option value="100%">桌面 · 可用宽度</option><option value="375px">375 px</option><option value="390px">390 px</option><option value="430px">430 px</option></select></label>
         <div class="width-preview" data-width-preview>
           <div class="agent-preview-shell">
@@ -584,7 +610,7 @@
         </form>
         <div class="agent-flow-options">
           <label>模拟结果 <select data-flow-outcome><option value="success">任务成功</option><option value="failed">任务失败</option><option value="attachment-error">附件失败</option></select></label>
-          <div class="agent-flow-attachment" data-flow-attachment hidden><span data-flow-file-name></span><span class="attachment-status" data-flow-file-status role="status"></span><button type="button" class="text-button" data-flow-remove>移除</button></div>
+          <div class="agent-flow-attachment" data-flow-attachment hidden><span data-flow-file-name></span><span class="attachment-status" role="status"><i class="loading-spinner" data-flow-spinner aria-hidden="true" hidden></i><span data-flow-file-status></span></span><button type="button" class="text-button" data-flow-remove>移除</button></div>
         </div>
         <article class="task-card agent-flow-task" data-flow-task hidden><div role="status" data-flow-status></div><footer><button type="button" data-flow-retry hidden>重新运行</button></footer></article>
             </div>
@@ -596,9 +622,9 @@
       <div class="workspace-block">
         <div class="workspace-block-head"><h3>Agent Preset Card 预设智能体</h3><p>功能优先的中性卡片：默认、悬停与选中仅用白灰层级，蓝色仅标识已选择操作。</p></div>
         <div class="workspace-row preset-row">
-          <article class="preset-card" aria-label="Default"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>医疗循证助手</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button>开始使用</button></article>
-          <article class="preset-card hover" aria-label="Hover"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>生物科技研究员</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button>开始使用</button></article>
-          <article class="preset-card selected" aria-label="Selected"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>Token 研究助理</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button>已选择</button></article>
+          <article class="preset-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>医疗循证助手</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button>开始使用</button></article>
+          <article class="preset-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>生物科技研究员</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button>开始使用</button></article>
+          <article class="preset-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=头像默认"></svg></div><h4>Token 研究助理</h4><p>整合资料、生成摘要并保留引用依据</p><span class="workspace-tag">知识检索</span><button type="button">开始使用</button></article>
         </div>
       </div>
 
@@ -614,27 +640,32 @@
       <div class="workspace-block">
         <div class="workspace-block-head"><h3>Tool Card 工具卡片</h3><p>科研工具保持低视觉干扰；开启使用单一蓝色、关闭与不可用统一使用灰色。</p></div>
         <div class="workspace-row tool-row">
-          <article class="tool-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=搜索"></svg></div><h4>联网检索</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch" aria-label="关闭"><i></i></button></article>
-          <article class="tool-card enabled"><div class="workspace-icon blue"><svg><use href="#i-check"/></svg></div><h4>数据分析</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch active" aria-label="开启"><i></i></button></article>
-          <article class="tool-card unavailable"><div class="workspace-icon warning"><svg data-figma-icon="Type=Warning"></svg></div><h4>图像识别</h4><p>当前产品暂未开通</p><button class="workspace-switch" aria-label="不可用" disabled><i></i></button></article>
+          <article class="tool-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=搜索"></svg></div><h4>联网检索</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch" type="button" aria-label="联网检索"><i></i></button></article>
+          <article class="tool-card enabled"><div class="workspace-icon blue"><svg><use href="#i-check"/></svg></div><h4>数据分析</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch active" type="button" aria-label="数据分析"><i></i></button></article>
+          <article class="tool-card unavailable"><div class="workspace-icon warning"><svg data-figma-icon="Type=Warning"></svg></div><h4>图像识别</h4><p>当前产品暂未开通</p><button class="workspace-switch" type="button" aria-label="图像识别" disabled><i></i></button></article>
         </div>
       </div>
 
       <div class="workspace-block">
         <div class="workspace-block-head"><h3>Composer Control Bar 输入工具栏</h3><p>复用现有输入框比例与低干扰样式；蓝色只用于聚焦、能力开启和可发送状态。</p></div>
-        <div class="control-variant-grid">
-          <div class="control-bar" aria-label="Default"><div><button class="attachment-action" aria-label="附件"><svg data-figma-icon="Name=附件"></svg></button><button class="tool-chip"><svg data-figma-icon="Name=搜索"></svg>联网检索</button></div><div><button class="model-chip">FERMI Q LLM<svg data-figma-icon="Name=下"></svg></button><button class="control-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></div>
-          <div class="control-bar hover" aria-label="Hover"><div><button class="attachment-action" aria-label="附件"><svg data-figma-icon="Name=附件"></svg></button><button class="tool-chip"><svg data-figma-icon="Name=搜索"></svg>联网检索</button></div><div><button class="model-chip">FERMI Q LLM<svg data-figma-icon="Name=下"></svg></button><button class="control-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></div>
-          <div class="control-bar focused" aria-label="Focused"><div><button class="attachment-action" aria-label="附件"><svg data-figma-icon="Name=附件"></svg></button><button class="tool-chip active"><svg data-figma-icon="Name=搜索"></svg>联网检索</button></div><div><button class="model-chip">FERMI Q LLM<svg data-figma-icon="Name=下"></svg></button><button class="control-send" aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></div>
-          <div class="control-bar generating" aria-label="Generating"><div><button class="attachment-action" aria-label="附件"><svg data-figma-icon="Name=附件"></svg></button><button class="tool-chip"><svg data-figma-icon="Name=搜索"></svg>联网检索</button></div><div><button class="model-chip">FERMI Q LLM<svg data-figma-icon="Name=下"></svg></button><button class="control-stop" aria-label="停止"><i></i></button></div></div>
-          <div class="control-bar disabled" aria-label="Disabled"><div><button class="attachment-action" disabled aria-label="附件"><svg data-figma-icon="Name=附件"></svg></button><button class="tool-chip" disabled><svg data-figma-icon="Name=搜索"></svg>联网检索</button></div><div><button class="model-chip" disabled>FERMI Q LLM<svg data-figma-icon="Name=下"></svg></button><button class="control-send" disabled aria-label="发送"><svg data-figma-icon="Icon / Send / Base"></svg></button></div></div>
-        </div>
+        <form class="control-bar live-control-bar" data-control-bar>
+          <div>
+            <label class="agent-flow-file attachment-action" title="添加附件"><svg data-figma-icon="Name=附件" aria-hidden="true"></svg><input type="file" aria-label="添加附件"></label>
+            <button class="tool-chip" type="button" aria-pressed="false"><svg data-figma-icon="Name=搜索"></svg>联网检索</button>
+          </div>
+          <div>
+            <button class="model-chip prompt-model" type="button"><span>FERMI Q LLM</span><svg data-figma-icon="Name=下"></svg></button>
+            <button class="control-send" type="submit" aria-label="发送附件" disabled><svg data-figma-icon="Icon / Send / Base"></svg></button>
+            <button class="control-stop" type="button" aria-label="停止任务" hidden><i aria-hidden="true"></i></button>
+          </div>
+        </form>
+        <p class="control-bar-result" role="status"></p>
       </div>
 
       <div class="workspace-block">
         <div class="workspace-block-head"><h3>Composer Attachment 附件状态</h3><p>附件始终保留文件名、类型或大小和处理结果；状态色只用于反馈，不扩散到整张卡片。</p></div>
         <div class="workspace-row attachment-row">
-          <article class="attachment-card"><div class="workspace-icon blue"><svg class="attachment-file-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3H11.2L16 6.29412V16.5882C16 16.6974 15.9368 16.8022 15.8243 16.8794C15.7117 16.9566 15.5591 17 15.4 17H4.6C4.44087 17 4.28826 16.9566 4.17574 16.8794C4.06321 16.8022 4 16.6974 4 16.5882V3Z" stroke="currentColor" stroke-width="1.33333" stroke-linejoin="round"/><path d="M11.8332 3.9165V7.24984H15.1665M8.9165 10.9998H13.0832M8.9165 13.9165H13.0832" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round"/></svg></div><div><h4>research-protocol.pdf</h4><p>上传中 · 62%</p></div><span class="attachment-status info">上传中</span></article>
+          <article class="attachment-card"><div class="workspace-icon blue"><svg class="attachment-file-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3H11.2L16 6.29412V16.5882C16 16.6974 15.9368 16.8022 15.8243 16.8794C15.7117 16.9566 15.5591 17 15.4 17H4.6C4.44087 17 4.28826 16.9566 4.17574 16.8794C4.06321 16.8022 4 16.6974 4 16.5882V3Z" stroke="currentColor" stroke-width="1.33333" stroke-linejoin="round"/><path d="M11.8332 3.9165V7.24984H15.1665M8.9165 10.9998H13.0832M8.9165 13.9165H13.0832" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round"/></svg></div><div><h4>research-protocol.pdf</h4><p>上传中 · 62%</p></div><span class="attachment-status info"><i class="loading-spinner" aria-hidden="true"></i>上传中</span></article>
           <article class="attachment-card"><div class="workspace-icon neutral"><svg class="attachment-file-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3H11.2L16 6.29412V16.5882C16 16.6974 15.9368 16.8022 15.8243 16.8794C15.7117 16.9566 15.5591 17 15.4 17H4.6C4.44087 17 4.28826 16.9566 4.17574 16.8794C4.06321 16.8022 4 16.6974 4 16.5882V3Z" stroke="currentColor" stroke-width="1.33333" stroke-linejoin="round"/><path d="M11.8332 3.9165V7.24984H15.1665M8.9165 10.9998H13.0832M8.9165 13.9165H13.0832" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round"/></svg></div><div><h4>battery-dataset.csv</h4><p>12.4 MB · 等待解析</p></div><span class="attachment-status">待解析</span></article>
           <article class="attachment-card"><div class="workspace-icon green"><svg class="attachment-file-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3H11.2L16 6.29412V16.5882C16 16.6974 15.9368 16.8022 15.8243 16.8794C15.7117 16.9566 15.5591 17 15.4 17H4.6C4.44087 17 4.28826 16.9566 4.17574 16.8794C4.06321 16.8022 4 16.6974 4 16.5882V3Z" stroke="currentColor" stroke-width="1.33333" stroke-linejoin="round"/><path d="M11.8332 3.9165V7.24984H15.1665M8.9165 10.9998H13.0832M8.9165 13.9165H13.0832" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round"/></svg></div><div><h4>electrolyte-data.csv</h4><p>8,240 行 · 已完成解析</p></div><span class="attachment-status success">已解析</span></article>
           <article class="attachment-card error"><div class="workspace-icon danger"><svg class="attachment-file-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3H11.2L16 6.29412V16.5882C16 16.6974 15.9368 16.8022 15.8243 16.8794C15.7117 16.9566 15.5591 17 15.4 17H4.6C4.44087 17 4.28826 16.9566 4.17574 16.8794C4.06321 16.8022 4 16.6974 4 16.5882V3Z" stroke="currentColor" stroke-width="1.33333" stroke-linejoin="round"/><path d="M11.8332 3.9165V7.24984H15.1665M8.9165 10.9998H13.0832M8.9165 13.9165H13.0832" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round"/></svg></div><div><h4>experiment-notes.pdf</h4><p>文件解析失败</p></div><button class="attachment-status danger">重试</button></article>
@@ -753,7 +784,7 @@
         <div class="permission-grid permission-live-grid"><article><h4 data-gate-title></h4><p data-gate-copy></p><button type="button" class="button secondary" data-gate-action></button></article></div>
         <div class="filter-summary" role="status" data-notice-copy></div>
       </div>
-      <div class="component-card"><h3>Permission Item / Base</h3><div class="permission-items"><label><span>查看模型</span><button class="switch active"><i></i></button></label><label><span>编辑渠道</span><button class="switch"><i></i></button></label><label class="locked"><span>管理成员</span><button class="switch active" disabled><i></i></button></label><label class="disabled"><span>删除项目</span><button class="switch" disabled><i></i></button></label></div></div>
+      <div class="component-card"><h3>Permission Item / Base</h3><div class="permission-items"><label><span>查看模型</span><button class="switch active"><i></i></button></label><label><span>编辑渠道</span><button class="switch"><i></i></button></label><label class="locked"><span>管理成员</span><span class="permission-lock"><button class="switch active" type="button" aria-label="管理成员" aria-describedby="permission-locked-note" disabled><i></i></button><small id="permission-locked-note">锁定</small></span></label><label class="disabled"><span>删除项目</span><button class="switch" disabled><i></i></button></label></div></div>
       <div class="component-card permission-matrix-card">
         <div class="component-title-row"><div><h3>Permission Matrix / Base</h3><p>三项管理权限独立授权；全选时为管理员，选中 1–2 项时为部分管理权限。</p></div><em class="status info" data-permission-role>部分管理权限</em></div>
         <div class="permission-matrix" role="table" aria-label="权限矩阵">
@@ -910,9 +941,10 @@
       <div class="section-heading"><div><span class="section-index">18</span><h2>数据可视化</h2><p>统计卡、趋势图、柱状图与图例使用统一数据色，辅助科研结果比较。</p></div><span class="component-count">4 components</span></div>
       <div class="stat-grid"><article><span>模型调用量</span><b>24,680</b><small class="positive">较上周 +12.4%</small></article><article><span>平均响应时间</span><b>1.28s</b><small>近 7 天</small></article><article><span>异常请求</span><b>18</b><small class="negative">需要处理</small></article><article><span>剩余额度</span><b>¥4,620</b><small>企业额度 11%</small></article></div>
       <div class="showcase-grid two-up chart-grid">
-        <div class="component-card"><div class="chart-head"><h3>实验温度趋势</h3><div><span class="legend purple">实验值</span><span class="legend gray">对照组</span></div></div><div class="trend-chart"><span class="y y1">60</span><span class="y y2">40</span><span class="y y3">20</span><span class="y y4">0</span><svg viewBox="0 0 420 160" preserveAspectRatio="none"><polyline class="compare" points="20,135 85,120 150,88 215,100 280,72 345,48 400,60"/><polyline class="primary" points="20,128 85,96 150,110 215,62 280,78 345,28 400,46"/></svg><div class="x-axis"><span>10-01</span><span>10-05</span><span>10-09</span><span>10-13</span></div></div></div>
-        <div class="component-card"><div class="chart-head"><h3>模型调用对比</h3><div><span class="legend blue">本月</span><span class="legend gray">上月</span></div></div><div class="bar-chart"><div><i style="height:54%"></i><b style="height:38%"></b><span>OpenAI</span></div><div><i style="height:82%"></i><b style="height:65%"></b><span>DeepSeek</span></div><div><i style="height:68%"></i><b style="height:52%"></b><span>Moonshot</span></div><div><i style="height:44%"></i><b style="height:30%"></b><span>智谱</span></div></div></div>
+        <div class="component-card"><div class="chart-head"><h3>实验温度趋势</h3><div><span class="legend purple">实验值</span><span class="legend gray">对照组</span></div></div><p class="chart-unit">单位：°C</p><div class="trend-chart"><span class="y y1">60</span><span class="y y2">40</span><span class="y y3">20</span><span class="y y4">0</span><svg viewBox="0 0 420 160" preserveAspectRatio="none"><polyline class="compare" points="20,135 85,120 150,88 215,100 280,72 345,48 400,60"/><polyline class="primary" points="20,128 85,96 150,110 215,62 280,78 345,28 400,46"/></svg><div class="x-axis"><span>10-01</span><span>10-05</span><span>10-09</span><span>10-13</span></div></div></div>
+        <div class="component-card"><div class="chart-head"><h3>模型调用对比</h3><div><span class="legend purple">本月</span><span class="legend gray">上月</span><span class="legend threshold">阈值</span></div></div><p class="chart-unit">单位：%</p><div class="bar-chart"><div><i style="height:54%"></i><b style="height:38%"></b><span>OpenAI</span></div><div><i style="height:82%"></i><b style="height:65%"></b><span>DeepSeek</span></div><div><i style="height:68%"></i><b style="height:52%"></b><span>Moonshot</span></div><div><i style="height:44%"></i><b style="height:30%"></b><span>智谱</span></div></div></div>
       </div>
+      <p><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-7836">查看 Figma 图表规范</a></p>
     </section>
 
     <section class="doc-section component-section" id="overlays" data-search="弹窗 modal drawer 手动恢复 删除成员 停用渠道">
@@ -958,10 +990,10 @@
     <button type="button" role="option" data-core-select-option="知识库"><span>知识库</span><svg><use href="#i-check"/></svg></button>
     <button type="button" role="option" data-core-select-option="数据分析工具"><span>数据分析工具</span><svg><use href="#i-check"/></svg></button>
   </div>
-  <div class="menu-demo account-demo-menu" id="accountDemoMenu" popover role="menu" aria-label="账户操作">
-    <button type="button" role="menuitem">个人资料</button>
-    <button type="button" role="menuitem">账户设置</button>
-    <button type="button" role="menuitem" class="danger">退出登录</button>
+  <div class="menu-demo account-demo-menu" id="accountDemoMenu" popover role="group" aria-label="账户操作">
+    <button type="button">个人资料</button>
+    <button type="button">账户设置</button>
+    <button type="button" class="danger">退出登录</button>
   </div>
   <div class="core-select-menu status-select-menu" id="statusSelectMenu" popover role="listbox" aria-label="选择运行状态">
     <button type="button" role="option" data-status-option="运行中"><span>运行中</span><svg><use href="#i-check"/></svg></button>
@@ -990,6 +1022,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=39"></script>
+  <script src="script.js?v=40"></script>
 </body>
 </html>
