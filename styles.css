@@ -1329,7 +1329,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .mobile-message { max-width: 100%; padding: 12px; overflow-wrap: anywhere; white-space: pre-wrap; background: var(--surface-card); border-radius: var(--radius-12); }
 .mobile-message.user { justify-self: end; max-width: 88%; background: var(--brand-50); }
 .mobile-response-actions { display: flex; flex-wrap: wrap; gap: 4px; }
-.mobile-response-actions [aria-pressed="true"], .mobile-voice[aria-pressed="true"] { color: var(--action-primary); background: var(--brand-50); }
+.mobile-response-actions [aria-pressed="true"] { color: var(--action-primary); background: var(--brand-50); }
 .mobile-composer textarea { width: 100%; min-height: 44px; max-height: 88px; padding: 8px 4px; outline: 0; color: var(--text-primary); resize: none; field-sizing: content; border: 0; background: transparent; font: inherit; font-size: 16px; }
 .mobile-file { position: relative; }
 .mobile-file input { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
@@ -1348,7 +1348,8 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .mobile-agent-phone .core-input { width: 100%; min-height: 44px; }
 .mobile-agent-phone .core-input:focus { border-color: var(--action-primary); outline: none; }
 .mobile-agent-phone .core-input.error:focus { border-color: var(--danger); }
-.mobile-drawer-tools { display: flex; }
+.mobile-drawer-logo { display: block; max-width: 100%; height: auto; }
+.mobile-drawer-tools { display: flex; flex: none; }
 .mobile-drawer :is(.workspace-nav-item, .conversation-item, .account-menu-row, .conversation-group-header) { width: 100%; border: 0; }
 .mobile-drawer :is(.workspace-nav-item, .conversation-item, .account-menu-row) { min-height: 44px; cursor: pointer; }
 .mobile-drawer :is(.workspace-nav-item, .conversation-item, .account-menu-row):hover { background: var(--surface-hover); }
@@ -1363,8 +1364,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .mobile-composer.prompt-variant { width: auto; height: auto; gap: var(--space-8); margin: 0 12px max(12px, env(safe-area-inset-bottom)); padding: var(--space-12); }
 .mobile-composer:focus-within { border-color: var(--action-primary); }
 .mobile-composer-row { height: auto; }
-.mobile-composer-row .prompt-model { margin-inline-start: auto; }
-.mobile-composer-row .mobile-voice { min-width: 44px; }
+.mobile-composer-row .prompt-model { flex: 0 0 auto; margin-inline-start: auto; padding-inline: 12px !important; white-space: nowrap; background: var(--surface-selected); border-radius: var(--radius-full); }
 .mobile-composer-row .prompt-send:disabled { opacity: .38; }
 .mobile-response-actions .button { min-width: 44px; padding-inline: 6px; }
 .mobile-auth-form .mobile-auth-status:not(.error) { color: var(--text-secondary); }

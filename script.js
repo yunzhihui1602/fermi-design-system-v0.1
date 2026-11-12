@@ -1384,7 +1384,6 @@ if (mobileAgent) {
   const attachment = find('.mobile-attachment');
   const send = find('.mobile-send');
   const stop = find('[data-mobile-stop]');
-  const voice = find('.mobile-voice');
   const work = find('.mobile-work-cards');
   const welcome = find('.mobile-welcome');
   const auth = find('.mobile-auth-screen');
@@ -1524,12 +1523,6 @@ if (mobileAgent) {
     attachment.textContent = file.files[0]?.name ?? '';
     attachment.hidden = !file.files.length;
     syncComposer();
-  });
-  voice.addEventListener('click', () => {
-    const recording = voice.getAttribute('aria-pressed') === 'false';
-    voice.setAttribute('aria-pressed', String(recording));
-    voice.textContent = recording ? '结束' : '语音';
-    showToast(recording ? '语音输入状态演示' : '已结束语音演示');
   });
   const finish = (stopped) => {
     pending.text = stopped ? '已停止生成。' : '已收到请求。可继续补充实验条件，或让我将关键发现整理成清单。（演示）';
