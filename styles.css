@@ -326,6 +326,137 @@ pre { margin: 0; padding: 16px; overflow: auto; color: var(--neutral-700); backg
 .quota-card > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }.quota-card span { color: var(--text-secondary); }.quota-card b { color: var(--text-strong); font-size: 22px; }
 .quota-meta { display: flex; justify-content: space-between; margin-top: 22px; font-size: 12px; }.quota-meta strong { color: var(--text-primary); }
 .progress { height: 7px; margin-top: 8px; overflow: hidden; background: var(--neutral-100); border-radius: var(--radius-full); }.progress i { display: block; height: 100%; background: var(--brand-600); border-radius: inherit; }.progress.blue i { background: var(--info); }
+.usage-quota-board {
+  container-type: inline-size;
+  margin-block-end: var(--space-16);
+  background: var(--surface-page);
+}
+.usage-quota-board > h3 { font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+.usage-quota-board > p,
+.usage-quota-group > p {
+  margin: var(--space-4) 0 var(--space-12);
+  color: var(--text-secondary);
+}
+.usage-quota-group { margin-block-start: var(--space-32); }
+.usage-quota-group h4, .usage-quota-rules h4 { margin: 0; color: var(--text-strong); }
+.usage-quota-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-16);
+}
+.usage-progress, .quota-status-card {
+  min-width: 0;
+  padding: var(--space-16);
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-8);
+}
+.usage-progress {
+  display: grid;
+  align-content: start;
+  gap: var(--space-12);
+  min-height: 136px;
+  --usage-fill: var(--action-primary);
+  --usage-percent: var(--action-primary);
+  --usage-note: var(--text-secondary);
+}
+.usage-progress[data-state="warning"] {
+  --usage-fill: var(--warning);
+  --usage-percent: #85570c;
+  --usage-note: var(--usage-percent);
+}
+.usage-progress[data-state="exhausted"] {
+  --usage-fill: var(--danger);
+  --usage-percent: #b42318;
+  --usage-note: var(--usage-percent);
+}
+.usage-progress[data-state="empty"] { --usage-percent: var(--text-secondary); }
+.usage-progress header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-8);
+  line-height: 20px;
+  color: var(--text-strong);
+}
+.usage-progress header strong { color: var(--usage-percent); font-variant-numeric: tabular-nums; }
+.usage-progress p, .quota-status-card small {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+.usage-progress .usage-progress-note { color: var(--usage-note); }
+.usage-progress .progress { height: 8px; margin-top: var(--space-4); background: var(--surface-hover); }
+.usage-progress .progress i { background: var(--usage-fill); }
+.quota-status-card { display: grid; align-content: start; gap: var(--space-4); min-height: 112px; }
+.quota-status-card header {
+  position: relative;
+  padding-inline-end: 88px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
+}
+.quota-status-card header .core-badge { position: absolute; inset: 0 0 auto auto; }
+.quota-status-card strong {
+  color: var(--text-strong);
+  font-size: 20px;
+  line-height: 28px;
+  font-variant-numeric: tabular-nums;
+}
+.usage-quota-board .core-badge { width: 88px; max-width: 100%; padding-inline: 12px; white-space: nowrap; }
+.usage-quota-board .core-badge i { width: 8px; height: 8px; flex: none; }
+.usage-quota-board .core-badge.success i { background: var(--success); }
+.usage-quota-board .core-badge.warning i { background: var(--warning); }
+.usage-quota-board .core-badge.danger i { background: var(--danger); }
+.usage-quota-board .core-badge.neutral i { background: var(--text-tertiary); }
+.usage-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 12px;
+  line-height: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.usage-detail-table th, .usage-detail-table td {
+  height: 48px;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border-default);
+  text-align: left;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+.usage-detail-table thead th { height: 40px; color: var(--text-secondary); font-weight: 500; }
+.usage-detail-table thead th:nth-child(-n+2) { width: 18%; }
+.usage-detail-table thead th:last-child { width: 16%; }
+.usage-detail-table tbody { background: var(--surface-card); }
+.usage-detail-table tbody th { font-weight: 400; }
+.usage-detail-table [data-state="revoked"] { color: var(--text-secondary); }
+.usage-detail-table tfoot { color: var(--text-strong); font-weight: 600; }
+.usage-detail-label { display: none; }
+.usage-quota-rules {
+  margin-block: var(--space-32) var(--space-12);
+  padding: var(--space-16);
+  color: var(--text-secondary);
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-8);
+}
+.usage-quota-rules ul { margin: var(--space-8) 0 0; padding-inline-start: var(--space-20); }
+@container (width < 940px) {
+  .usage-quota-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container (width < 680px) {
+  .usage-detail-table, .usage-detail-table :is(tbody, tfoot) { display: block; }
+  .usage-detail-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .usage-detail-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-8); border-bottom: 1px solid var(--border-default); }
+  .usage-detail-table :is(th, td) { height: auto; border-bottom: 0; }
+  .usage-detail-table tbody th, .usage-detail-table tfoot th { grid-column: 1 / -1; font-weight: 600; }
+  .usage-detail-table td:empty { display: none; }
+  .usage-detail-label { display: block; margin-bottom: var(--space-4); color: var(--text-secondary); font-weight: 400; }
+}
+@container (width < 440px) {
+  .usage-quota-grid { grid-template-columns: minmax(0, 1fr); }
+}
 .status-preview { min-height: 100px; }.business-status { display: inline-flex; min-height: 26px; align-items: center; padding: 0 10px; font-size: 12px; font-style: normal; border: 1px solid; border-radius: var(--radius-full); }.business-status.recharge, .business-status.assign { color: #16794d; background: var(--success-soft); border-color: #c7eadb; }.business-status.reduce { color: #85570c; background: var(--warning-soft); border-color: #f4dfaa; }.business-status.reclaim, .business-status.void { color: #b42318; background: var(--danger-soft); border-color: #f4c7c3; }
 .ledger-type-card .component-title-row { margin-bottom: 20px; }
 .ledger-type-preview { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; min-height: 100px; }

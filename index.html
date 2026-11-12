@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=60">
+  <link rel="stylesheet" href="styles.css?v=61">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -847,8 +847,121 @@
       </div>
     </section>
 
-    <section class="doc-section component-section" id="business" data-search="业务 额度 quota progress status 交易 类型 登记充值 下调 回收 分配 作废">
+    <section class="doc-section component-section" id="business" data-search="业务 额度 统计与用量进度 配额状态 用量明细 usage detail quota progress status 交易 类型 登记充值 下调 回收 分配 作废">
       <div class="section-heading"><div><span class="section-index">16</span><h2>额度与业务状态</h2><p>用于 Router 控制台的配额进度、业务类型与成员状态。</p></div><span class="component-count">Router business</span></div>
+      <section class="component-card usage-quota-board" id="usage-quota" aria-labelledby="usage-quota-title">
+        <h3 id="usage-quota-title">统计与用量进度</h3>
+        <p>用于个人与企业额度概览。进度颜色表达使用阈值。</p>
+
+        <!-- fermi-component: {"id":"933:14943","name":"Usage Progress / Base","properties":["Label","Meta","Percent","State"],"variants":["State=Normal","State=Warning","State=Exhausted","State=Empty"]} -->
+        <section class="usage-quota-group" aria-labelledby="usage-progress-title">
+          <h4 id="usage-progress-title">Usage Progress 用量进度</h4>
+          <p>显示已用金额、总额度和使用比例。百分比放在右上，进度从左侧起点填充。</p>
+          <div class="usage-quota-grid">
+            <article class="usage-progress" data-state="normal">
+              <header><b>使用进度</b><strong>35%</strong></header>
+              <p>已用 ¥700.00 / 总额度 ¥2,000.00</p>
+              <div class="progress" role="progressbar" aria-label="额度状态正常" aria-valuenow="35"><i style="width:35%"></i></div>
+              <p class="usage-progress-note">额度状态正常</p>
+            </article>
+            <article class="usage-progress" data-state="warning">
+              <header><b>使用进度</b><strong>87.1%</strong></header>
+              <p>已用 ¥1,742.60 / 总额度 ¥2,000.00</p>
+              <div class="progress" role="progressbar" aria-label="剩余额度不足 20%" aria-valuenow="87.1"><i style="width:87.1%"></i></div>
+              <p class="usage-progress-note">剩余额度不足 20%</p>
+            </article>
+            <article class="usage-progress" data-state="exhausted">
+              <header><b>使用进度</b><strong>100%</strong></header>
+              <p>已用 ¥2,000.00 / 总额度 ¥2,000.00</p>
+              <div class="progress" role="progressbar" aria-label="额度已用尽，请联系管理员" aria-valuenow="100"><i style="width:100%"></i></div>
+              <p class="usage-progress-note">额度已用尽，请联系管理员</p>
+            </article>
+            <article class="usage-progress" data-state="empty">
+              <header><b>使用进度</b><strong>0%</strong></header>
+              <p>当前未分配额度</p>
+              <div class="progress" aria-hidden="true"></div>
+              <p class="usage-progress-note">分配额度后开始统计</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- fermi-component: {"id":"933:14974","name":"Quota Status / Base","properties":["Label","Value","Note","State"],"variants":["State=Available","State=Low","State=Exhausted","State=Unlimited"]} -->
+        <section class="usage-quota-group" aria-labelledby="quota-status-title">
+          <h4 id="quota-status-title">Quota Status 配额状态</h4>
+          <p>用于概览卡或成员列表，状态标签复用 Status Badge。</p>
+          <div class="usage-quota-grid">
+            <article class="quota-status-card" data-state="available">
+              <header><span>剩余额度</span><span class="core-badge success"><i aria-hidden="true"></i>充足</span></header>
+              <strong>¥1,300.00</strong>
+              <small>占总额度 65%</small>
+            </article>
+            <article class="quota-status-card" data-state="low">
+              <header><span>剩余额度</span><span class="core-badge warning"><i aria-hidden="true"></i>偏低</span></header>
+              <strong>¥257.40</strong>
+              <small>占总额度 12.9%</small>
+            </article>
+            <article class="quota-status-card" data-state="exhausted">
+              <header><span>剩余额度</span><span class="core-badge danger"><i aria-hidden="true"></i>已用尽</span></header>
+              <strong>¥0.00</strong>
+              <small>调用已暂停</small>
+            </article>
+            <article class="quota-status-card" data-state="unlimited">
+              <header><span>额度模式</span><span class="core-badge brand"><i aria-hidden="true"></i>不限额</span></header>
+              <strong>不限额</strong>
+              <small>按实际用量计费</small>
+            </article>
+          </div>
+        </section>
+
+        <!-- fermi-component: {"id":"933:15008","name":"Usage Detail Row / Base","properties":["Key Name","Masked Key","Period Cost","Calls","Total Cost","State"],"variants":["State=Active","State=Revoked","State=Total"]} -->
+        <section class="usage-quota-group" aria-labelledby="usage-detail-title">
+          <h4 id="usage-detail-title">Usage Detail 用量明细</h4>
+          <p>按密钥展示区间费用、调用次数和累计费用。表格使用演示数据。</p>
+          <table class="usage-detail-table" role="table" aria-labelledby="usage-detail-title">
+            <thead role="rowgroup">
+              <tr role="row"><th scope="col" role="columnheader">密钥名</th><th scope="col" role="columnheader">密钥</th><th scope="col" role="columnheader">区间费用</th><th scope="col" role="columnheader">区间调用次数</th><th scope="col" role="columnheader">累计费用</th><th scope="col" role="columnheader">状态</th></tr>
+            </thead>
+            <tbody role="rowgroup">
+              <tr role="row" data-state="active">
+                <th scope="row" role="rowheader">Claude Code 用</th>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">密钥</span><span>sk-4a1d…7f90</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间费用</span><span>¥2.70</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间调用次数</span><span>2</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">累计费用</span><span>¥542.19</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">状态</span><span><span class="core-badge success"><i aria-hidden="true"></i>有效</span></span></td>
+              </tr>
+              <tr role="row" data-state="revoked">
+                <th scope="row" role="rowheader">Claude Code 用</th>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">密钥</span><span>sk-5b2e…8a01</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间费用</span><span>¥1.50</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间调用次数</span><span>5</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">累计费用</span><span>¥1,200.41</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">状态</span><span><span class="core-badge neutral"><i aria-hidden="true"></i>已撤销</span></span></td>
+              </tr>
+            </tbody>
+            <tfoot role="rowgroup">
+              <tr role="row" data-state="total">
+                <th scope="row" role="rowheader">合计</th>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">密钥</span><span>—</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间费用</span><span>¥4.20</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">区间调用次数</span><span>7</span></td>
+                <td role="cell"><span class="usage-detail-label" aria-hidden="true">累计费用</span><span>¥1,742.60</span></td>
+                <td role="cell"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </section>
+
+        <aside class="usage-quota-rules" aria-label="用量与配额使用规则">
+          <h4>使用规则</h4>
+          <ul>
+            <li>低于 80% 为正常，达到 80% 且低于 100% 为接近上限，100% 为已用尽。</li>
+            <li>金额保留两位小数，明细按区间费用降序，已撤销密钥保留历史用量。</li>
+            <li>未分配额度时显示空状态。不限额时注明计费方式。</li>
+          </ul>
+        </aside>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=1196-29063">查看 Figma 原稿</a>
+      </section>
       <div class="business-grid">
         <article class="quota-card"><div><span>企业总额度</span><b>¥42,000.00</b></div><div class="quota-meta"><span>已分配 ¥37,380</span><strong>89%</strong></div><div class="progress"><i style="width:89%"></i></div></article>
         <article class="quota-card"><div><span>全员已用</span><b>¥27,145.00</b></div><div class="quota-meta"><span>本月用量</span><strong>65%</strong></div><div class="progress blue"><i style="width:65%"></i></div></article>
@@ -966,7 +1079,9 @@
         <div><code>Right-side Drawer / Base</code><code>.drawer</code><code>&lt;Drawer variant="member" /&gt;</code></div>
         <div><code>Permission Gate / Base</code><code>.permission-grid</code><code>&lt;PermissionGate state="" /&gt;</code></div>
         <div><code>Upload Dropzone / Base</code><code>.dropzone</code><code>&lt;UploadDropzone state="" /&gt;</code></div>
-        <div><code>Usage Progress / Base</code><code>.progress</code><code>&lt;UsageProgress state="" /&gt;</code></div>
+        <div><code>Usage Progress / Base</code><code>.usage-progress</code><code>&lt;UsageProgress state="" /&gt;</code></div>
+        <div><code>Quota Status / Base</code><code>.quota-status-card</code><code>&lt;QuotaStatus state="" /&gt;</code></div>
+        <div><code>Usage Detail Row / Base</code><code>.usage-detail-table tr[data-state]</code><code>&lt;UsageDetailRow state="" /&gt;</code></div>
         <div><code>Table Action Button</code><code>.table-action</code><code>&lt;TableAction action="" state="" /&gt;</code></div>
         <div><code>Router Console Page Template</code><code>.router-layout</code><code>&lt;RouterPage type="list" /&gt;</code></div>
         <div><code>Permission Matrix / Base</code><code>.permission-matrix</code><code>&lt;PermissionMatrix role="" permissions={} /&gt;</code></div>
