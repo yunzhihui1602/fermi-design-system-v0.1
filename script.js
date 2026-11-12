@@ -1174,6 +1174,29 @@ coreSelectMenu?.querySelectorAll('[data-core-select-option]').forEach((option) =
 });
 
 const accountTrigger = document.querySelector('[data-account-trigger]');
+document.querySelectorAll('.conversation-menu').forEach((menu) => {
+  const trigger = menu.previousElementSibling;
+  const placeMenu = () => {
+    if (!menu.matches(':popover-open')) return;
+    const anchor = trigger.getBoundingClientRect();
+    const { width, height } = menu.getBoundingClientRect();
+    const left = Math.min(anchor.left - 8, window.innerWidth - width - 8);
+    const above = anchor.top - height - 4;
+    menu.style.left = `${Math.max(8, left)}px`;
+    menu.style.top = `${above >= 8 ? above : Math.max(8, Math.min(anchor.bottom + 4, window.innerHeight - height - 8))}px`;
+  };
+  menu.addEventListener('toggle', placeMenu);
+  window.addEventListener('resize', placeMenu);
+  window.addEventListener('scroll', placeMenu, { capture: true, passive: true });
+  menu.addEventListener('click', (event) => {
+    const action = event.target.closest('button');
+    if (!action) return;
+    menu.closest('.navigation-block').querySelector('.workspace-action-result').textContent =
+      `已选择「${action.textContent.trim()}」（组件演示）`;
+    menu.hidePopover();
+    trigger.focus();
+  });
+});
 const workspaceMenus = [...document.querySelectorAll('.workspace-action-menu')];
 for (const menu of workspaceMenus) {
   const trigger = menu.querySelector('summary');
@@ -1387,12 +1410,118 @@ document.querySelectorAll('[data-copy]').forEach((button) => {
   });
 });
 
-const modalOverlay = document.querySelector('#modalOverlay');
-const openModal = () => { modalOverlay.hidden = false; document.body.style.overflow = 'hidden'; };
-const closeModal = () => { modalOverlay.hidden = true; document.body.style.overflow = ''; };
-document.querySelector('[data-open-modal]').addEventListener('click', openModal);
-document.querySelectorAll('[data-close-modal]').forEach((button) => button.addEventListener('click', closeModal));
-modalOverlay.addEventListener('click', (event) => { if (event.target === modalOverlay) closeModal(); });
+const transactionSpecimen = document.querySelector('#transaction-modal');
+const transactionDialog = document.querySelector('#transactionDialog');
+if (transactionSpecimen && transactionDialog) {
+  const form = transactionDialog.querySelector('form');
+  const body = form.querySelector('.tx-body');
+  const submit = form.querySelector('[data-tx-submit]');
+  const dismiss = form.querySelectorAll('[data-tx-dismiss]');
+  const currency = new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' });
+  const cases = new Map([...document.querySelectorAll('template[data-tx-case]')].map(template => [template.dataset.txCase, template]));
+  let activeCase;
+  let opener;
+
+  const sync = () => {
+    const match = body.querySelector('[data-tx-match]');
+    const ack = body.querySelector('[data-tx-ack]');
+    if (match) {
+      const invalid = Boolean(match.value) && match.value !== match.dataset.txMatch;
+      match.setCustomValidity(match.value !== match.dataset.txMatch ? '请输入匹配的名称' : '');
+      match.setAttribute('aria-invalid', String(invalid));
+      match.classList.toggle('error', invalid);
+      body.querySelector('.tx-error').hidden = !invalid;
+    }
+    const amount = body.querySelector('[data-tx-amount]');
+    if (amount) {
+      const valid = amount.validity.valid;
+      body.querySelector('[data-tx-preview]').textContent = valid ? currency.format(amount.valueAsNumber) : '—';
+      const difference = body.querySelector('[data-tx-difference]');
+      if (difference) {
+        const delta = amount.valueAsNumber - 10000;
+        difference.textContent = !valid ? '—' : delta === 0 ? '额度未变化' :
+          `${delta > 0 ? '增加' : '减少'} ${currency.format(Math.abs(delta))}`;
+      }
+    }
+    const locked = Boolean(ack && !ack.checked);
+    dismiss.forEach(button => { button.disabled = locked; });
+    submit.disabled = locked || !form.checkValidity();
+  };
+  const render = (type) => {
+    const template = cases.get(type);
+    activeCase = type;
+    transactionDialog.dataset.type = type;
+    transactionDialog.dataset.state = template.dataset.state;
+    form.querySelector('#transactionTitle').textContent = template.dataset.title;
+    form.querySelector('#transactionDescription').textContent = template.dataset.description;
+    submit.textContent = template.dataset.action;
+    submit.classList.toggle('tx-danger', template.hasAttribute('data-danger'));
+    const content = template.content.cloneNode(true);
+    bindFigmaIcons(content);
+    body.replaceChildren(content);
+    body.scrollTop = 0;
+    sync();
+  };
+  transactionSpecimen.querySelectorAll('[data-tx-open]').forEach(button => {
+    button.addEventListener('click', () => {
+      opener = button;
+      render(button.dataset.txOpen);
+      transactionDialog.showModal();
+      (body.querySelector('input:not([readonly])') ?? dismiss[1]).focus();
+    });
+  });
+  transactionSpecimen.querySelectorAll('[data-tx-row-demo]').forEach(demo => {
+    const select = demo.querySelector('[data-tx-size]');
+    select.addEventListener('change', () => { demo.querySelector('[data-size]').dataset.size = select.value; });
+  });
+  const stepNumber = (event) => {
+    const button = event.target.closest('[data-tx-step]');
+    if (!button) return;
+    const input = button.closest('.base-number').querySelector('input');
+    if (button.dataset.txStep === 'up') input.stepUp();
+    else input.stepDown();
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  transactionSpecimen.addEventListener('click', stepNumber);
+  form.addEventListener('click', stepNumber);
+  form.addEventListener('input', sync);
+  form.addEventListener('change', sync);
+  form.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-tx-copy]');
+    if (!button) return;
+    const secret = form.querySelector('#tx-secret');
+    const caption = body.querySelector('.tx-caption');
+    try {
+      await navigator.clipboard.writeText(secret.value);
+      caption.textContent = '已复制演示密钥。';
+    } catch {
+      secret.focus();
+      secret.select();
+      caption.textContent = '已选中演示密钥，请手动复制。';
+    }
+  });
+  dismiss.forEach(button => button.addEventListener('click', () => transactionDialog.close()));
+  transactionDialog.addEventListener('cancel', (event) => {
+    if (dismiss[0].disabled) event.preventDefault();
+  });
+  transactionDialog.addEventListener('close', () => {
+    body.replaceChildren();
+    opener?.focus();
+  });
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    sync();
+    if (submit.disabled) return;
+    if (activeCase === 'CreateKey') {
+      render('SecretCreated');
+      body.querySelector('[data-tx-ack]').focus();
+      return;
+    }
+    const title = cases.get(activeCase).dataset.title;
+    transactionDialog.close();
+    showToast(`${title} · 已完成演示`);
+  });
+}
 
 const drawer = document.querySelector('#drawer');
 const openDrawer = () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden', 'false'); };
@@ -1414,7 +1543,7 @@ searchPopover.addEventListener('click', () => { searchInput.value = ''; searchPo
 document.addEventListener('click', (event) => { if (!event.target.closest('.doc-search') && !event.target.closest('.search-popover')) searchPopover.hidden = true; });
 document.addEventListener('keydown', (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); searchInput.focus(); }
-  if (event.key === 'Escape') { closeModal(); closeDrawer(); searchPopover.hidden = true; }
+  if (event.key === 'Escape') { closeDrawer(); searchPopover.hidden = true; }
 });
 
 const mobileAgent = document.querySelector('[data-mobile-agent]');

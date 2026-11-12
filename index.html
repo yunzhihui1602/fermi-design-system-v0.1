@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=61">
+  <link rel="stylesheet" href="styles.css?v=62">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -340,8 +340,24 @@
           <!-- fermi-component: {"id":"910:6692","name":"Conversation List Item","properties":["Title","More Icon","State"],"variants":["State=Default","State=Hover","State=Current","State=Disabled"]} -->
           <div id="conversation-demo">
             <fieldset class="conversation-options" aria-label="选择会话">
-              <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label><details class="workspace-action-menu"><summary aria-label="固态电池研发任务的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
-              <div class="conversation-demo-row"><label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label><details class="workspace-action-menu"><summary aria-label="实验数据分析的更多操作"><svg data-figma-icon="Name=更多" aria-hidden="true"></svg></summary><div class="menu-demo"><button type="button">重命名</button><button type="button">归档</button></div></details></div>
+              <div class="conversation-demo-row">
+                <label><input type="radio" name="workspace-conversation" checked><span class="conversation-item">固态电池研发任务</span></label>
+                <button class="icon-button conversation-more" type="button" popovertarget="conversation-menu-research" aria-label="固态电池研发任务的更多操作"><svg data-figma-icon="Name=更多"></svg></button>
+                <div class="menu-demo conversation-menu" id="conversation-menu-research" popover aria-label="固态电池研发任务的更多操作">
+                  <button type="button"><svg data-figma-icon="Name=编辑"></svg>重命名</button>
+                  <hr>
+                  <button type="button"><svg data-figma-icon="Name=文件"></svg>归档</button>
+                </div>
+              </div>
+              <div class="conversation-demo-row">
+                <label><input type="radio" name="workspace-conversation"><span class="conversation-item">实验数据分析</span></label>
+                <button class="icon-button conversation-more" type="button" popovertarget="conversation-menu-analysis" aria-label="实验数据分析的更多操作"><svg data-figma-icon="Name=更多"></svg></button>
+                <div class="menu-demo conversation-menu" id="conversation-menu-analysis" popover aria-label="实验数据分析的更多操作">
+                  <button type="button"><svg data-figma-icon="Name=编辑"></svg>重命名</button>
+                  <hr>
+                  <button type="button"><svg data-figma-icon="Name=文件"></svg>归档</button>
+                </div>
+              </div>
               <label><input type="radio" name="workspace-conversation" disabled><span class="conversation-item disabled">已归档的会话</span></label>
             </fieldset>
           </div>
@@ -1062,8 +1078,47 @@
 
     <section class="doc-section component-section" id="overlays" data-search="弹窗 modal drawer 手动恢复 删除成员 停用渠道">
       <div class="section-heading"><div><span class="section-index">19</span><h2>弹窗与抽屉</h2><p>头部、关闭按钮、正文与底部操作区使用统一结构；关闭图标为单层 18px。</p></div><span class="component-count">17 variants</span></div>
-      <div class="overlay-launchers"><button class="button secondary" data-open-modal>预览事务弹窗</button><button class="button secondary" data-open-drawer>预览右侧抽屉</button></div>
-      <div class="variant-list"><span>撤销成员密钥</span><span>禁用成员</span><span>手动恢复</span><span>停用渠道</span><span>删除渠道</span></div>
+      <section class="component-card tx-specimen" id="transaction-modal" aria-labelledby="transaction-heading">
+        <h3 id="transaction-heading">事务弹窗 · 交互演示</h3>
+        <p>选择一个场景，体验输入校验、二次确认与结果反馈。操作使用演示数据。</p>
+        <!-- fermi-component: {"id":"964:10679","name":"Transaction Modal / Base","properties":["Type","State"],"variants":["Type=CreateKey, State=Default","Type=SecretCreated, State=Success","Type=Recharge, State=Default","Type=RevokeKey, State=Confirmation","Type=DeleteMember, State=Confirmation","Type=AdjustQuota, State=Default","Type=RevokeMemberKey, State=Confirmation","Type=DisableMember, State=Confirmation","Type=ManualRestore, State=Confirmation","Type=DisableChannel, State=Confirmation","Type=DeleteChannel, State=Confirmation"]} -->
+        <div class="overlay-launchers tx-launchers">
+          <button class="button secondary" type="button" data-tx-open="CreateKey">新建 API 密钥</button>
+          <button class="button secondary" type="button" data-tx-open="SecretCreated">密钥创建成功</button>
+          <button class="button secondary" type="button" data-tx-open="Recharge">账户充值</button>
+          <button class="button secondary" type="button" data-tx-open="RevokeKey">撤销 API 密钥</button>
+          <button class="button secondary" type="button" data-tx-open="DeleteMember">删除成员</button>
+          <button class="button secondary" type="button" data-tx-open="AdjustQuota">调整成员额度</button>
+          <button class="button secondary" type="button" data-tx-open="RevokeMemberKey">撤销成员密钥</button>
+          <button class="button secondary" type="button" data-tx-open="DisableMember">禁用成员</button>
+          <button class="button secondary" type="button" data-tx-open="ManualRestore">手动恢复</button>
+          <button class="button secondary" type="button" data-tx-open="DisableChannel">停用渠道</button>
+          <button class="button secondary" type="button" data-tx-open="DeleteChannel">删除渠道</button>
+        </div>
+
+        <!-- fermi-component: {"id":"972:10772","name":"Modal Form Row / Base","properties":["Label","Control","Size"],"variants":["Control=Input, Size=Regular","Control=Select, Size=Regular","Control=Number, Size=Regular","Control=Input, Size=Compact","Control=Select, Size=Compact","Control=Number, Size=Compact"]} -->
+        <div class="tx-row-demo" data-tx-row-demo>
+          <h4>Modal Form Row 弹窗表单行</h4>
+          <label>尺寸 <select data-tx-size><option value="regular">常规</option><option value="compact">紧凑</option></select></label>
+          <div class="tx-form-preview" data-size="regular">
+            <div class="tx-field"><label for="tx-example-input">文本输入</label><input class="core-input" id="tx-example-input" value="示例内容"></div>
+            <div class="tx-field"><label for="tx-example-select">选择器</label><span class="filter-select"><select class="core-input" id="tx-example-select"><option>费米智能体</option><option>知识库</option></select><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></div>
+            <div class="tx-field"><label for="tx-example-number">数值输入</label><div class="base-number"><input id="tx-example-number" type="number" value="128" min="0" step="1" required inputmode="numeric" ><em>次</em><i class="number-stepper"><button type="button" data-tx-step="up" aria-label="增加"><svg data-figma-icon="Name=上" aria-hidden="true"></svg></button><button type="button" data-tx-step="down" aria-label="减少"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button></i></div></div>
+          </div>
+        </div>
+
+        <!-- fermi-component: {"id":"972:10789","name":"Detail List Row / Base","properties":["Label","Value","Size","Tone"],"variants":["Size=Drawer, Tone=Default","Size=Drawer, Tone=Success","Size=Modal, Tone=Default","Size=Modal, Tone=Success"]} -->
+        <div class="tx-row-demo" data-tx-row-demo>
+          <h4>Detail List Row 通用键值行</h4>
+          <label>尺寸 <select data-tx-size><option value="modal">弹窗</option><option value="drawer">抽屉</option></select></label>
+          <div class="tx-detail-preview" data-size="modal">
+            <dl class="tx-details"><div><dt>已分配额度</dt><dd>¥10,000.00</dd></div><div class="positive"><dt>预计退回</dt><dd>¥1,100.00</dd></div></dl>
+          </div>
+        </div>
+        <p class="rule-note">关闭使用组件库的 18 px 图标。危险操作在确认按钮使用红色。</p>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=964-10680">查看 Figma 事务弹窗</a>
+      </section>
+      <div class="overlay-launchers"><button class="button secondary" data-open-drawer>预览右侧抽屉</button></div>
       <div class="component-card state-card"><h3>Modal Size / Drawer Type</h3><div class="overlay-size-grid"><div class="modal-size small"><b>Small</b><span>确认类操作</span></div><div class="modal-size medium"><b>Medium</b><span>常规表单</span></div><div class="modal-size large"><b>Large</b><span>复杂配置</span></div><div class="drawer-type"><b>Model</b><span>模型详情</span></div><div class="drawer-type"><b>API Key</b><span>密钥详情</span></div><div class="drawer-type"><b>Member</b><span>成员详情</span></div><div class="drawer-type loading"><b>Loading</b><span>骨架状态</span></div></div></div>
     </section>
 
@@ -1121,13 +1176,66 @@
     <button type="button" role="option" data-model-type-option="reasoning" aria-selected="false"><span>推理模型</span><svg><use href="#i-check"/></svg></button>
   </div>
 
-  <div class="overlay" id="modalOverlay" hidden>
-    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <header><h2 id="modalTitle">手动恢复</h2><button class="icon-button" data-close-modal aria-label="关闭"><svg><use href="#i-close"/></svg></button></header>
-      <div class="modal-body"><div class="modal-icon warning"><svg><use href="#i-alert"/></svg></div><div><h3>确认已向厂商充值，余额已恢复？</h3><p>恢复后该渠道的模型将重新开放。</p><span>渠道：Moonshot · 应剩余 ¥289.70</span></div></div>
-      <footer><button class="button secondary" data-close-modal>取消</button><button class="button primary">确认恢复</button></footer>
-    </section>
-  </div>
+  <dialog class="modal transaction-dialog" id="transactionDialog" aria-labelledby="transactionTitle" aria-describedby="transactionDescription">
+    <form method="dialog">
+      <header>
+        <div><h2 id="transactionTitle"></h2><p id="transactionDescription"></p></div>
+        <button class="icon-button tx-close" type="button" data-tx-dismiss aria-label="关闭"><svg><use href="#i-close"/></svg></button>
+      </header>
+      <div class="tx-body"></div>
+      <footer><button class="button secondary" type="button" data-tx-dismiss>取消</button><button class="button primary" type="submit" data-tx-submit></button></footer>
+    </form>
+  </dialog>
+  <template data-tx-case="CreateKey" data-state="Default" data-title="新建 API 密钥" data-description="创建后仅展示一次完整密钥，请妥善保存。" data-action="创建密钥">
+    <div class="tx-field"><label for="tx-key-name">密钥名称</label><input class="core-input" id="tx-key-name" type="text" required autocomplete="off" placeholder="例如：实验平台生产环境"></div>
+    <div class="tx-field"><label for="tx-key-scope">权限范围</label><span class="filter-select"><select class="core-input" id="tx-key-scope"><option>全部模型</option><option>仅限对话模型</option></select><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></div>
+    <div class="tx-note info"><svg data-figma-icon="Type=Info" aria-hidden="true"></svg><div><b>权限说明</b><p>权限范围决定该密钥可访问的模型与调用能力。</p></div></div>
+  </template>
+  <template data-tx-case="SecretCreated" data-state="Success" data-title="密钥创建成功" data-description="完整密钥只显示一次，关闭后无法再次查看。" data-action="完成">
+    <div class="tx-note success"><svg data-figma-icon="Type=Success" aria-hidden="true"></svg><div><b>创建成功</b><p>请立即复制并保存到安全位置。</p></div></div>
+    <div class="tx-field"><label for="tx-secret">API 密钥</label>
+    <div class="tx-secret-control"><input class="core-input" id="tx-secret" value="sk-demo-fermi-transaction" readonly><button class="icon-button" type="button" data-tx-copy aria-label="复制演示密钥"><svg data-figma-icon="Name=复制" aria-hidden="true"></svg></button></div></div>
+    <p class="tx-caption">不要通过聊天、邮件或截图分享密钥。</p>
+    <label class="base-choice"><input type="checkbox" data-tx-ack><i class="base-checkbox" aria-hidden="true"><svg><use href="#i-check"/></svg></i>我已安全保存该密钥</label>
+  </template>
+  <template data-tx-case="Recharge" data-state="Default" data-title="账户充值" data-description="充值额度将用于模型调用及平台服务。" data-action="确认充值">
+    <div class="tx-field"><label for="tx-recharge">充值金额</label><div class="base-number"><input id="tx-recharge" type="number" value="10000" min="1" step="1" required inputmode="numeric" data-tx-amount><em>元</em><i class="number-stepper"><button type="button" data-tx-step="up" aria-label="增加"><svg data-figma-icon="Name=上" aria-hidden="true"></svg></button><button type="button" data-tx-step="down" aria-label="减少"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button></i></div></div>
+    <div class="tx-field"><label for="tx-payment">支付方式</label><span class="filter-select"><select class="core-input" id="tx-payment"><option>企业账户</option></select><svg data-figma-icon="Name=下" aria-hidden="true"></svg></span></div>
+    <div class="tx-preview"><b>到账预览</b><dl class="tx-details"><div><dt>预计到账额度</dt><dd><output data-tx-preview>¥10,000.00</output></dd></div></dl></div>
+  </template>
+  <template data-tx-case="RevokeKey" data-state="Confirmation" data-title="撤销 API 密钥" data-description="撤销后当前密钥将立即失效，此操作不可恢复。" data-action="确认撤销" data-danger>
+    <div class="tx-note warning"><svg data-figma-icon="Type=Warning" aria-hidden="true"></svg><div><b>高风险操作</b><p>正在撤销「实验平台生产环境」密钥。</p></div></div>
+    <div class="tx-confirm"><div class="tx-field"><label for="tx-revoke-key">输入密钥名称以确认</label><input class="core-input" id="tx-revoke-key" type="text" required autocomplete="off" data-tx-match="实验平台生产环境" placeholder="实验平台生产环境" aria-describedby="tx-revoke-key-error"></div><small id="tx-revoke-key-error" class="tx-error" hidden>名称不匹配，请重新输入。</small></div>
+  </template>
+  <template data-tx-case="DeleteMember" data-state="Confirmation" data-title="删除成员" data-description="成员将失去团队、密钥与科研项目访问权限。" data-action="删除成员" data-danger>
+    <div class="tx-member"><span class="avatar small" aria-hidden="true">王</span><div><b>王强</b><small>项目管理员</small></div></div>
+    <dl class="tx-details"><div><dt>已分配额度</dt><dd>¥10,000.00</dd></div><div class="positive"><dt>预计退回</dt><dd>¥1,100.00</dd></div></dl>
+    <div class="tx-confirm"><div class="tx-field"><label for="tx-delete-member">输入成员姓名以确认</label><input class="core-input" id="tx-delete-member" type="text" required autocomplete="off" data-tx-match="王强" placeholder="王强" aria-describedby="tx-delete-member-error"></div><small id="tx-delete-member-error" class="tx-error" hidden>名称不匹配，请重新输入。</small></div>
+  </template>
+  <template data-tx-case="AdjustQuota" data-state="Default" data-title="调整成员额度" data-description="调整后立即生效，不影响成员现有密钥。" data-action="确认调整">
+    <div class="tx-field"><label for="tx-quota-member">成员</label><input class="core-input" id="tx-quota-member" value="王强" readonly></div>
+    <div class="tx-field"><label for="tx-new-quota">新额度</label><div class="base-number"><input id="tx-new-quota" type="number" value="12000" min="0" step="1" required inputmode="numeric" data-tx-amount><em>元</em><i class="number-stepper"><button type="button" data-tx-step="up" aria-label="增加"><svg data-figma-icon="Name=上" aria-hidden="true"></svg></button><button type="button" data-tx-step="down" aria-label="减少"><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button></i></div></div>
+    <div class="tx-preview"><dl class="tx-details"><div><dt>当前额度</dt><dd>¥10,000.00</dd></div><div><dt>调整后额度</dt><dd><output data-tx-preview>¥12,000.00</output></dd></div><div><dt>变化</dt><dd><output data-tx-difference>增加 ¥2,000.00</output></dd></div></dl></div>
+  </template>
+  <template data-tx-case="RevokeMemberKey" data-state="Confirmation" data-title="撤销成员密钥" data-description="撤销后该成员的当前密钥将立即失效，此操作不可恢复。" data-action="确认撤销" data-danger>
+    <div class="tx-note warning"><svg data-figma-icon="Type=Warning" aria-hidden="true"></svg><div><b>高风险操作</b><p>正在撤销王强的「客服项目」密钥。</p></div></div>
+    <div class="tx-confirm"><div class="tx-field"><label for="tx-revoke-member">输入成员密钥名称以确认</label><input class="core-input" id="tx-revoke-member" type="text" required autocomplete="off" data-tx-match="客服项目" placeholder="客服项目" aria-describedby="tx-revoke-member-error"></div><small id="tx-revoke-member-error" class="tx-error" hidden>名称不匹配，请重新输入。</small></div>
+  </template>
+  <template data-tx-case="DisableMember" data-state="Confirmation" data-title="禁用成员" data-description="禁用后账号无法登录或调用，现有密钥及记录保留。" data-action="禁用成员" data-danger>
+    <div class="tx-member"><span class="avatar small" aria-hidden="true">王</span><div><b>王强</b><small>项目管理员</small></div></div>
+    <dl class="tx-details"><div><dt>已分配额度</dt><dd>¥10,000.00</dd></div><div class="positive"><dt>当前剩余</dt><dd>¥1,100.00</dd></div></dl>
+    <div class="tx-confirm"><div class="tx-field"><label for="tx-disable-member">输入成员姓名以确认禁用</label><input class="core-input" id="tx-disable-member" type="text" required autocomplete="off" data-tx-match="王强" placeholder="王强" aria-describedby="tx-disable-member-error"></div><small id="tx-disable-member-error" class="tx-error" hidden>名称不匹配，请重新输入。</small></div>
+  </template>
+  <template data-tx-case="ManualRestore" data-state="Confirmation" data-title="手动恢复" data-description="确认厂商余额已恢复后，重新开放该渠道模型。" data-action="确认恢复">
+    <div class="tx-note warning"><svg data-figma-icon="Type=Warning" aria-hidden="true"></svg><div><b>确认恢复</b><p>渠道：Moonshot · 应剩余 ¥289.70</p></div></div>
+  </template>
+  <template data-tx-case="DisableChannel" data-state="Confirmation" data-title="停用渠道" data-description="停用后该渠道模型将隐藏，调用返回 503。额度与流水保留。" data-action="确定停用" data-danger>
+    <div class="tx-note warning"><svg data-figma-icon="Type=Warning" aria-hidden="true"></svg><div><b>确认停用</b><p>渠道：腾讯云 · 1 个模型 · 应剩余 ¥1,080.00</p></div></div>
+  </template>
+  <template data-tx-case="DeleteChannel" data-state="Confirmation" data-title="删除渠道" data-description="删除后渠道及模型从目录移除，充值与消耗记录继续保留。" data-action="确定删除" data-danger>
+    <div class="tx-note warning"><svg data-figma-icon="Type=Warning" aria-hidden="true"></svg><div><b>不可恢复操作</b><p>该渠道还有未退回的登记充值 ¥1,000.00。</p></div></div>
+    <div class="tx-confirm"><div class="tx-field"><label for="tx-delete-channel">输入渠道名称「小米」以确认</label><input class="core-input" id="tx-delete-channel" type="text" required autocomplete="off" data-tx-match="小米" placeholder="小米" aria-describedby="tx-delete-channel-error"></div><small id="tx-delete-channel-error" class="tx-error" hidden>名称不匹配，请重新输入。</small></div>
+  </template>
 
   <aside class="drawer" id="drawer" aria-hidden="true">
     <header><div><span class="eyebrow">MEMBER DETAIL</span><h2>成员详情</h2></div><button class="icon-button" data-close-drawer aria-label="关闭"><svg><use href="#i-close"/></svg></button></header>
@@ -1137,6 +1245,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=40"></script>
+  <script src="script.js?v=41"></script>
 </body>
 </html>
