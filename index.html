@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=64">
+  <link rel="stylesheet" href="styles.css?v=65">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -693,8 +693,8 @@
         </div>
       </div>
 
-      <div class="workspace-block">
-        <div class="workspace-block-head"><h3>Task Execution Status 任务执行状态</h3><p>覆盖排队、运行、成功、失败和取消；主要信息保持中性，状态色仅用于图标、圆点和必要操作。</p></div>
+      <div class="workspace-block" id="task-status-demo">
+        <div class="workspace-block-head"><h3>Task Execution Status 任务执行状态</h3><p>试用查看队列、停止、查看结果与重新运行。任务和结果均为演示数据。</p></div>
         <div class="workspace-row task-row">
           <article class="task-card queued"><div><span class="task-icon neutral"><svg data-figma-icon="Name=时间"></svg></span><span><h4>任务排队中</h4><p>前方还有 2 个科研任务</p></span></div><footer><span><i></i>等待</span><button>查看队列</button></footer></article>
           <article class="task-card running"><div><span class="task-icon blue"><svg data-figma-icon="Name=刷新"></svg></span><span><h4>正在分析实验数据</h4><p>已运行 02:18 · 可随时停止</p></span></div><footer><span><i></i>运行中</span><button>停止任务</button></footer></article>
@@ -709,7 +709,14 @@
     <section class="doc-section component-section" id="mobile-agent" data-search="移动端 手机 对话 会话抽屉 邮箱 验证码 通行密钥">
       <div class="section-heading"><div><h2>移动端 Agent</h2><p>顶部导航、滚动内容与底部输入独立排列。试用会话抽屉、聊天与工作切换，以及登录验证状态。</p></div></div>
       <div class="component-card mobile-agent-doc" data-mobile-agent>
-        <label>预览宽度 <select data-phone-width><option value="375">375 px</option><option value="390" selected>390 px</option><option value="430">430 px</option></select></label>
+        <fieldset class="phone-width-picker conversation-options">
+          <legend>预览宽度</legend>
+          <div class="phone-width-tabs">
+            <label><input type="radio" name="phone-preview-width" value="375"><span>375 px</span></label>
+            <label><input type="radio" name="phone-preview-width" value="390" checked><span>390 px</span></label>
+            <label><input type="radio" name="phone-preview-width" value="430"><span>430 px</span></label>
+          </div>
+        </fieldset>
         <div class="mobile-agent-phone">
           <div class="mobile-agent-app">
             <header class="mobile-agent-header">
@@ -1250,6 +1257,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=41"></script>
+  <script src="script.js?v=42"></script>
 </body>
 </html>

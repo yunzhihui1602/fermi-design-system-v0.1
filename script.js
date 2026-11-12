@@ -945,6 +945,56 @@ document.querySelectorAll('[data-width-demo]').forEach((demo) => {
   update();
 });
 
+const taskCards = [...document.querySelectorAll('#task-status-demo .task-card')];
+const taskStates = ['queued', 'running', 'success', 'failed', 'cancelled'];
+const taskExamples = Object.fromEntries(taskCards.map(card => [
+  taskStates.find(state => card.classList.contains(state)), card.cloneNode(true)
+]));
+const taskDetails = {
+  queued: '当前排在第 3 位，前方还有 2 个科研任务。',
+  success: '实验数据分析报告已生成，包含实验条件、测量结果和异常值三条结论。'
+};
+taskCards.forEach((card, index) => {
+  const button = card.querySelector('button');
+  const detail = document.createElement('p');
+  detail.className = 'task-action-detail';
+  detail.id = `task-action-detail-${index + 1}`;
+  detail.hidden = true;
+  card.append(detail);
+
+  const syncDisclosure = () => {
+    if (taskDetails[card.dataset.state]) {
+      button.setAttribute('aria-controls', detail.id);
+      button.setAttribute('aria-expanded', 'false');
+    } else {
+      button.removeAttribute('aria-controls');
+      button.removeAttribute('aria-expanded');
+    }
+  };
+  card.dataset.state = taskStates.find(state => card.classList.contains(state));
+  button.type = 'button';
+  syncDisclosure();
+  button.addEventListener('click', () => {
+    const state = card.dataset.state;
+    if (taskDetails[state]) {
+      detail.textContent = taskDetails[state];
+      detail.hidden = !detail.hidden;
+      button.setAttribute('aria-expanded', String(!detail.hidden));
+      return;
+    }
+
+    const next = state === 'running' ? 'cancelled' : 'queued';
+    const example = taskExamples[next];
+    card.querySelector(':scope > div').replaceWith(example.querySelector(':scope > div').cloneNode(true));
+    card.querySelector('footer > span').replaceWith(example.querySelector('footer > span').cloneNode(true));
+    card.classList.replace(state, next);
+    card.dataset.state = next;
+    button.textContent = example.querySelector('button').textContent;
+    syncDisclosure();
+    showToast(next === 'cancelled' ? '任务已停止（演示）' : '任务已重新加入队列（演示）');
+  });
+});
+
 const agentFlow = document.querySelector('[data-agent-flow]');
 if (agentFlow) {
   const find = (selector) => agentFlow.querySelector(selector);
@@ -1633,7 +1683,6 @@ if (mobileAgent) {
     }
     syncComposer();
   };
-  find('[data-phone-width]').addEventListener('change', event => phone.style.setProperty('--phone-width', event.target.value + 'px'));
   const toggleDrawer = (open, restore = true) => {
     drawer.hidden = !open;
     app.inert = open;
