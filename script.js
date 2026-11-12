@@ -23,11 +23,11 @@ const renderIconLibrary = (query = '') => {
     `${icon.name} ${getIconDisplayName(icon.name)}`.toLowerCase().includes(keyword)
   ));
   iconGallery.innerHTML = icons.map((icon) => `
-    <article class="icon-item" data-figma-node="${icon.id}">
-      <div class="icon-art">${icon.svg}</div>
-      <div><b>${getIconDisplayName(icon.name)}</b><span>${icon.width} × ${icon.height}px</span></div>
+    <button type="button" class="icon-item" data-figma-node="${icon.id}" title="点击复制 SVG">
+      <span class="icon-art" aria-hidden="true">${icon.svg}</span>
+      <span class="icon-item-details"><b>${getIconDisplayName(icon.name)}</b><small>${icon.width} × ${icon.height}px</small></span>
       <code>${icon.id}</code>
-    </article>
+    </button>
   `).join('');
   iconCount.textContent = `${icons.length} 个图标`;
 };
@@ -293,6 +293,19 @@ const showToast = (message) => {
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 1600);
 };
+
+iconGallery?.addEventListener('click', async (event) => {
+  const button = event.target.closest('button.icon-item');
+  const icon = window.FERMI_ICONS?.find(({ id }) => id === button?.dataset.figmaNode);
+  if (!icon) return;
+
+  try {
+    await navigator.clipboard.writeText(icon.svg);
+    showToast(`已复制「${getIconDisplayName(icon.name)}」SVG`);
+  } catch {
+    showToast('复制失败，请检查浏览器的剪贴板权限');
+  }
+});
 
 const observer = new IntersectionObserver((entries) => {
   const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -872,6 +885,14 @@ if (emptyPlayground) {
     }
   });
 }
+document.querySelectorAll('[data-width-demo]').forEach((demo) => {
+  const width = demo.querySelector('[data-preview-width]');
+  const preview = demo.querySelector('[data-width-preview]');
+  const update = () => { preview.style.setProperty('--preview-width', width.value); };
+  width.addEventListener('change', update);
+  update();
+});
+
 const agentFlow = document.querySelector('[data-agent-flow]');
 if (agentFlow) {
   const find = (selector) => agentFlow.querySelector(selector);
@@ -883,6 +904,12 @@ if (agentFlow) {
   const stop = find('[data-flow-stop]');
   const retry = find('[data-flow-retry]');
   const remove = find('[data-flow-remove]');
+  const navigation = find('[data-flow-nav]');
+  const preview = find('[data-width-preview]');
+  const sessions = [...agentFlow.querySelectorAll('[data-flow-session]')];
+  const message = find('[data-flow-message]');
+  const sessionMessages = new Map();
+  let activeSession = sessions[0];
   let taskTimer;
   let fileTimer;
   let busy = false;
@@ -896,6 +923,7 @@ if (agentFlow) {
     prompt.readOnly = busy;
     file.disabled = outcome.disabled = remove.disabled = busy;
     find('.prompt-model').disabled = busy;
+    sessions.forEach((session) => { session.disabled = busy; });
   };
   const showTask = (state, message) => {
     const task = find('[data-flow-task]');
@@ -916,6 +944,10 @@ if (agentFlow) {
   };
   const start = (fail) => {
     if (busy || send.disabled) return;
+    const submitted = prompt.value.trim() || attachment;
+    sessionMessages.set(activeSession, submitted);
+    message.textContent = submitted;
+    message.hidden = false;
     busy = true;
     showTask('queued', '任务排队中');
     taskTimer = setTimeout(() => {
@@ -927,6 +959,27 @@ if (agentFlow) {
     }, 450);
   };
   prompt.addEventListener('input', refresh);
+  navigation.addEventListener('click', () => {
+    const open = preview.classList.toggle('sessions-open');
+    navigation.setAttribute('aria-expanded', String(open));
+    if (open && !activeSession.disabled) activeSession.focus();
+  });
+  sessions.forEach((session) => session.addEventListener('click', () => {
+    if (session !== activeSession) {
+      activeSession.removeAttribute('aria-current');
+      activeSession = session;
+      session.setAttribute('aria-current', 'true');
+      find('[data-flow-session-title]').textContent = session.textContent.trim();
+      message.textContent = sessionMessages.get(session) ?? '';
+      message.hidden = !message.textContent;
+      find('[data-flow-task]').hidden = true;
+      prompt.value = '';
+      remove.click();
+    }
+    preview.classList.remove('sessions-open');
+    navigation.setAttribute('aria-expanded', 'false');
+    if (navigation.offsetWidth) navigation.focus();
+  }));
   file.addEventListener('change', () => {
     if (!file.files[0]) return;
     clearTimeout(fileTimer);
@@ -963,9 +1016,13 @@ const placePromptModelMenu = (trigger) => {
   if (!promptModelMenu) return;
   const rect = trigger.getBoundingClientRect();
   const menuWidth = 196;
+  const narrowPreview = trigger.closest('[data-width-preview]');
+  promptModelMenu.classList.toggle('prompt-model-mobile', Boolean(narrowPreview && narrowPreview.clientWidth < 600));
   const left = Math.min(rect.left, window.innerWidth - menuWidth - 12);
   promptModelMenu.style.left = `${Math.max(12, left)}px`;
-  promptModelMenu.style.top = `${rect.bottom + 6}px`;
+  const menuHeight = promptModelMenu.querySelectorAll('button').length * 36 + 14;
+  const top = rect.bottom + menuHeight + 18 <= window.innerHeight ? rect.bottom + 6 : rect.top - menuHeight - 6;
+  promptModelMenu.style.top = `${Math.max(12, top)}px`;
 };
 
 document.querySelectorAll('.prompt-model:not(:disabled)').forEach((button) => {
@@ -1306,3 +1363,223 @@ document.addEventListener('keydown', (event) => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); searchInput.focus(); }
   if (event.key === 'Escape') { closeModal(); closeDrawer(); searchPopover.hidden = true; }
 });
+
+const mobileAgent = document.querySelector('[data-mobile-agent]');
+if (mobileAgent) {
+  const find = (selector) => mobileAgent.querySelector(selector);
+  const all = (selector) => [...mobileAgent.querySelectorAll(selector)];
+  const phone = find('.mobile-agent-phone');
+  const app = find('.mobile-agent-app');
+  const drawer = find('.mobile-drawer-layer');
+  const opener = find('[data-mobile-open]');
+  const search = find('.mobile-drawer input');
+  const sessions = all('[data-mobile-session]');
+  const scroll = find('.mobile-agent-scroll');
+  const list = find('.mobile-message-list');
+  const jump = find('[data-mobile-jump]');
+  const composer = find('.mobile-composer');
+  const draft = composer.querySelector('textarea');
+  const file = composer.querySelector('input');
+  const attachment = find('.mobile-attachment');
+  const send = find('.mobile-send');
+  const stop = find('[data-mobile-stop]');
+  const voice = find('.mobile-voice');
+  const work = find('.mobile-work-cards');
+  const welcome = find('.mobile-welcome');
+  const auth = find('.mobile-auth-screen');
+  const authForm = find('.mobile-auth-form');
+  const email = authForm.elements.email;
+  const code = authForm.elements.code;
+  const authStatus = find('.mobile-auth-status');
+  const submit = authForm.querySelector('[type="submit"]');
+  const resend = find('[data-mobile-resend]');
+  const skip = find('[data-mobile-skip]');
+  const threads = new Map();
+  let active = '新对话';
+  let newCount = 0;
+  let mode = 'chat';
+  let timer;
+  let pending;
+  let authTimer;
+  let resendTimer;
+  let step = 'email';
+
+  const current = () => threads.get(active) ?? [];
+  const syncComposer = () => {
+    send.hidden = Boolean(pending);
+    stop.hidden = !pending;
+    send.disabled = !draft.value.trim() && !file.files.length;
+  };
+  const goLatest = () => { scroll.scrollTop = scroll.scrollHeight; jump.hidden = true; };
+  const render = () => {
+    work.hidden = mode !== 'work';
+    welcome.hidden = mode === 'work' || current().length > 0;
+    list.replaceChildren();
+    for (const message of current()) {
+      const item = document.createElement('div');
+      item.className = 'mobile-message ' + message.role;
+      item.textContent = message.text;
+      list.append(item);
+      if (message.role === 'assistant' && message.done) {
+        const actions = document.createElement('div');
+        actions.className = 'mobile-response-actions';
+        for (const action of ['复制', '有帮助', '无帮助', '朗读', '更多']) {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = action;
+          if (action === '有帮助' || action === '无帮助') button.setAttribute('aria-pressed', String(message.feedback === action));
+          button.addEventListener('click', async () => {
+            if (action === '复制') {
+              try { await navigator.clipboard.writeText(message.text); showToast('已复制'); }
+              catch { showToast('无法写入剪贴板'); }
+            } else if (action === '有帮助' || action === '无帮助') {
+              message.feedback = message.feedback === action ? '' : action;
+              actions.querySelectorAll('[aria-pressed]').forEach(control => control.setAttribute('aria-pressed', String(control.textContent === message.feedback)));
+            } else {
+              showToast(action === '朗读' ? '朗读状态演示' : '更多操作：复制或评价此回复');
+            }
+          });
+          actions.append(button);
+        }
+        list.append(actions);
+      }
+    }
+    syncComposer();
+  };
+  find('[data-phone-width]').addEventListener('change', event => phone.style.setProperty('--phone-width', event.target.value + 'px'));
+  const toggleDrawer = (open, restore = true) => {
+    drawer.hidden = !open;
+    app.inert = open;
+    opener.setAttribute('aria-expanded', String(open));
+    if (open) search.focus();
+    else if (restore) opener.focus();
+  };
+  opener.addEventListener('click', () => toggleDrawer(true));
+  all('[data-mobile-close], .mobile-backdrop').forEach(button => button.addEventListener('click', () => toggleDrawer(false)));
+  search.addEventListener('input', () => {
+    const query = search.value.trim().toLowerCase();
+    sessions.forEach(button => { button.hidden = !button.textContent.toLowerCase().includes(query); });
+    find('[data-mobile-no-sessions]').hidden = sessions.some(button => !button.hidden);
+  });
+  const openThread = (key) => {
+    active = key;
+    sessions.forEach(button => button.setAttribute('aria-current', String(button.dataset.mobileSession === key)));
+    draft.value = '';
+    file.value = '';
+    attachment.hidden = true;
+    toggleDrawer(false);
+    render();
+    goLatest();
+  };
+  threads.set('固态电池研发', [{role:'assistant', text:'可以从实验条件、测量结果和异常值三个方面梳理这份记录。', done:true}]);
+  threads.set('实验数据分析', [{role:'assistant', text:'请添加实验记录，我可以帮你整理结果与待复核项。', done:true}]);
+  sessions.forEach(button => button.addEventListener('click', () => openThread(button.dataset.mobileSession)));
+  find('[data-mobile-new]').addEventListener('click', () => openThread('新对话 ' + ++newCount));
+  all('[data-mobile-mode]').forEach(button => button.addEventListener('click', () => {
+    mode = button.dataset.mobileMode;
+    all('[data-mobile-mode]').forEach(control => control.setAttribute('aria-pressed', String(control === button)));
+    render();
+  }));
+  all('.mobile-work-card').forEach(button => button.addEventListener('click', () => {
+    draft.value = button.querySelector('b').textContent;
+    syncComposer();
+    draft.focus();
+  }));
+  scroll.addEventListener('scroll', () => { jump.hidden = scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight < 64; });
+  jump.addEventListener('click', goLatest);
+  draft.addEventListener('input', syncComposer);
+  file.addEventListener('change', () => {
+    attachment.textContent = file.files[0]?.name ?? '';
+    attachment.hidden = !file.files.length;
+    syncComposer();
+  });
+  voice.addEventListener('click', () => {
+    const recording = voice.getAttribute('aria-pressed') === 'false';
+    voice.setAttribute('aria-pressed', String(recording));
+    voice.textContent = recording ? '结束' : '语音';
+    showToast(recording ? '语音输入状态演示' : '已结束语音演示');
+  });
+  const finish = (stopped) => {
+    pending.text = stopped ? '已停止生成。' : '已收到请求。可继续补充实验条件，或让我将关键发现整理成清单。（演示）';
+    pending.done = !stopped;
+    pending = null;
+    render();
+  };
+  stop.addEventListener('click', () => { clearTimeout(timer); finish(true); });
+  composer.addEventListener('submit', event => {
+    event.preventDefault();
+    if (pending || send.disabled) return;
+    const messages = current();
+    messages.push({role:'user', text:[draft.value.trim(), file.files[0]?.name].filter(Boolean).join('\n')});
+    pending = {role:'assistant', text:'正在生成…'};
+    messages.push(pending);
+    threads.set(active, messages);
+    draft.value = '';
+    file.value = '';
+    attachment.hidden = true;
+    render();
+    goLatest();
+    timer = setTimeout(() => finish(false), 1400);
+  });
+  const setAuthStep = (next) => {
+    step = next;
+    const title = {email:'登录费米', code:'查看收件箱', passkey:'设置通行密钥'};
+    const copy = {email:'使用演示邮箱继续。此流程在浏览器内模拟。', code:'输入演示验证码 123456。', passkey:'下次可通过设备验证快速登录。'};
+    authForm.querySelector('h3').textContent = title[next];
+    authForm.querySelector('h3 + p').textContent = copy[next];
+    email.disabled = email.parentElement.hidden = next !== 'email';
+    code.disabled = code.parentElement.hidden = next !== 'code';
+    resend.hidden = next !== 'code';
+    skip.hidden = next !== 'passkey';
+    submit.textContent = next === 'passkey' ? '设置通行密钥' : '继续';
+    submit.disabled = false;
+    authStatus.textContent = '';
+  };
+  const closeAuth = () => {
+    clearTimeout(authTimer);
+    clearTimeout(resendTimer);
+    resend.disabled = false;
+    auth.hidden = true;
+    app.inert = false;
+    opener.focus();
+  };
+  const login = () => {
+    all('[data-mobile-auth]').forEach(button => { button.textContent = '账户'; });
+    closeAuth();
+    showToast('已完成演示登录');
+  };
+  all('[data-mobile-auth]').forEach(button => button.addEventListener('click', () => {
+    if (!drawer.hidden) toggleDrawer(false, false);
+    app.inert = true;
+    auth.hidden = false;
+    code.value = '';
+    setAuthStep('email');
+    email.focus();
+  }));
+  find('[data-mobile-back]').addEventListener('click', () => {
+    if (step === 'email') closeAuth();
+    else { clearTimeout(authTimer); clearTimeout(resendTimer); resend.disabled = false; setAuthStep(step === 'passkey' ? 'code' : 'email'); }
+  });
+  phone.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !drawer.hidden) toggleDrawer(false);
+    else if (event.key === 'Escape' && !auth.hidden) closeAuth();
+  });
+  resend.addEventListener('click', () => {
+    resend.disabled = true;
+    authStatus.textContent = '已重新发送演示验证码。';
+    resendTimer = setTimeout(() => { resend.disabled = false; }, 3000);
+  });
+  skip.addEventListener('click', login);
+  authForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (step === 'email') { setAuthStep('code'); code.focus(); return; }
+    if (step === 'passkey') { login(); return; }
+    submit.disabled = true;
+    authStatus.textContent = '正在验证…';
+    authTimer = setTimeout(() => {
+      if (code.value.trim() === '123456') setAuthStep('passkey');
+      else { authStatus.textContent = '验证码有误，请重试。'; submit.disabled = false; code.focus(); }
+    }, 500);
+  });
+  render();
+}

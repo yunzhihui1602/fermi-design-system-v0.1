@@ -33,11 +33,16 @@
   --info: #2e90fa;
   --info-soft: #eff6ff;
 
+  --action-primary: var(--brand-600);
+  --action-soft: var(--brand-50);
   --surface-page: var(--neutral-50);
   --surface-card: var(--neutral-0);
   --surface-sidebar: var(--neutral-25);
+  --surface-sidebar-selected: var(--surface-selected);
   --surface-selected: var(--neutral-100);
   --surface-hover: var(--neutral-50);
+  --surface-disabled: var(--neutral-50);
+  --surface-inverse: var(--neutral-850);
   --border-default: var(--neutral-200);
   --border-strong: var(--neutral-300);
   --text-strong: var(--neutral-800);

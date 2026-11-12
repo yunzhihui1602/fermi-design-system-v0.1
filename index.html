@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
-  <link rel="stylesheet" href="tokens.css?v=2">
-  <link rel="stylesheet" href="styles.css?v=46">
+  <link rel="stylesheet" href="tokens.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=51">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -53,6 +53,7 @@
       <a class="nav-link" href="#data-states">表格状态与批量操作</a>
       <p class="nav-label">业务组件</p>
       <a class="nav-link" href="#agent">AI 工作台组件</a>
+      <a class="nav-link" href="#mobile-agent">移动端 Agent</a>
       <a class="nav-link" href="#permissions">权限与成员</a>
       <a class="nav-link" href="#business">额度与业务状态</a>
       <a class="nav-link" href="#router">Router 专属组件</a>
@@ -115,17 +116,75 @@
       </div>
     </section>
 
-    <section class="doc-section" id="colors" data-search="颜色 品牌色 中性色 状态色 token">
-      <div class="section-heading"><div><span class="section-index">02</span><h2>颜色系统</h2><p>变量源：Fermi DS V0.1 / Primitives 与 Semantic。</p></div><button class="text-button copy-token" data-copy="--color-action-primary: #692AEC;">复制主色变量<svg><use href="#i-copy"/></svg></button></div>
-      <div class="token-block">
-        <h3>Brand</h3>
-        <div class="swatch-row brand-swatches">
-          <div style="--swatch:#F6F1FF"><i></i><b>50</b><code>#F6F1FF</code></div><div style="--swatch:#EDE3FF"><i></i><b>100</b><code>#EDE3FF</code></div><div style="--swatch:#DCC8FF"><i></i><b>200</b><code>#DCC8FF</code></div><div style="--swatch:#C5A3FF"><i></i><b>300</b><code>#C5A3FF</code></div><div style="--swatch:#A873FF"><i></i><b>400</b><code>#A873FF</code></div><div style="--swatch:#8744F5"><i></i><b>500</b><code>#8744F5</code></div><div class="key" style="--swatch:#692AEC"><i></i><b>600</b><code>#692AEC</code></div><div style="--swatch:#5720C7"><i></i><b>700</b><code>#5720C7</code></div><div style="--swatch:#471CA0"><i></i><b>800</b><code>#471CA0</code></div><div style="--swatch:#3B1A7E"><i></i><b>900</b><code>#3B1A7E</code></div>
+    <section class="doc-section" id="colors" data-search="色彩系统 颜色 品牌色 中性色 语义色 状态色 token">
+      <div class="section-heading"><div><span class="section-index">02</span><h2>色彩系统</h2><p>品牌色、中性色、语义色与状态色。点击色卡复制 CSS 变量引用。</p></div><a class="text-button" href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5609">查看 Figma 色彩规范</a></div>
+      <div class="token-block color-token-block">
+        <h3>品牌色阶</h3>
+        <p>Brand 600 为主操作色，50–200 用于浅色背景与禁用状态。</p>
+        <div class="color-swatches">
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-50)" data-copy="var(--brand-50)" aria-label="复制 brand/50 #F6F1FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/50</b><code>#F6F1FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-100)" data-copy="var(--brand-100)" aria-label="复制 brand/100 #EDE3FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/100</b><code>#EDE3FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-200)" data-copy="var(--brand-200)" aria-label="复制 brand/200 #DCC8FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/200</b><code>#DCC8FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-300)" data-copy="var(--brand-300)" aria-label="复制 brand/300 #C5A3FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/300</b><code>#C5A3FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-400)" data-copy="var(--brand-400)" aria-label="复制 brand/400 #A873FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/400</b><code>#A873FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-500)" data-copy="var(--brand-500)" aria-label="复制 brand/500 #8744F5 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/500</b><code>#8744F5</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-600)" data-copy="var(--brand-600)" aria-label="复制 brand/600 #692AEC 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/600</b><code>#692AEC</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-700)" data-copy="var(--brand-700)" aria-label="复制 brand/700 #5720C7 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/700</b><code>#5720C7</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-800)" data-copy="var(--brand-800)" aria-label="复制 brand/800 #471CA0 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/800</b><code>#471CA0</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--brand-900)" data-copy="var(--brand-900)" aria-label="复制 brand/900 #3B1A7E 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>brand/900</b><code>#3B1A7E</code></button>
         </div>
       </div>
-      <div class="two-col">
-        <div class="token-block"><h3>Surface & Text</h3><div class="semantic-list"><div><i style="--swatch:#FCFCFC"></i><span><b>Sidebar</b><code>#FCFCFC</code></span></div><div><i style="--swatch:#EFEFEF"></i><span><b>Selected</b><code>#EFEFEF</code></span></div><div><i style="--swatch:#F7F8FA"></i><span><b>Page</b><code>#F7F8FA</code></span></div><div><i style="--swatch:#303C52"></i><span><b>Text Primary</b><code>#303C52</code></span></div></div></div>
-        <div class="token-block"><h3>Status</h3><div class="semantic-list"><div><i style="--swatch:#20A66A"></i><span><b>Success</b><code>#20A66A</code></span></div><div><i style="--swatch:#F5A623"></i><span><b>Warning</b><code>#F5A623</code></span></div><div><i style="--swatch:#D92D20"></i><span><b>Danger</b><code>#D92D20</code></span></div><div><i style="--swatch:#2E90FA"></i><span><b>Info</b><code>#2E90FA</code></span></div></div></div>
+      <div class="token-block color-token-block">
+        <h3>中性色阶</h3>
+        <p>用于页面、卡片、边框、文字和禁用状态。</p>
+        <div class="color-swatches">
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-0)" data-copy="var(--neutral-0)" aria-label="复制 neutral/0 #FFFFFF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/0</b><code>#FFFFFF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-25)" data-copy="var(--neutral-25)" aria-label="复制 neutral/25 #FCFCFC 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/25</b><code>#FCFCFC</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-50)" data-copy="var(--neutral-50)" aria-label="复制 neutral/50 #F7F8FA 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/50</b><code>#F7F8FA</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-100)" data-copy="var(--neutral-100)" aria-label="复制 neutral/100 #EFEFEF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/100</b><code>#EFEFEF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-200)" data-copy="var(--neutral-200)" aria-label="复制 neutral/200 #E6EAF0 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/200</b><code>#E6EAF0</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-300)" data-copy="var(--neutral-300)" aria-label="复制 neutral/300 #D0D5DD 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/300</b><code>#D0D5DD</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-400)" data-copy="var(--neutral-400)" aria-label="复制 neutral/400 #98A2B3 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/400</b><code>#98A2B3</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-500)" data-copy="var(--neutral-500)" aria-label="复制 neutral/500 #667085 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/500</b><code>#667085</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-600)" data-copy="var(--neutral-600)" aria-label="复制 neutral/600 #475467 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/600</b><code>#475467</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-700)" data-copy="var(--neutral-700)" aria-label="复制 neutral/700 #303C52 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/700</b><code>#303C52</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-800)" data-copy="var(--neutral-800)" aria-label="复制 neutral/800 #1F293B 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/800</b><code>#1F293B</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--neutral-900)" data-copy="var(--neutral-900)" aria-label="复制 neutral/900 #101828 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>neutral/900</b><code>#101828</code></button>
+        </div>
+      </div>
+      <div class="token-block color-token-block">
+        <h3>语义颜色</h3>
+        <p>组件通过语义变量引用颜色。</p>
+        <div class="color-swatches">
+          <button type="button" class="color-swatch" style="--swatch:var(--action-primary)" data-copy="var(--action-primary)" aria-label="复制 action/primary #692AEC 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>action/primary</b><code>#692AEC</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--action-soft)" data-copy="var(--action-soft)" aria-label="复制 action/soft #F6F1FF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>action/soft</b><code>#F6F1FF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-page)" data-copy="var(--surface-page)" aria-label="复制 surface/page #F7F8FA 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/page</b><code>#F7F8FA</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-card)" data-copy="var(--surface-card)" aria-label="复制 surface/card #FFFFFF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/card</b><code>#FFFFFF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--text-primary)" data-copy="var(--text-primary)" aria-label="复制 text/primary #303C52 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>text/primary</b><code>#303C52</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--border-default)" data-copy="var(--border-default)" aria-label="复制 border/default #E6EAF0 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>border/default</b><code>#E6EAF0</code></button>
+        </div>
+      </div>
+      <div class="token-block color-token-block">
+        <h3>状态颜色</h3>
+        <p>成功、警告、危险和信息状态保持跨产品一致。</p>
+        <div class="color-swatches">
+          <button type="button" class="color-swatch" style="--swatch:var(--success)" data-copy="var(--success)" aria-label="复制 success #20A66A 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>success</b><code>#20A66A</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--warning)" data-copy="var(--warning)" aria-label="复制 warning #F5A623 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>warning</b><code>#F5A623</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--danger)" data-copy="var(--danger)" aria-label="复制 danger #D92D20 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>danger</b><code>#D92D20</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--info)" data-copy="var(--info)" aria-label="复制 info #2E90FA 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>info</b><code>#2E90FA</code></button>
+        </div>
+      </div>
+      <div class="token-block color-token-block">
+        <h3>表面与交互状态</h3>
+        <p>侧栏、悬浮、选中、禁用和反色表面。</p>
+        <div class="color-swatches">
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-sidebar)" data-copy="var(--surface-sidebar)" aria-label="复制 surface/sidebar #FCFCFC 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/sidebar</b><code>#FCFCFC</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-sidebar-selected)" data-copy="var(--surface-sidebar-selected)" aria-label="复制 surface/sidebar-selected #EFEFEF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/sidebar-selected</b><code>#EFEFEF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-hover)" data-copy="var(--surface-hover)" aria-label="复制 surface/hover #F7F8FA 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/hover</b><code>#F7F8FA</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-selected)" data-copy="var(--surface-selected)" aria-label="复制 surface/selected #EFEFEF 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/selected</b><code>#EFEFEF</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-disabled)" data-copy="var(--surface-disabled)" aria-label="复制 surface/disabled #F7F8FA 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/disabled</b><code>#F7F8FA</code></button>
+          <button type="button" class="color-swatch" style="--swatch:var(--surface-inverse)" data-copy="var(--surface-inverse)" aria-label="复制 surface/inverse #1F2638 的 CSS 变量"><span class="color-swatch-sample" aria-hidden="true"></span><b>surface/inverse</b><code>#1F2638</code></button>
+        </div>
       </div>
     </section>
 
@@ -149,6 +208,17 @@
         <div class="token-block"><h3>Radius</h3><div class="radius-demo"><div style="border-radius:8px">8</div><div style="border-radius:12px">12</div><div style="border-radius:16px">16</div><div style="border-radius:20px">20</div></div><p class="rule-note">按钮原半径 4 统一升级为 8；其他既有半径保持原值。</p></div>
       </div>
       <div class="layout-rule"><div class="layout-sidebar">265px<br><small>Sidebar</small></div><div class="layout-content">1175px<br><small>Content</small></div></div>
+      <div class="token-block responsive-doc" data-width-demo>
+        <h3>跨端布局预览</h3>
+        <p>布局按内容区实际宽度调整。低于 600 px 时，双栏堆叠，筛选项纵排，按钮组可换行。</p>
+        <label>预览宽度 <select data-preview-width><option value="100%">桌面 · 可用宽度</option><option value="375px">375 px</option><option value="390px">390 px</option><option value="430px">430 px</option></select></label>
+        <div class="width-preview" data-width-preview>
+          <div class="layout-demo-columns">
+            <div class="layout-demo-panel"><b>会话列表</b><p>新对话 · 历史会话</p></div>
+            <div class="layout-demo-panel"><b>任务列表</b><div class="layout-demo-filters"><span>全部项目</span><span>运行状态</span></div><div class="layout-demo-actions"><span class="button secondary">重置</span><span class="button primary">查询</span></div></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="doc-section component-section" id="templates" data-search="页面 模板 template list overview empty Router console layout">
@@ -162,7 +232,7 @@
     </section>
 
     <section class="doc-section component-section" id="icons" data-search="图标 icon linear status send close 组件可复用icon">
-      <div class="section-heading"><div><span class="section-index">06</span><h2>图标库</h2><p>完整复用 Figma「组件可复用icon」节点中的现有组件，不新增语义、不替换图形。</p></div><span class="component-count">82 components</span></div>
+      <div class="section-heading"><div><span class="section-index">06</span><h2>图标库</h2><p>图标来自 Figma。点击任一图标卡片即可复制 SVG 代码。</p></div><span class="component-count">82 components</span></div>
       <div class="icon-source-note">
         <div><b>Icon / Linear / Base</b><span>常规图标 18 × 18px</span></div>
         <div><b>Page Banner Status Icon / Base</b><span>状态图标 20 × 20px</span></div>
@@ -490,8 +560,18 @@
         </div>
       </div>
 
-      <div class="workspace-block agent-flow" data-agent-flow>
-        <div class="workspace-block-head"><div><h3>输入与任务 · 交互演示</h3><p>输入内容或选择文件后发送。任务与附件状态在浏览器中模拟，文件仅显示名称。</p></div></div>
+      <div class="workspace-block agent-flow" data-agent-flow data-width-demo>
+        <div class="workspace-block-head"><div><h3>Agent 对话 · 跨端交互演示</h3><p>手机预览保留附件、模型与发送入口。生成时，发送切换为停止。任务与附件处理在浏览器中模拟。</p></div></div>
+        <label>预览宽度 <select data-preview-width><option value="100%">桌面 · 可用宽度</option><option value="375px">375 px</option><option value="390px">390 px</option><option value="430px">430 px</option></select></label>
+        <div class="width-preview" data-width-preview>
+          <div class="agent-preview-shell">
+            <aside class="agent-preview-nav" id="agent-preview-sessions" aria-label="演示会话">
+              <button class="conversation-item" type="button" aria-current="true" data-flow-session>固态电池研发</button>
+              <button class="conversation-item" type="button" data-flow-session>实验数据分析</button>
+            </aside>
+            <div class="agent-preview-content">
+              <header class="agent-preview-header"><b data-flow-session-title>固态电池研发</b><button type="button" class="button secondary" data-flow-nav aria-expanded="false" aria-controls="agent-preview-sessions">会话</button></header>
+              <div class="agent-preview-message" data-flow-message hidden></div>
         <form class="prompt-variant agent-flow-composer">
           <textarea rows="2" aria-label="提示词" placeholder="问点什么，和费米一起探索" data-flow-prompt></textarea>
           <div class="prompt-controls">
@@ -507,6 +587,9 @@
           <div class="agent-flow-attachment" data-flow-attachment hidden><span data-flow-file-name></span><span class="attachment-status" data-flow-file-status role="status"></span><button type="button" class="text-button" data-flow-remove>移除</button></div>
         </div>
         <article class="task-card agent-flow-task" data-flow-task hidden><div role="status" data-flow-status></div><footer><button type="button" data-flow-retry hidden>重新运行</button></footer></article>
+            </div>
+          </div>
+        </div>
         <p class="agent-flow-source">Figma：<a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6305">输入框</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6452">工具栏</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6548">附件</a> · <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-6595">任务状态</a></p>
       </div>
 
@@ -568,6 +651,64 @@
           <article class="task-card cancelled"><div><span class="task-icon neutral"><svg data-figma-icon="Name=断开链接"></svg></span><span><h4>任务已取消</h4><p>结果未保存，可重新开始</p></span></div><footer><span><i></i>已取消</span><button>再次运行</button></footer></article>
         </div>
       </div>
+      </div>
+    </section>
+
+    <section class="doc-section component-section" id="mobile-agent" data-search="移动端 手机 对话 会话抽屉 邮箱 验证码 通行密钥">
+      <div class="section-heading"><div><h2>移动端 Agent</h2><p>顶部导航、滚动内容与底部输入独立排列。试用会话抽屉、聊天与工作切换，以及登录验证状态。</p></div></div>
+      <div class="component-card mobile-agent-doc" data-mobile-agent>
+        <label>预览宽度 <select data-phone-width><option value="375">375 px</option><option value="390" selected>390 px</option><option value="430">430 px</option></select></label>
+        <div class="mobile-agent-phone">
+          <div class="mobile-agent-app">
+            <header class="mobile-agent-header">
+              <button class="mobile-icon" type="button" data-mobile-open aria-label="打开会话" aria-expanded="false" aria-controls="mobile-agent-drawer"><svg data-figma-icon="Name=折叠" aria-hidden="true"></svg></button>
+              <div class="mobile-segments" role="group" aria-label="工作区模式"><button type="button" data-mobile-mode="chat" aria-pressed="true">聊天</button><button type="button" data-mobile-mode="work" aria-pressed="false">工作</button></div>
+              <button class="button secondary" type="button" data-mobile-auth>登录</button>
+            </header>
+            <div class="mobile-agent-scroll" tabindex="0" aria-label="对话内容">
+              <div class="mobile-welcome"><h3>开始一段新对话</h3><p>问点什么，和费米一起探索。</p></div>
+              <div class="mobile-work-cards" hidden>
+                <button type="button" class="mobile-work-card"><b>整理实验结果</b><span>从记录中提取关键发现与待确认问题。</span></button>
+                <button type="button" class="mobile-work-card"><b>梳理研究资料</b><span>按主题归纳资料并标注来源。</span></button>
+              </div>
+              <div class="mobile-message-list" aria-live="polite"></div>
+            </div>
+            <button type="button" class="mobile-icon mobile-jump" data-mobile-jump aria-label="回到最新消息" hidden><svg data-figma-icon="Name=下" aria-hidden="true"></svg></button>
+            <form class="mobile-composer">
+              <div class="mobile-attachment" hidden></div>
+              <div class="mobile-composer-row">
+                <label class="mobile-icon mobile-file" title="添加附件"><svg data-figma-icon="Name=添加" aria-hidden="true"></svg><input type="file" aria-label="添加附件"></label>
+                <textarea rows="1" aria-label="消息" placeholder="问费米"></textarea>
+                <button class="mobile-icon mobile-voice" type="button" aria-pressed="false">语音</button>
+                <button class="mobile-icon mobile-send" type="submit" aria-label="发送" disabled><svg data-figma-icon="Icon / Send / Base" aria-hidden="true"></svg></button>
+                <button class="mobile-icon" type="button" data-mobile-stop hidden>停止</button>
+              </div>
+            </form>
+          </div>
+          <div class="mobile-drawer-layer" hidden>
+            <button type="button" class="mobile-backdrop" aria-label="关闭会话抽屉"></button>
+            <aside class="mobile-drawer" id="mobile-agent-drawer" role="dialog" aria-modal="true" aria-label="会话抽屉">
+              <header><b>费米</b><button type="button" class="mobile-icon" data-mobile-close aria-label="关闭"><svg data-figma-icon="Icon / Close / Base" aria-hidden="true"></svg></button></header>
+              <input type="search" aria-label="搜索会话" placeholder="搜索会话">
+              <nav aria-label="会话列表"><b>置顶</b><button class="conversation-item" type="button" data-mobile-session="固态电池研发">固态电池研发</button><b>最近会话</b><button class="conversation-item" type="button" data-mobile-session="实验数据分析">实验数据分析</button><p data-mobile-no-sessions hidden>没有匹配的会话</p></nav>
+              <footer><button class="button primary" type="button" data-mobile-new>新对话</button><button class="button secondary" type="button" data-mobile-auth>账户</button></footer>
+            </aside>
+          </div>
+          <div class="mobile-auth-screen" hidden>
+            <button type="button" class="mobile-icon" data-mobile-back aria-label="返回"><svg data-figma-icon="Name=左" aria-hidden="true"></svg></button>
+            <form class="mobile-auth-form">
+              <h3>登录费米</h3><p>使用演示邮箱继续。此流程在浏览器内模拟。</p>
+              <label>电子邮箱<input name="email" type="email" autocomplete="email" value="demo@example.com" required></label>
+              <label hidden>验证码<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" disabled></label>
+              <p class="mobile-auth-status" role="status" aria-live="polite"></p>
+              <button class="button primary" type="submit">继续</button>
+              <button class="button secondary" type="button" data-mobile-resend hidden>重新发送</button>
+              <button class="button secondary" type="button" data-mobile-skip hidden>跳过</button>
+            </form>
+          </div>
+        </div>
+        <p class="rule-note">主要触控区域至少 44 × 44 px。附件与输入区沿用费米组件，语音、验证码和通行密钥仅演示界面状态。</p>
+        <a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=2098-6912">查看 Figma 移动端组件与页面</a>
       </div>
     </section>
 
@@ -814,6 +955,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=32"></script>
+  <script src="script.js?v=35"></script>
 </body>
 </html>
