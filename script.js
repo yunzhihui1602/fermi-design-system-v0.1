@@ -1367,11 +1367,17 @@ document.querySelectorAll('[data-copyable-field]').forEach((field) => {
 document.querySelectorAll('[data-secret-field]').forEach((field) => {
   const value = field.querySelector('.router-field-value');
   const button = field.querySelector('.router-field-action');
+  const maskedValue = value.textContent;
   let visible = false;
-  button?.addEventListener('click', () => {
+  button.addEventListener('click', () => {
     visible = !visible;
-    if (value) value.textContent = visible ? field.dataset.secretValue : 'sk-9f2c••••••••••••3c3d';
+    value.textContent = visible ? field.dataset.secretValue : maskedValue;
+    field.classList.toggle('revealed', visible);
     button.setAttribute('aria-label', visible ? '隐藏 API 密钥' : '显示 API 密钥');
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    icon.dataset.figmaIcon = visible ? 'Name=预览' : 'Name=隐藏预览';
+    button.replaceChildren(icon);
+    bindFigmaIcons(button);
   });
 });
 
@@ -1463,6 +1469,113 @@ document.querySelectorAll('[data-copy]').forEach((button) => {
 const transactionSpecimen = document.querySelector('#transaction-modal');
 const transactionDialog = document.querySelector('#transactionDialog');
 if (transactionSpecimen && transactionDialog) {
+  const prepareSelects = (root) => {
+    root.querySelectorAll('.tx-field select').forEach(select => {
+      const wrapper = select.parentElement;
+      const label = wrapper.previousElementSibling;
+      const trigger = document.createElement('button');
+      const value = document.createElement('span');
+      const menu = document.querySelector('#coreSelectMenu').cloneNode(false);
+      const optionTemplate = document.querySelector('[data-core-select-option]');
+      const options = [...select.options];
+
+      trigger.type = 'button';
+      trigger.id = `${select.id}-trigger`;
+      trigger.className = 'core-select tx-select-trigger';
+      trigger.setAttribute('aria-haspopup', 'listbox');
+      trigger.setAttribute('aria-expanded', 'false');
+      value.id = `${select.id}-value`;
+      value.textContent = select.selectedOptions[0].text;
+      label.id = `${select.id}-label`;
+      label.htmlFor = trigger.id;
+      trigger.setAttribute('aria-labelledby', `${label.id} ${value.id}`);
+      trigger.append(value, wrapper.querySelector('svg'));
+      menu.id = `${select.id}-menu`;
+      menu.classList.add('tx-select-menu');
+      menu.removeAttribute('aria-label');
+      menu.setAttribute('aria-labelledby', label.id);
+      trigger.setAttribute('aria-controls', menu.id);
+      select.hidden = true;
+      wrapper.replaceWith(select, trigger, menu);
+
+      const items = options.map((option, index) => {
+        const item = optionTemplate.cloneNode(true);
+        item.removeAttribute('data-core-select-option');
+        item.querySelector('span').textContent = option.text;
+        item.tabIndex = -1;
+        item.addEventListener('click', () => {
+          select.selectedIndex = index;
+          value.textContent = option.text;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          menu.hidePopover();
+          trigger.focus();
+        });
+        menu.append(item);
+        return item;
+      });
+
+      const place = () => {
+        const rect = trigger.getBoundingClientRect();
+        const below = innerHeight - rect.bottom - 18;
+        const above = rect.top - 18;
+        menu.style.width = `${rect.width}px`;
+        const openBelow = below >= menu.scrollHeight + 2 || below >= above;
+        menu.style.maxHeight = `${Math.max(0, openBelow ? below : above)}px`;
+        menu.style.left = `${rect.left}px`;
+        menu.style.top = `${openBelow ? rect.bottom + 6 : rect.top - menu.offsetHeight - 6}px`;
+      };
+      const open = () => {
+        items.forEach((item, index) => {
+          const selected = index === select.selectedIndex;
+          item.classList.toggle('selected', selected);
+          item.setAttribute('aria-selected', String(selected));
+        });
+        menu.showPopover({ source: trigger });
+        place();
+        items[select.selectedIndex].focus({ preventScroll: true });
+      };
+      trigger.addEventListener('click', () => {
+        if (menu.matches(':popover-open')) menu.hidePopover();
+        else open();
+      });
+      trigger.addEventListener('keydown', event => {
+        if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+        event.preventDefault();
+        open();
+      });
+      menu.addEventListener('beforetoggle', event => {
+        trigger.setAttribute('aria-expanded', String(event.newState === 'open'));
+        trigger.classList.toggle('open', event.newState === 'open');
+      });
+      menu.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          document.activeElement.click();
+          return;
+        }
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          menu.hidePopover();
+          trigger.focus();
+          return;
+        }
+        const index = items.indexOf(document.activeElement);
+        const next = { ArrowDown: index + 1, ArrowUp: index - 1, Home: 0, End: items.length - 1 }[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        items[Math.max(0, Math.min(next, items.length - 1))].focus({ preventScroll: true });
+      });
+    });
+  };
+  prepareSelects(transactionSpecimen);
+  window.addEventListener('scroll', event => {
+    document.querySelectorAll('.tx-select-menu:popover-open').forEach(menu => {
+      if (event.target !== menu) menu.hidePopover();
+    });
+  }, { capture: true, passive: true });
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.tx-select-menu:popover-open').forEach(menu => menu.hidePopover());
+  });
   const form = transactionDialog.querySelector('form');
   const body = form.querySelector('.tx-body');
   const submit = form.querySelector('[data-tx-submit]');
@@ -1508,6 +1621,7 @@ if (transactionSpecimen && transactionDialog) {
     submit.classList.toggle('tx-danger', template.hasAttribute('data-danger'));
     const content = template.content.cloneNode(true);
     bindFigmaIcons(content);
+    prepareSelects(content);
     body.replaceChildren(content);
     body.scrollTop = 0;
     sync();
