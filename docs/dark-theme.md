@@ -25,3 +25,7 @@ The header appearance control offers Light, Dark and System. The choice is store
 Dark wordmark assets use editable vector paths from the existing approved logo asset, with light ink and preserved purple. Light assets remain unchanged. No image inversion filter is used.
 
 Validation covers both theme geometry, state colors, residual bright surfaces/dark text, desktop workbench, transaction modal, mobile conversation and login, custom selectors, refresh persistence, OS changes and explicit override. Developed Figma screens are unchanged by this website binding.
+
+## Purple label foreground refinement
+
+Figma `2313:18856` is the approved purple-label reference: dark purple soft background #30213f, foreground and accompanying dot #a887ff (VariableID:847:13515). Brand status badges, brand summary badges and Adjust/Allocate ledger labels share `--label-brand-foreground`. This exception applies to label content; primary buttons, ordinary product icons and chart series retain their separately approved purple roles. Light label colors and geometry remain unchanged.

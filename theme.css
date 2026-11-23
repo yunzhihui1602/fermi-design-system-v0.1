@@ -100,3 +100,12 @@
   width: 8px; height: 8px; border-radius: 50%; background: var(--stat-tone);
 }
 :root[data-theme="dark"] .stat-grid article[data-stat-variant] small { color: var(--stat-tone, var(--text-secondary)); }
+
+/* Figma 2313:18856: purple labels share the approved light-purple foreground. */
+:root[data-theme="dark"] { --label-brand-foreground: var(--figma-data-series-1); }
+:root[data-theme="dark"] :is(.core-badge.brand, .summary-badge.brand, .ledger-type.adjust, .ledger-type.allocate) {
+  color: var(--label-brand-foreground);
+}
+:root[data-theme="dark"] :is(.ledger-type.adjust, .ledger-type.allocate) { background: var(--figma-action-soft); }
+.ledger-type .ledger-brand-dot { display: block; width: 6px; height: 6px; flex: 0 0 6px; color: var(--brand-600); }
+:root[data-theme="dark"] .ledger-type .ledger-brand-dot { color: var(--label-brand-foreground); }
