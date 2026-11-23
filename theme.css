@@ -79,3 +79,9 @@
 :root[data-theme="dark"] .workspace-switch:not(.active) { background: var(--figma-control-off); }
 :root[data-theme="dark"] .base-checkbox.indeterminate::after,
 :root[data-theme="dark"] .choice-playground input:indeterminate + .base-checkbox::after { background: var(--text-inverse); }
+
+/* Figma 2313:20064: quick-range selection is neutral; calendar dates stay purple. */
+:root[data-theme="dark"] .date-picker-shortcuts button.active {
+  background: var(--figma-surface-sidebar-selected);
+  color: var(--figma-text-inverse);
+}
