@@ -136,3 +136,8 @@
 
 /* Card / Base: dark accent bars use color/action/primary. */
 :root[data-theme="dark"] .core-card > i { background: var(--figma-action-primary); }
+
+/* Dark navigation and upload accents share color/data/series-1. */
+:root[data-theme="dark"] .navigation-page-header .demo-tabs button.active::after { background: var(--figma-data-series-1); }
+:root[data-theme="dark"] .account-demo .avatar.small,
+:root[data-theme="dark"] .upload-live-grid [data-upload-trigger] svg { color: var(--figma-data-series-1); }
