@@ -85,3 +85,18 @@
   background: var(--figma-surface-sidebar-selected);
   color: var(--figma-text-inverse);
 }
+
+/* Figma 2313:21881 — Statistic Card / Base, dark variants. */
+:root[data-theme="dark"] .stat-grid article[data-stat-variant] {
+  position: relative;
+  background: var(--figma-surface-card);
+  border-color: transparent;
+}
+:root[data-theme="dark"] .stat-grid [data-stat-variant="positive"] { --stat-tone: var(--figma-status-success); }
+:root[data-theme="dark"] .stat-grid [data-stat-variant="negative"] { --stat-tone: var(--figma-status-danger); }
+:root[data-theme="dark"] .stat-grid [data-stat-variant="quota"] { --stat-tone: var(--figma-data-series-1); }
+:root[data-theme="dark"] .stat-grid article[data-stat-variant]:not([data-stat-variant="default"])::after {
+  content: ""; position: absolute; top: 18px; right: 26px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--stat-tone);
+}
+:root[data-theme="dark"] .stat-grid article[data-stat-variant] small { color: var(--stat-tone, var(--text-secondary)); }
