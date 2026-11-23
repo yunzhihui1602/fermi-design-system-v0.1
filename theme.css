@@ -170,3 +170,10 @@
 :root[data-theme="dark"] #tables .pagination button.current { border-color: transparent; }
 
 :root[data-theme="dark"] .key-record > div > svg { color: var(--figma-data-series-1); }
+
+/* Figma 2313:19174 — Tool Card, Dark state bindings. */
+:root[data-theme="dark"] .tool-row > .tool-card { background: var(--figma-surface-card); }
+:root[data-theme="dark"] .tool-card .workspace-icon.neutral { color: var(--figma-data-series-1); background: var(--figma-action-disabled); }
+:root[data-theme="dark"] .tool-card .workspace-icon.blue { color: var(--figma-status-info); background: var(--figma-status-info-soft); }
+:root[data-theme="dark"] .tool-card .workspace-switch:not(.active) { background: var(--figma-surface-sidebar-selected); }
+:root[data-theme="dark"] .tool-card.unavailable :is(h4,p) { color: var(--figma-text-tertiary); }
