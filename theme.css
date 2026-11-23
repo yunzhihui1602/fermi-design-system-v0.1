@@ -39,7 +39,7 @@
 :root[data-theme="dark"] .sidebar { background: var(--navigation-surface); }
 :root[data-theme="dark"] .topbar { background: rgb(20 20 22 / .94); }
 :root[data-theme="dark"] :is(.component-card,.token-block,.core-component-board,.navigation-workspace-board,.ai-workspace-board,.workspace-block,.mobile-agent-doc) { background: var(--canvas); }
-:root[data-theme="dark"] #visualization .showcase-grid > .component-card { background: var(--surface-card); }
+:root[data-theme="dark"] #visualization .showcase-grid > .component-card { background: var(--figma-surface-sidebar); }
 :root[data-theme="dark"] :is(.mobile-agent-app,.mobile-agent-header,.mobile-auth-screen) { background: var(--canvas); }
 :root[data-theme="dark"] .mobile-drawer { background: var(--navigation-surface); }
 :root[data-theme="dark"] :is(.core-input,.core-select,.base-input,.base-textarea,.base-number,.router-field-control) { background-color: var(--canvas); }
@@ -57,13 +57,13 @@
 :root[data-theme="dark"] :is(input,textarea)::placeholder { color: var(--text-secondary); opacity: 1; }
 :root[data-theme="dark"] .agent-preview-nav .conversation-item { border-color: transparent; }
 
-/* Chart roles are data colors, distinct from interactive status colors. */
-:root[data-theme="dark"] .chart-grid .legend.purple { --legend: var(--figma-data-series-1); }
-:root[data-theme="dark"] .chart-grid .legend.gray { --legend: var(--text-tertiary); }
-:root[data-theme="dark"] .chart-grid .trend-chart .primary { stroke: var(--figma-data-series-1); }
-:root[data-theme="dark"] .chart-grid .trend-chart .compare { stroke: var(--text-tertiary); }
-:root[data-theme="dark"] .chart-grid .bar-chart i { background: var(--figma-data-series-1); }
-:root[data-theme="dark"] .chart-grid .bar-chart b { background: var(--text-tertiary); }
+/* Figma 2313:10098: chart background, primary and compare series bindings. */
+:root[data-theme="dark"] .chart-grid .legend.purple { --legend: var(--figma-icon-brand); }
+:root[data-theme="dark"] .chart-grid .legend.gray { --legend: var(--figma-border-strong); }
+:root[data-theme="dark"] .chart-grid .trend-chart .primary { stroke: var(--figma-icon-brand); }
+:root[data-theme="dark"] .chart-grid .trend-chart .compare { stroke: var(--figma-border-strong); }
+:root[data-theme="dark"] .chart-grid .bar-chart i { background: var(--figma-icon-brand); }
+:root[data-theme="dark"] .chart-grid .bar-chart b { background: var(--figma-border-strong); }
 :root[data-theme="dark"] :is(.mini-sidebar,.template-shell > aside,.agent-preview-nav) { background: var(--navigation-surface); }
 
 :root[data-theme="dark"] .mobile-message.user { background: var(--figma-mobile-user-message); }
