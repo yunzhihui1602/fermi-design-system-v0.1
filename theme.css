@@ -110,3 +110,25 @@
 :root[data-theme="dark"] :is(.ledger-type.adjust, .ledger-type.allocate) { background: var(--figma-action-soft); }
 .ledger-type .ledger-brand-dot { display: block; width: 6px; height: 6px; flex: 0 0 6px; color: var(--brand-600); }
 :root[data-theme="dark"] .ledger-type .ledger-brand-dot { color: var(--label-brand-foreground); }
+
+/* Figma 2313:20053: Date Quick Range / Base, Dark state bindings. */
+:root[data-theme="dark"] .date-quick-state-row button {
+  color: var(--figma-text-strong);
+  background: var(--figma-surface-card);
+  border-color: transparent;
+}
+:root[data-theme="dark"] .date-quick-state-row button:is(.hover,:hover):not(:disabled,.selected) {
+  background: var(--figma-surface-hover);
+}
+:root[data-theme="dark"] .date-quick-state-row button:focus-visible {
+  color: var(--figma-decorative-brand-300-alt);
+  background: var(--figma-surface-hover);
+}
+:root[data-theme="dark"] .date-quick-state-row button.selected {
+  color: var(--figma-text-inverse);
+  background: var(--figma-action-pressed);
+}
+:root[data-theme="dark"] .date-quick-state-row button:disabled {
+  color: var(--figma-text-disabled);
+  background: var(--figma-surface-card);
+}
