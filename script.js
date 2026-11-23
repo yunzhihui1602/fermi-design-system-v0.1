@@ -1979,3 +1979,103 @@ if (mobileAgent) {
   });
   render();
 }
+
+// Documentation controls reuse Select / Base; native selects remain the data source.
+(() => {
+  const template = document.querySelector('[data-core-select-option]');
+  const prototype = document.querySelector('#coreSelectMenu');
+  if (!template || !prototype) return;
+  document.querySelectorAll('select:not([hidden])').forEach((select, index) => {
+    if (select.closest('template')) return;
+    const shell = document.createElement('span');
+    shell.className = 'doc-select-shell';
+    const label = select.closest('label');
+    const labelText = (label?.firstChild?.textContent || select.getAttribute('aria-label') || '选择').trim();
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'core-select doc-select-trigger';
+    trigger.id = `doc-select-${index}`;
+    trigger.disabled = select.disabled;
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    const value = document.createElement('span');
+    const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    arrow.setAttribute('data-figma-icon', 'Name=下');
+    arrow.setAttribute('aria-hidden', 'true');
+    // Use the already hydrated, approved product icon rather than another library.
+    const icon = document.querySelector('.tx-select-trigger > svg, .core-select > svg');
+    trigger.append(value, icon ? icon.cloneNode(true) : arrow);
+    const menu = prototype.cloneNode(false);
+    menu.id = `${trigger.id}-menu`;
+    menu.classList.add('doc-select-menu');
+    menu.setAttribute('aria-label', labelText);
+    trigger.setAttribute('aria-controls', menu.id);
+    select.before(shell);
+    shell.append(select, trigger);
+    document.body.append(menu);
+    select.hidden = true;
+    const sync = () => {
+      value.textContent = select.selectedOptions[0]?.text || '';
+      trigger.disabled = select.disabled;
+      trigger.setAttribute('aria-label', `${labelText}：${value.textContent}`);
+      items.forEach((item, i) => {
+        item.classList.toggle('selected', i === select.selectedIndex);
+        item.setAttribute('aria-selected', String(i === select.selectedIndex));
+      });
+    };
+    const items = [...select.options].map((option, i) => {
+      const item = template.cloneNode(true);
+      item.removeAttribute('data-core-select-option');
+      item.querySelector('span').textContent = option.text;
+      item.disabled = option.disabled;
+      item.tabIndex = -1;
+      item.addEventListener('click', () => {
+        select.selectedIndex = i;
+        select.dispatchEvent(new Event('change', {bubbles:true}));
+        menu.hidePopover();
+        trigger.focus();
+      });
+      menu.append(item);
+      return item;
+    });
+    const open = () => {
+      sync();
+      menu.showPopover({source:trigger});
+      const r = trigger.getBoundingClientRect();
+      menu.dataset.anchorId = trigger.id;
+      menu.dataset.anchorY = String(r.top);
+      const below = innerHeight - r.bottom - 12, above = r.top - 12;
+      const down = below >= menu.scrollHeight || below >= above;
+      menu.style.width = `${Math.min(Math.max(r.width,160),innerWidth-24)}px`;
+      menu.style.maxHeight = `${Math.max(36,down?below:above)}px`;
+      menu.style.left = `${Math.max(12,Math.min(r.left,innerWidth-menu.offsetWidth-12))}px`;
+      menu.style.top = `${down?r.bottom+6:r.top-menu.offsetHeight-6}px`;
+      (items[select.selectedIndex] || items[0])?.focus({preventScroll:true});
+    };
+    trigger.addEventListener('click', () => menu.matches(':popover-open') ? menu.hidePopover() : open());
+    trigger.addEventListener('keydown', e => {
+      if (['ArrowDown','ArrowUp'].includes(e.key)) {e.preventDefault();open();}
+    });
+    menu.addEventListener('beforetoggle', e => {
+      trigger.setAttribute('aria-expanded', String(e.newState === 'open'));
+      trigger.classList.toggle('open', e.newState === 'open');
+    });
+    menu.addEventListener('keydown', e => {
+      if (e.key==='Escape') {e.preventDefault();menu.hidePopover();trigger.focus();return;}
+      if (e.key==='Enter'||e.key===' ') {e.preventDefault();document.activeElement.click();return;}
+      const enabled=items.filter(item=>!item.disabled), i=enabled.indexOf(document.activeElement);
+      const next={ArrowDown:i+1,ArrowUp:i-1,Home:0,End:enabled.length-1}[e.key];
+      if(next!==undefined){e.preventDefault();enabled[Math.max(0,Math.min(next,enabled.length-1))]?.focus({preventScroll:true});}
+    });
+    select.addEventListener('change',sync);
+    select.form?.addEventListener('reset',()=>setTimeout(sync));
+    sync();
+  });
+  const close = e => document.querySelectorAll('.doc-select-menu:popover-open').forEach(menu=>{
+    if(e.target===menu || menu.contains(e.target))return;
+    const anchor=document.getElementById(menu.dataset.anchorId);
+    if(e.type==='resize' || !anchor || Math.abs(anchor.getBoundingClientRect().top-Number(menu.dataset.anchorY))>1)menu.hidePopover();
+  });
+  window.addEventListener('scroll',close,{capture:true,passive:true});
+  window.addEventListener('resize',close);
+})();

@@ -1,0 +1,19 @@
+{
+  "source": "https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE?node-id=149-715",
+  "captured": "2026-11-23",
+  "nodeCount": 2308,
+  "hashAlgorithm": "FNV-1a over UTF-16 code units",
+  "fingerprint": "22f0aff8",
+  "fields": [
+    "id",
+    "x",
+    "y",
+    "w",
+    "h",
+    "visible",
+    "fills",
+    "strokes",
+    "text"
+  ],
+  "verification": "Protected developed screen properties unchanged during priority implementation; extension border cleanup already completed in e038188."
+}
