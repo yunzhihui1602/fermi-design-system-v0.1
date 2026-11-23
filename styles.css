@@ -1652,3 +1652,28 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .mobile-composer textarea::placeholder { color: var(--text-secondary); }
 
 #conversation-demo { width: min(240px, 100%); }
+
+/* Figma 910:5582 visual baseline — 2026-11-23.
+   Documentation surfaces flow without nested outlines. Keep the 1px box
+   metrics so this visual update does not move controls or text. Actual
+   fields, assets, tools, tables and modal boundaries retain their strokes. */
+.component-card,
+.navigation-workspace-board,
+.navigation-block,
+.usage-quota-board { border-color: transparent; }
+
+/* These component masters explicitly hide their outer stroke in Figma. */
+.core-card,
+.preset-card,
+.page-header-demo,
+.demo-tabs,
+.empty-state-preview,
+.popover-demo,
+.banner-stack > div,
+.stat-grid article,
+.quota-card,
+.usage-progress,
+.quota-status-card { border-color: transparent; }
+
+/* Chart frames remain outlined in Trend Chart / Base and Bar Chart / Base. */
+#visualization .showcase-grid > .component-card { border-color: var(--border-default); }
