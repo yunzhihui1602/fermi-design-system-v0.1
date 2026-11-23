@@ -166,3 +166,5 @@
 :root[data-theme="dark"] #tables :is(.table-toolbar,.channel-table-title) > .button.primary { border-color: transparent; }
 
 :root[data-theme="dark"] #data-states .empty-state-preview > .button.primary { border-color: transparent; }
+
+:root[data-theme="dark"] #tables .pagination button.current { border-color: transparent; }
