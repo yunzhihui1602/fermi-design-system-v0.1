@@ -105,6 +105,7 @@
 :root[data-theme="dark"] { --label-brand-foreground: var(--figma-data-series-1); }
 :root[data-theme="dark"] :is(.core-badge.brand, .summary-badge.brand, .ledger-type.adjust, .ledger-type.allocate) {
   color: var(--label-brand-foreground);
+  background: var(--figma-action-soft);
 }
 :root[data-theme="dark"] :is(.ledger-type.adjust, .ledger-type.allocate) { background: var(--figma-action-soft); }
 .ledger-type .ledger-brand-dot { display: block; width: 6px; height: 6px; flex: 0 0 6px; color: var(--brand-600); }
