@@ -1,0 +1,81 @@
+/* Product semantics map to the same Light / Dark modes used in Figma. */
+:root {
+  color-scheme: light;
+  --canvas: #fff;
+  --navigation-surface: var(--surface-sidebar);
+  --text-inverse: var(--figma-text-inverse);
+  --border-focus: var(--figma-border-focus);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: var(--figma-surface-sidebar);
+  --navigation-surface: var(--figma-surface-card);
+  --surface-page: var(--figma-surface-page);
+  --surface-card: var(--figma-surface-card);
+  --surface-sidebar: var(--figma-surface-sidebar);
+  --surface-elevated: var(--figma-surface-elevated);
+  --surface-selected: var(--figma-surface-selected);
+  --surface-hover: var(--figma-surface-hover);
+  --surface-disabled: var(--figma-surface-disabled);
+  --surface-inverse: var(--figma-surface-inverse);
+  --border-default: var(--figma-border-default);
+  --border-strong: var(--figma-border-strong);
+  --text-strong: var(--figma-text-strong);
+  --text-primary: var(--figma-text-primary);
+  --text-secondary: var(--figma-text-secondary);
+  --text-tertiary: var(--figma-text-tertiary);
+  --action-primary: var(--figma-action-primary);
+  --action-soft: var(--figma-action-soft);
+  --success-soft: var(--figma-status-success-soft);
+  --warning-soft: var(--figma-status-warning-soft);
+  --danger-soft: var(--figma-status-danger-soft);
+  --info-soft: var(--figma-status-info-soft);
+  --shadow-float: 0 16px 48px rgb(0 0 0 / .35), 0 2px 8px rgb(0 0 0 / .25);
+}
+.topbar-actions { display: flex; align-items: center; gap: 12px; }
+.appearance-control { display: inline-flex; align-items: center; gap: 4px; color: var(--text-secondary); font-size: 12px; }
+.appearance-control .doc-select-trigger { min-width: 110px; }
+:root[data-theme="dark"] body { background: var(--canvas); }
+:root[data-theme="dark"] .sidebar { background: var(--navigation-surface); }
+:root[data-theme="dark"] .topbar { background: rgb(20 20 22 / .94); }
+:root[data-theme="dark"] :is(.component-card,.token-block,.core-component-board,.navigation-workspace-board,.ai-workspace-board,.workspace-block,.mobile-agent-doc) { background: var(--canvas); }
+:root[data-theme="dark"] #visualization .showcase-grid > .component-card { background: var(--surface-card); }
+:root[data-theme="dark"] :is(.mobile-agent-app,.mobile-agent-header,.mobile-auth-screen) { background: var(--canvas); }
+:root[data-theme="dark"] .mobile-drawer { background: var(--navigation-surface); }
+:root[data-theme="dark"] :is(.core-input,.core-select,.base-input,.base-textarea,.base-number,.router-field-control) { background-color: var(--canvas); }
+:root[data-theme="dark"] :is(.core-input:disabled,.core-select:disabled,.core-input.disabled,.core-select.disabled) { background: var(--surface-disabled); }
+:root[data-theme="dark"] :is(.core-select:hover:not(:disabled),.core-select.hover) { background: var(--surface-hover); }
+:root[data-theme="dark"] :is(.core-select.open,.core-select:focus-visible) { border-color: var(--border-focus); }
+:root[data-theme="dark"] :is(.core-modal,.transaction-dialog,.drawer,.core-select-menu,.menu-demo,.popover-demo,.conversation-menu,.account-demo-menu,.model-dropdown) { background-color: var(--surface-elevated); }
+:root[data-theme="dark"] :is(.switch,.tool-switch):not(.active) { background-color: var(--figma-control-off); }
+@media (max-width: 680px) {
+  .topbar-actions { gap: 6px; }
+  .appearance-control { font-size: 0; }
+  .appearance-control .doc-select-trigger { min-width: 90px; }
+}
+
+:root[data-theme="dark"] :is(input,textarea)::placeholder { color: var(--text-secondary); opacity: 1; }
+:root[data-theme="dark"] .agent-preview-nav .conversation-item { border-color: transparent; }
+
+/* Chart roles are data colors, distinct from interactive status colors. */
+:root[data-theme="dark"] .chart-grid .legend.purple { --legend: var(--figma-data-series-1); }
+:root[data-theme="dark"] .chart-grid .legend.gray { --legend: var(--text-tertiary); }
+:root[data-theme="dark"] .chart-grid .trend-chart .primary { stroke: var(--figma-data-series-1); }
+:root[data-theme="dark"] .chart-grid .trend-chart .compare { stroke: var(--text-tertiary); }
+:root[data-theme="dark"] .chart-grid .bar-chart i { background: var(--figma-data-series-1); }
+:root[data-theme="dark"] .chart-grid .bar-chart b { background: var(--text-tertiary); }
+:root[data-theme="dark"] :is(.mini-sidebar,.template-shell > aside,.agent-preview-nav) { background: var(--navigation-surface); }
+
+:root[data-theme="dark"] .mobile-message.user { background: var(--figma-mobile-user-message); }
+:root[data-theme="dark"] .mobile-assistant-copy blockquote { background: var(--surface-hover); }
+
+:root[data-theme="dark"] input:not(:checked) + .base-switch { background-color: var(--figma-control-off); }
+:root[data-theme="dark"] .core-button.primary:disabled { background: var(--figma-action-disabled); }
+:root[data-theme="dark"] :is(.core-button,.core-icon-button,.core-input,.core-select):disabled { color: var(--figma-text-disabled); }
+
+:root[data-theme="dark"] :is(.switch i,.workspace-switch i),
+:root[data-theme="dark"] .base-switch::after { background: var(--text-inverse); }
+
+:root[data-theme="dark"] .workspace-switch:not(.active) { background: var(--figma-control-off); }
+:root[data-theme="dark"] .base-checkbox.indeterminate::after,
+:root[data-theme="dark"] .choice-playground input:indeterminate + .base-checkbox::after { background: var(--text-inverse); }

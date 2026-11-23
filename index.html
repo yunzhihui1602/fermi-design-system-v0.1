@@ -4,8 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>费米 Design System V0.1</title>
+  <script src="theme.js?v=2"></script>
+  <link rel="stylesheet" href="figma-tokens.css?v=1">
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=70">
+  <link rel="stylesheet" href="styles.css?v=71">
+  <link rel="stylesheet" href="theme-colors.css?v=2">
+  <link rel="stylesheet" href="theme.css?v=5">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -73,7 +77,8 @@
       <input id="docSearch" type="search" placeholder="搜索组件或规范" autocomplete="off">
       <kbd>⌘ K</kbd>
     </label>
-    <a class="figma-link" href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582" target="_blank" rel="noreferrer"><svg><use href="#i-figma"/></svg>查看 Figma 源文件</a>
+    <div class="topbar-actions"><label class="appearance-control">外观 <select data-appearance aria-label="外观"><option value="light">浅色</option><option value="dark">暗色</option><option value="system" selected>跟随系统</option></select></label>
+    <a class="figma-link" href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582" target="_blank" rel="noreferrer"><svg><use href="#i-figma"/></svg>查看 Figma 源文件</a></div>
   </header>
 
   <main>
@@ -1257,6 +1262,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=70"></script>
+  <script src="script.js?v=71"></script>
 </body>
 </html>

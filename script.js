@@ -343,6 +343,8 @@ document.querySelectorAll('.appearance-state').forEach((state) => {
     option.setAttribute('tabindex', '0');
     option.setAttribute('aria-pressed', String(option.classList.contains('active')));
     const selectMode = () => {
+      const mode = option.textContent.trim();
+      window.FermiTheme?.set(mode === '浅色' ? 'light' : mode === '深色' ? 'dark' : 'system');
       options.forEach((item) => {
         const active = item === option;
         item.classList.toggle('active', active);

@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-23",
+  "referenceCommit": "90c333de43d71a8a4e6d177e9b08df7ef485540a",
+  "figmaSemanticVariables": 89,
+  "lightBaseline": { "checkedElements": 3149, "colorOrGeometryDifferences": 0 },
+  "lightDarkGeometryComparison": "passed",
+  "appearanceMenuMouseSelection": "passed",
+  "reloadPersistence": "passed",
+  "systemPreferenceChanges": "passed",
+  "explicitPreferenceOverridesSystem": "passed",
+  "toolSwitchStateColors": "passed after transitions settled",
+  "figmaExtensionInstances": { "checked": 11, "obsoleteVisibleOuterStrokes": 0 },
+  "visualChecks": ["desktop workbench", "transaction modal", "mobile conversation", "mobile login", "charts", "390px documentation viewport"],
+  "figmaDevelopedScreens": "read-only; unchanged by this website theme binding"
+}
