@@ -9,6 +9,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --canvas: var(--figma-surface-sidebar);
+  --text-brand: var(--figma-text-brand);
   --navigation-surface: var(--figma-surface-card);
   --surface-page: var(--figma-surface-page);
   --surface-card: var(--figma-surface-card);
@@ -121,7 +122,7 @@
   background: var(--figma-surface-hover);
 }
 :root[data-theme="dark"] .date-quick-state-row button:focus-visible {
-  color: var(--figma-decorative-brand-300-alt);
+  color: var(--figma-text-brand);
   background: var(--figma-surface-hover);
 }
 :root[data-theme="dark"] .date-quick-state-row button.selected {
