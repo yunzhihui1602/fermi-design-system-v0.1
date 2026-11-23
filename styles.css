@@ -1677,3 +1677,10 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 
 /* Chart frames remain outlined in Trend Chart / Base and Bar Chart / Base. */
 #visualization .showcase-grid > .component-card { border-color: var(--border-default); }
+
+/* Developed Agent baseline 149:715: extension-only cards use open surfaces.
+   Scope to the documentation rows: mobile work cards and developed model
+   comparison/input/menu surfaces keep their existing boundaries. */
+.workspace-row.asset-row > .asset-card,
+.workspace-row.tool-row > .tool-card,
+.workspace-row.task-row > .task-card { border-color: transparent; }
