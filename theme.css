@@ -133,3 +133,6 @@
   color: var(--figma-text-disabled);
   background: var(--figma-surface-card);
 }
+
+/* Card / Base: dark accent bars use color/action/primary. */
+:root[data-theme="dark"] .core-card > i { background: var(--figma-action-primary); }
