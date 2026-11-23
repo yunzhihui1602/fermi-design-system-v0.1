@@ -168,3 +168,5 @@
 :root[data-theme="dark"] #data-states .empty-state-preview > .button.primary { border-color: transparent; }
 
 :root[data-theme="dark"] #tables .pagination button.current { border-color: transparent; }
+
+:root[data-theme="dark"] .key-record > div > svg { color: var(--figma-data-series-1); }
