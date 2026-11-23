@@ -141,3 +141,18 @@
 :root[data-theme="dark"] .navigation-page-header .demo-tabs button.active::after { background: var(--figma-data-series-1); }
 :root[data-theme="dark"] .account-demo .avatar.small,
 :root[data-theme="dark"] .upload-live-grid [data-upload-trigger] svg { color: var(--figma-data-series-1); }
+
+/* Figma 2313:19092 — Agent Preset Card, Dark visuals. */
+:root[data-theme="dark"] .preset-row .preset-card { background: var(--figma-surface-card); }
+:root[data-theme="dark"] .preset-row .preset-card:hover:not(.selected),
+:root[data-theme="dark"] .preset-row .preset-card:not(.selected):focus-within { background: var(--figma-surface-hover); }
+:root[data-theme="dark"] .preset-row .preset-card.selected { background: var(--figma-surface-sidebar-selected); }
+:root[data-theme="dark"] .preset-card .workspace-icon { color: var(--figma-data-series-1); background: var(--figma-action-disabled); }
+:root[data-theme="dark"] .preset-card > .workspace-tag { color: var(--figma-text-secondary); background: var(--figma-surface-sidebar); }
+:root[data-theme="dark"] .preset-card:is(:hover,:focus-within,.selected) > .workspace-tag { background: var(--figma-surface-card); }
+:root[data-theme="dark"] .ai-workspace-board .preset-card > button {
+  color: var(--figma-text-primary); background: var(--figma-action-primary); border-color: transparent;
+}
+:root[data-theme="dark"] .ai-workspace-board .preset-card.selected > button { color: var(--figma-text-inverse); }
+:root[data-theme="dark"] .ai-workspace-board .preset-card > button:not(:disabled):hover { background: var(--figma-action-pressed); }
+:root[data-theme="dark"] .ai-workspace-board .preset-card > button:not(:disabled):active { background: var(--figma-action-pressed); }
