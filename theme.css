@@ -156,3 +156,11 @@
 :root[data-theme="dark"] .ai-workspace-board .preset-card.selected > button { color: var(--figma-text-inverse); }
 :root[data-theme="dark"] .ai-workspace-board .preset-card > button:not(:disabled):hover { background: var(--figma-action-pressed); }
 :root[data-theme="dark"] .ai-workspace-board .preset-card > button:not(:disabled):active { background: var(--figma-action-pressed); }
+
+/* Dark tool warning and channel actions use their status semantics. */
+:root[data-theme="dark"] .tool-card.unavailable .workspace-icon.warning { background: var(--figma-status-warning-soft); }
+:root[data-theme="dark"] .actions .channel-disable-action { color: var(--figma-status-danger); }
+:root[data-theme="dark"] .actions .channel-enable-action { color: var(--figma-status-success); }
+
+:root[data-theme="dark"] .actions .channel-edit-action { color: var(--figma-status-info); }
+:root[data-theme="dark"] #tables :is(.table-toolbar,.channel-table-title) > .button.primary { border-color: transparent; }
