@@ -7,7 +7,7 @@
   <script src="theme.js?v=2"></script>
   <link rel="stylesheet" href="figma-tokens.css?v=2">
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=73">
+  <link rel="stylesheet" href="styles.css?v=74">
   <link rel="stylesheet" href="theme-colors.css?v=3">
   <link rel="stylesheet" href="theme.css?v=22">
 </head>
@@ -63,6 +63,7 @@
       <a class="nav-link" href="#router">Router 专属组件</a>
       <a class="nav-link" href="#visualization">数据可视化</a>
       <a class="nav-link" href="#overlays">弹窗与抽屉</a>
+      <a class="nav-link" href="#developer-guide">开发指南</a>
       <a class="nav-link" href="#mapping">开发映射</a>
     </nav>
     <div class="sidebar-foot">
@@ -89,7 +90,7 @@
         <p>面向科研 Agent 与多后台产品的统一界面规范。以清晰、克制、可靠为目标，让设计与开发使用同一套组件语言。</p>
         <div class="hero-actions">
           <a class="button primary" href="#core-components">浏览组件<svg><use href="#i-arrow"/></svg></a>
-          <a class="button secondary" href="#mapping">查看开发映射</a>
+          <a class="button secondary" href="#developer-guide">查看开发指南</a>
         </div>
       </div>
       <div class="hero-preview" aria-label="设计系统预览">
@@ -1140,6 +1141,175 @@
       <div class="component-card state-card"><h3>Modal Size / Drawer Type</h3><div class="overlay-size-grid"><div class="modal-size small"><b>Small</b><span>确认类操作</span></div><div class="modal-size medium"><b>Medium</b><span>常规表单</span></div><div class="modal-size large"><b>Large</b><span>复杂配置</span></div><div class="drawer-type"><b>Model</b><span>模型详情</span></div><div class="drawer-type"><b>API Key</b><span>密钥详情</span></div><div class="drawer-type"><b>Member</b><span>成员详情</span></div><div class="drawer-type loading"><b>Loading</b><span>骨架状态</span></div></div></div>
     </section>
 
+    <section class="doc-section" id="developer-guide" data-search="开发指南 快速上手 API 接入 组件源码">
+      <div class="section-heading"><div><h2>开发指南</h2><p>用现有设计变量和原生 HTML 接入费米组件。</p></div></div>
+      <article class="component-card guide-card">
+        <h3 id="quick-start">快速上手</h3>
+        <p>把以下样式文件复制到项目，并按顺序引入。然后复制所需组件的 HTML 到页面。下方五个示例使用这些样式。</p>
+        <p>在 <code>&lt;html&gt;</code> 上设置 <code>data-theme="dark"</code> 可启用暗色。主题、缩放和弹层集成可对照本站源码。</p>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;figma-tokens.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;tokens.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;theme-colors.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;theme.css&quot;&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <nav class="guide-links" aria-label="核心组件接入"><a href="#api-button">Button</a><a href="#api-input">Input</a><a href="#api-select">Select</a><a href="#api-dialog">Dialog</a><a href="#api-table">Table</a><a href="#create-channel-demo">新增渠道示例</a></nav>
+      </article>
+      <article class="component-card guide-card">
+        <h3 id="api-button">Button 按钮</h3>
+        <p>用实底按钮表示主要操作，次级样式用于取消或辅助操作。</p>
+        <div class="guide-preview">
+<div class="guide-actions">
+  <button type="button" class="button primary">保存</button>
+  <button type="button" class="button secondary" disabled>不可用</button>
+</div>
+        </div>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;div class=&quot;guide-actions&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;button primary&quot;&gt;保存&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;button secondary&quot; disabled&gt;不可用&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <h4>属性与事件</h4>
+        <dl class="guide-api"><div><dt><code>class</code></dt><dd><code>button primary</code> 或 <code>button secondary</code>。</dd></div><div><dt><code>type / disabled</code></dt><dd>显式设置按钮类型。提交期间使用原生禁用状态。</dd></div><div><dt><code>click</code></dt><dd>绑定业务操作。</dd></div></dl>
+        <p class="guide-keyboard">键盘使用 Tab 聚焦，Enter 或空格触发。</p>
+        <div class="guide-links"><a href="#core-components">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
+      </article>
+      <article class="component-card guide-card">
+        <h3 id="api-input">Input 输入框</h3>
+        <p>为字段提供可见标签，并用辅助说明传达格式或校验要求。</p>
+        <div class="guide-preview">
+<div class="tx-field">
+  <label for="guide-sample-name">渠道名称</label>
+  <input id="guide-sample-name" name="channelName" class="core-input" required maxlength="40" placeholder="例如：实验平台">
+</div>
+        </div>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;div class=&quot;tx-field&quot;&gt;
+  &lt;label for=&quot;guide-sample-name&quot;&gt;渠道名称&lt;/label&gt;
+  &lt;input id=&quot;guide-sample-name&quot; name=&quot;channelName&quot; class=&quot;core-input&quot; required maxlength=&quot;40&quot; placeholder=&quot;例如：实验平台&quot;&gt;
+&lt;/div&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <h4>属性与事件</h4>
+        <dl class="guide-api"><div><dt><code>id / name</code></dt><dd><code>id</code> 配合标签，<code>name</code> 用于表单取值。</dd></div><div><dt><code>required / maxlength</code></dt><dd>定义基础约束。业务校验可用 <code>setCustomValidity()</code>。</dd></div><div><dt><code>input / change</code></dt><dd>输入时更新，提交前校验；错误说明可通过 <code>aria-describedby</code> 关联。</dd></div></dl>
+        <p class="guide-keyboard">键盘使用 Tab 聚焦，浏览器负责文本编辑。</p>
+        <div class="guide-links"><a href="#forms">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
+      </article>
+      <article class="component-card guide-card">
+        <h3 id="api-select">Select 选择器</h3>
+        <p>选项的可见名称供用户阅读，稳定的 value 供业务提交。</p>
+        <div class="guide-preview">
+<label class="guide-select">
+  接入协议
+  <select name="protocol" class="core-input">
+    <option value="openai">OpenAI 兼容</option>
+    <option value="anthropic">Anthropic 兼容</option>
+  </select>
+</label>
+        </div>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;label class=&quot;guide-select&quot;&gt;
+  接入协议
+  &lt;select name=&quot;protocol&quot; class=&quot;core-input&quot;&gt;
+    &lt;option value=&quot;openai&quot;&gt;OpenAI 兼容&lt;/option&gt;
+    &lt;option value=&quot;anthropic&quot;&gt;Anthropic 兼容&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/label&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <h4>属性与事件</h4>
+        <dl class="guide-api"><div><dt><code>name / value</code></dt><dd>用 <code>name</code> 提交选中项的 <code>value</code>。</dd></div><div><dt><code>change</code></dt><dd>监听选择变化。站内增强版保留原生 select 作为数据源。</dd></div><div><dt><code>disabled</code></dt><dd>字段不可操作时禁用。</dd></div></dl>
+        <p class="guide-keyboard">站内增强版支持方向键浏览、回车选择和 Esc 关闭。复制示例单独使用时采用浏览器原生选择器。</p>
+        <div class="guide-links"><a href="#forms">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
+      </article>
+      <article class="component-card guide-card">
+        <h3 id="api-dialog">Dialog 对话框</h3>
+        <p>用模态对话框承载需要确认的操作。示例使用支持 HTML 按钮 command 属性的浏览器。</p>
+        <div class="guide-preview">
+<button type="button" class="button secondary" commandfor="guide-example-dialog" command="show-modal">打开对话框</button>
+<dialog id="guide-example-dialog" class="modal transaction-dialog" aria-labelledby="guide-example-title">
+  <header><h2 id="guide-example-title">确认操作</h2></header>
+  <div class="tx-body">请核对当前配置。</div>
+  <footer>
+    <form method="dialog" class="guide-dialog-actions">
+      <button class="button secondary" value="cancel">取消</button>
+      <button class="button primary" value="confirm">确认</button>
+    </form>
+  </footer>
+</dialog>
+        </div>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;button type=&quot;button&quot; class=&quot;button secondary&quot; commandfor=&quot;guide-example-dialog&quot; command=&quot;show-modal&quot;&gt;打开对话框&lt;/button&gt;
+&lt;dialog id=&quot;guide-example-dialog&quot; class=&quot;modal transaction-dialog&quot; aria-labelledby=&quot;guide-example-title&quot;&gt;
+  &lt;header&gt;&lt;h2 id=&quot;guide-example-title&quot;&gt;确认操作&lt;/h2&gt;&lt;/header&gt;
+  &lt;div class=&quot;tx-body&quot;&gt;请核对当前配置。&lt;/div&gt;
+  &lt;footer&gt;
+    &lt;form method=&quot;dialog&quot; class=&quot;guide-dialog-actions&quot;&gt;
+      &lt;button class=&quot;button secondary&quot; value=&quot;cancel&quot;&gt;取消&lt;/button&gt;
+      &lt;button class=&quot;button primary&quot; value=&quot;confirm&quot;&gt;确认&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/footer&gt;
+&lt;/dialog&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <h4>属性与事件</h4>
+        <dl class="guide-api"><div><dt><code>showModal() / close()</code></dt><dd>脚本可用这两个原生方法控制打开和关闭。</dd></div><div><dt><code>aria-labelledby</code></dt><dd>指向对话框标题。</dd></div><div><dt><code>close / cancel</code></dt><dd>读取 <code>returnValue</code> 区分提交结果，处理 Esc 取消。</dd></div></dl>
+        <p class="guide-keyboard">Esc 可关闭；关闭后焦点返回打开按钮。旧浏览器可用 showModal() 绑定打开按钮。</p>
+        <div class="guide-links"><a href="#overlays">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
+      </article>
+      <article class="component-card guide-card">
+        <h3 id="api-table">Table 表格</h3>
+        <p>用语义化表头关联数据单元格，横向空间不足时允许表格内部滚动。</p>
+        <div class="guide-preview">
+<div class="guide-table-wrap">
+  <table class="guide-table">
+    <caption>演示渠道</caption>
+    <thead><tr><th scope="col">名称</th><th scope="col">协议</th><th scope="col">模型数</th></tr></thead>
+    <tbody><tr><th scope="row">实验平台</th><td>OpenAI 兼容</td><td>2</td></tr></tbody>
+  </table>
+</div>
+        </div>
+        <details class="guide-code"><summary>查看代码</summary>
+          <pre><code>&lt;div class=&quot;guide-table-wrap&quot;&gt;
+  &lt;table class=&quot;guide-table&quot;&gt;
+    &lt;caption&gt;演示渠道&lt;/caption&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;名称&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;协议&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;模型数&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;&lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;实验平台&lt;/th&gt;&lt;td&gt;OpenAI 兼容&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+          <button type="button" class="button secondary" data-guide-copy>复制代码</button>
+          <span role="status" class="guide-copy-status"></span>
+        </details>
+        <h4>属性与事件</h4>
+        <dl class="guide-api"><div><dt><code>caption / scope</code></dt><dd>描述表格用途，标记行头或列头。</dd></div><div><dt><code>thead / tbody</code></dt><dd>区分列标题与数据。</dd></div><div><dt><code>aria-sort</code></dt><dd>为实际可排序的表头声明当前排序方向。</dd></div></dl>
+        <p class="guide-keyboard">可操作元素按正常 Tab 顺序访问，静态单元格沿用表格语义。</p>
+        <div class="guide-links"><a href="#tables">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
+      </article>
+      <article class="component-card guide-card" data-channel-guide>
+        <h3 id="create-channel-demo">新增渠道 · 完整表单示例</h3>
+        <p>配置接入地址和至少一个模型后提交。可勾选「模拟下次保存失败」验证重试。记录仅保存在本次页面会话中。</p>
+        <button type="button" class="button primary" data-channel-open>新增渠道</button>
+        <p role="status" data-channel-result>暂无新增渠道。</p>
+        <div class="guide-table-wrap">
+          <table class="guide-table">
+            <caption>本次新增渠道</caption>
+            <thead><tr><th scope="col">名称</th><th scope="col">协议</th><th scope="col">模型数</th></tr></thead>
+            <tbody data-channel-records></tbody>
+          </table>
+        </div>
+        <div class="guide-links"><a href="developer-guide.js">查看表单脚本</a><a href="https://github.com/yunzhihui1602/fermi-design-system-v0.1/blob/main/index.html">查看页面源码</a></div>
+      </article>
+    </section>
+
     <section class="doc-section" id="mapping" data-search="开发 映射 React Vue CSS Figma component props">
       <div class="section-heading"><div><span class="section-index">20</span><h2>开发映射</h2><p>Figma 名称、HTML 类名与框架属性保持一一对应。</p></div></div>
       <div class="mapping-table">
@@ -1193,6 +1363,34 @@
     <button type="button" role="option" data-model-type-option="chat" aria-selected="false"><span>对话模型</span><svg><use href="#i-check"/></svg></button>
     <button type="button" role="option" data-model-type-option="reasoning" aria-selected="false"><span>推理模型</span><svg><use href="#i-check"/></svg></button>
   </div>
+
+  <dialog class="modal transaction-dialog channel-guide-dialog" id="channelGuideDialog" aria-labelledby="guide-channel-title">
+    <form>
+      <header><div><h2 id="guide-channel-title">新增渠道</h2><p>使用演示数据完成表单校验和保存流程。</p></div></header>
+      <div class="tx-body">
+        <fieldset class="guide-fields">
+          <div class="tx-field"><label for="guide-channel-name">渠道名称</label><input class="core-input" id="guide-channel-name" name="channelName" required maxlength="40" autocomplete="off" autofocus></div>
+          <div class="tx-field"><label for="guide-channel-url">接入地址（HTTPS）</label><input class="core-input" id="guide-channel-url" name="endpoint" type="url" required placeholder="https://api.example.com/v1"></div>
+          <label class="guide-select">接入协议 <select class="core-input" name="protocol"><option>OpenAI 兼容</option><option>Anthropic 兼容</option></select></label>
+          <div class="guide-fields" data-channel-models></div>
+          <button type="button" class="button secondary" data-channel-add-model>添加模型</button>
+          <label class="guide-failure"><input type="checkbox" name="simulateError"> 模拟下次保存失败</label>
+        </fieldset>
+      </div>
+      <footer>
+        <p class="guide-form-status" data-channel-status role="status"></p>
+        <button type="reset" class="button quiet">重置</button>
+        <button type="button" class="button secondary" data-channel-cancel>取消</button>
+        <button type="submit" class="button primary">保存渠道</button>
+      </footer>
+    </form>
+  </dialog>
+  <template id="guideChannelModel">
+    <div class="guide-model-row">
+      <div class="tx-field"><label>模型 ID</label><input class="core-input" name="modelId" required maxlength="80" placeholder="例如：fermi-q-llm"></div>
+      <button type="button" class="button secondary" data-channel-remove-model>移除</button>
+    </div>
+  </template>
 
   <dialog class="modal transaction-dialog" id="transactionDialog" aria-labelledby="transactionTitle" aria-describedby="transactionDescription">
     <form method="dialog">
@@ -1263,6 +1461,7 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=72"></script>
+  <script src="developer-guide.js?v=1"></script>
+  <script src="script.js?v=73"></script>
 </body>
 </html>

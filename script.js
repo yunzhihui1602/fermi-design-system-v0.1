@@ -2101,7 +2101,8 @@ if (mobileAgent) {
     trigger.setAttribute('aria-controls', menu.id);
     select.before(shell);
     shell.append(select, trigger);
-    document.body.append(menu);
+    const menuHost = select.closest('dialog') ?? document.body;
+    menuHost.append(menu);
     select.hidden = true;
     const sync = () => {
       value.textContent = select.selectedOptions[0]?.text || '';

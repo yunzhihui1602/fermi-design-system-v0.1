@@ -1717,3 +1717,40 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
   .doc-search kbd { display: none; }
   .doc-search input { padding-right: 8px; }
 }
+
+/* Developer guide examples reuse the base controls and theme variables. */
+.guide-card { min-width: 0; margin-bottom: 16px; }
+.guide-card > p { color: var(--text-secondary); }
+.guide-preview { padding-block: var(--space-12); }
+.guide-preview .tx-field, .guide-select { max-width: 320px; }
+.guide-actions, .guide-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
+.guide-links a { color: var(--text-brand, var(--brand-700)); text-decoration: underline; text-underline-offset: 3px; }
+.guide-select { display: grid; gap: var(--space-4); }
+.guide-select .core-input { min-width: 0; width: 100%; appearance: auto; }
+.guide-code { margin-block: var(--space-12); }
+.guide-code summary { width: fit-content; cursor: pointer; }
+.guide-code pre { max-width: 100%; padding: var(--space-12); overflow-x: auto; background: var(--surface-page); border: 1px solid var(--border-default); border-radius: var(--radius-8); }
+.guide-copy-status { margin-inline-start: var(--space-8); color: var(--text-secondary); }
+.guide-api { margin: 0; }
+.guide-api > div { display: grid; grid-template-columns: minmax(110px, 1fr) 3fr; gap: var(--space-12); padding-block: var(--space-8); border-bottom: 1px solid var(--border-default); }
+.guide-api dd { margin: 0; }
+.guide-api :is(dt,dd) { overflow-wrap: anywhere; }
+.guide-table-wrap { overflow-x: auto; }
+.guide-table { width: 100%; min-width: 280px; border-collapse: collapse; text-align: left; }
+.guide-table caption { text-align: left; padding-block: var(--space-8); color: var(--text-secondary); }
+.guide-table :is(td,th) { padding: 12px; border-bottom: 1px solid var(--border-default); overflow-wrap: anywhere; }
+.guide-table thead th { color: var(--text-secondary); font-weight: 500; }
+#guide-example-dialog .guide-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--space-8); height: auto; }
+.channel-guide-dialog { --tx-height: 570px; }
+.guide-fields { display: grid; gap: var(--space-12); min-width: 0; margin: 0; padding: 0; border: 0; }
+.guide-fields > .button { justify-self: start; }
+.guide-model-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: var(--space-8); }
+.guide-failure { display: flex; align-items: center; gap: var(--space-8); }
+.guide-form-status { flex-basis: 100%; margin: 0; color: var(--text-secondary); }
+.guide-form-status:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+.guide-form-status.error { color: var(--text-danger-action, var(--danger)); }
+.channel-guide-dialog footer { flex-wrap: wrap; }
+@media (max-width: 480px) {
+  .guide-api > div { grid-template-columns: 1fr; gap: var(--space-4); }
+  .channel-guide-dialog footer .button { min-width: 0; }
+}
