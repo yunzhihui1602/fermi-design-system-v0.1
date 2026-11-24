@@ -1275,8 +1275,11 @@ button {
 .agent-preview-content { display: grid; min-width: 0; align-content: start; gap: var(--space-12); }
 .agent-preview-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8); }
 .agent-preview-header [data-flow-nav] { display: none; }
-.agent-preview-nav .conversation-item { display: block; width: 100%; min-height: 44px; height: auto; padding: var(--space-8); text-align: left; white-space: normal; cursor: pointer; }
-.agent-preview-nav [aria-current="true"] { background: var(--surface-selected); }
+.agent-preview-nav [data-flow-session] { width: 100%; border: 0; text-align: left; cursor: pointer; }
+.agent-preview-nav [data-flow-session]:hover:not([aria-current="true"], :disabled) { background: var(--surface-hover); }
+.agent-preview-nav [data-flow-session][aria-current="true"] { background: var(--figma-surface-sidebar-selected); }
+.agent-preview-nav [data-flow-session]:focus-visible { outline: 2px solid var(--border-focus); outline-offset: -2px; }
+.agent-preview-nav [data-flow-session]:disabled { cursor: not-allowed; }
 .agent-preview-message { justify-self: end; max-width: 100%; padding: var(--space-8) var(--space-12); overflow-wrap: anywhere; white-space: pre-wrap; background: var(--surface-page); border-radius: var(--radius-12); }
 .prompt-model-menu.prompt-model-mobile { inset: auto 0 0 !important; width: min(100%, 430px); margin-inline: auto; max-height: 60dvh; overflow-y: auto; padding: 8px 8px max(8px, env(safe-area-inset-bottom)); border-radius: var(--radius-16) var(--radius-16) 0 0; }
 .prompt-model-mobile button { min-height: 44px; }
@@ -1285,6 +1288,7 @@ button {
   .layout-demo-filters { flex-direction: column; }
   .agent-preview-header [data-flow-nav] { display: inline-flex; min-height: 44px; }
   .width-preview:not(.sessions-open) .agent-preview-nav { display: none; }
+  .agent-preview-nav [data-flow-session] { min-height: 44px; }
   .agent-flow-composer .prompt-controls { min-height: 44px; }
   .agent-flow-composer .prompt-controls :is(button, .agent-flow-file) { min-width: 44px; min-height: 44px; }
   .agent-flow-composer .prompt-model { min-width: 0; }

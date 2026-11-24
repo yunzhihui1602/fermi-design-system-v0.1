@@ -57,7 +57,6 @@
 }
 
 :root[data-theme="dark"] :is(input,textarea)::placeholder { color: var(--text-secondary); opacity: 1; }
-:root[data-theme="dark"] .agent-preview-nav .conversation-item { border-color: transparent; }
 
 /* Figma 2313:10098: chart background, primary and compare series bindings. */
 :root[data-theme="dark"] .chart-grid .legend.purple { --legend: var(--figma-icon-brand); }
