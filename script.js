@@ -639,12 +639,36 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
   const next = [...pagination.querySelectorAll('button')].find((button) => button.textContent.trim() === '下一页');
   const channelTable = pagination.closest('[data-channel-table]');
   const rows = [...(channelTable?.querySelectorAll('.tr:not(.th)') ?? [])];
-  const filter = channelTable?.querySelector('.table-toolbar input');
+  const search = channelTable?.querySelector('.table-toolbar input');
+  const statusFilter = channelTable?.querySelector('[data-channel-filter]');
   const count = pagination.querySelector('[data-channel-count]');
+  const pageCheckbox = channelTable?.querySelector('[data-channel-select-page]');
+  const clear = channelTable?.querySelector('[data-channel-clear]');
+  const selectionStatus = channelTable?.querySelector('[data-channel-selection]');
+  const sortButtons = [...(channelTable?.querySelectorAll('[data-channel-sort]') ?? [])];
+  const rowCheckboxes = rows.map((row) => row.querySelector('[data-channel-select-row]'));
   const rowsPerPage = 3;
+  let order = rows;
+  let sortButton = null;
+  let sortDirection = 1;
+
   const matchingRows = () => {
-    const keyword = filter.value.trim().toLowerCase();
-    return rows.filter((row) => row.textContent.toLowerCase().includes(keyword));
+    const keyword = search.value.trim().toLowerCase();
+    return order.filter((row) => {
+      const matchesStatus = !statusFilter.value || row.dataset.channelState === statusFilter.value;
+      return matchesStatus && row.textContent.toLowerCase().includes(keyword);
+    });
+  };
+
+  const syncSelection = () => {
+    const visible = rowCheckboxes.filter((input) => !input.closest('[role="row"]').hidden);
+    const selected = rowCheckboxes.filter((input) => input.checked).length;
+    const selectedOnPage = visible.filter((input) => input.checked).length;
+    pageCheckbox.checked = visible.length > 0 && selectedOnPage === visible.length;
+    pageCheckbox.indeterminate = selectedOnPage > 0 && selectedOnPage < visible.length;
+    pageCheckbox.disabled = !visible.length;
+    clear.disabled = selected === 0;
+    selectionStatus.textContent = selected ? `已选 ${selected} 项 · 本页 ${selectedOnPage} 项` : '已选 0 项';
   };
   const selectPage = (page) => {
     const index = pages.indexOf(page);
@@ -655,6 +679,7 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
       const start = index * rowsPerPage;
       const visible = matches.slice(start, start + rowsPerPage);
       rows.forEach((row) => { row.hidden = !visible.includes(row); });
+      syncSelection();
       pages.forEach((item, pageIndex) => { item.hidden = pageIndex > lastIndex; });
       count.textContent = visible.length
         ? `第 ${start + 1}–${start + visible.length} 条 · 共 ${matches.length} 条`
@@ -679,7 +704,40 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
     const index = pages.findIndex((page) => page.classList.contains('current'));
     if (index < pages.length - 1) selectPage(pages[index + 1]);
   });
-  filter?.addEventListener('input', () => selectPage(pages[0]));
+  search?.addEventListener('input', () => selectPage(pages[0]));
+  statusFilter?.addEventListener('change', () => selectPage(pages[0]));
+  sortButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      sortDirection = sortButton === button ? -sortDirection : 1;
+      sortButton = button;
+      const key = button.dataset.channelSort;
+      const sortValue = (row) => Number(row.querySelector(`[data-${key}]`).dataset[key]);
+      order = [...rows].sort((a, b) => sortDirection * (sortValue(a) - sortValue(b)));
+      sortButtons.forEach((item) => {
+        const header = item.closest('[role="columnheader"]');
+        if (item === button) {
+          header.setAttribute('aria-sort', sortDirection === 1 ? 'ascending' : 'descending');
+        } else {
+          header.removeAttribute('aria-sort');
+        }
+        item.lastElementChild.textContent = item === button ? (sortDirection === 1 ? '↑' : '↓') : '↕';
+      });
+      channelTable.querySelector('[role="table"]').append(...order);
+      selectPage(pages[0]);
+    });
+  });
+  rowCheckboxes.forEach((input) => input.addEventListener('change', syncSelection));
+  pageCheckbox?.addEventListener('change', () => {
+    rowCheckboxes.forEach((input) => {
+      if (!input.closest('[role="row"]').hidden) input.checked = pageCheckbox.checked;
+    });
+    syncSelection();
+  });
+  clear?.addEventListener('click', () => {
+    rowCheckboxes.forEach((input) => { input.checked = false; });
+    syncSelection();
+    search.focus();
+  });
 });
 
 const promptModelMenu = document.querySelector('#promptModelMenu');
