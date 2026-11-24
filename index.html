@@ -7,9 +7,9 @@
   <script src="theme.js?v=2"></script>
   <link rel="stylesheet" href="figma-tokens.css?v=2">
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=72">
+  <link rel="stylesheet" href="styles.css?v=73">
   <link rel="stylesheet" href="theme-colors.css?v=3">
-  <link rel="stylesheet" href="theme.css?v=21">
+  <link rel="stylesheet" href="theme.css?v=22">
 </head>
 <body>
   <svg class="svg-defs" aria-hidden="true">
@@ -74,11 +74,11 @@
   <header class="topbar">
     <label class="doc-search">
       <svg><use href="#i-search"/></svg>
-      <input id="docSearch" type="search" placeholder="搜索组件或规范" autocomplete="off">
+      <input id="docSearch" type="search" aria-label="搜索组件或规范" aria-controls="searchPopover" placeholder="搜索组件或规范" autocomplete="off">
       <kbd>⌘ K</kbd>
     </label>
     <div class="topbar-actions"><label class="appearance-control">外观 <select data-appearance aria-label="外观"><option value="light">浅色</option><option value="dark">暗色</option><option value="system" selected>跟随系统</option></select></label>
-    <a class="figma-link" href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582" target="_blank" rel="noreferrer"><svg><use href="#i-figma"/></svg>查看 Figma 源文件</a></div>
+    <a class="figma-link" aria-label="查看 Figma 源文件" href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582" target="_blank" rel="noreferrer"><svg><use href="#i-figma"/></svg>查看 Figma 源文件</a></div>
   </header>
 
   <main>
@@ -610,8 +610,6 @@
     <section class="doc-section component-section" id="agent" data-search="AI 工作台 Prompt Composer Agent Preset Asset Tool Control Bar Attachment Task Execution">
       <div class="section-heading"><div><span class="section-index">12</span><h2>AI 工作台组件</h2><p>严格复用 Figma「DS V0.1 / 06 / AI Workspace Components」中的组件与状态。</p></div><span class="component-count">27 variants</span></div>
       <div class="ai-workspace-board" aria-label="AI 工作台组件，来源 Figma 910:6299">
-        <div class="ai-workspace-intro"><span>FERMI DESIGN SYSTEM</span><h3>AI 工作台组件</h3><p>对话输入、预设、资产与科研工具结构</p></div>
-
       <div class="workspace-block agent-flow" data-agent-flow data-width-demo>
         <div class="workspace-block-head"><div><h3>Prompt Composer 提示词输入 · 跨端交互演示</h3><p>手机预览保留附件、模型与发送入口。生成时，发送切换为停止。任务与附件处理在浏览器中模拟。</p></div></div>
         <label>预览宽度 <select data-preview-width><option value="100%">桌面 · 可用宽度</option><option value="375px">375 px</option><option value="390px">390 px</option><option value="430px">430 px</option></select></label>
@@ -664,7 +662,7 @@
       </div>
 
       <div class="workspace-block">
-        <div class="workspace-block-head"><h3>Tool Card 工具卡片</h3><p>科研工具保持低视觉干扰；开启使用单一蓝色、关闭与不可用统一使用灰色。</p></div>
+        <div class="workspace-block-head"><h3 id="tool-card">Tool Card 工具卡片</h3><p>科研工具保持低视觉干扰；开启使用单一蓝色、关闭与不可用统一使用灰色。</p></div>
         <div class="workspace-row tool-row">
           <article class="tool-card"><div class="workspace-icon neutral"><svg data-figma-icon="Name=搜索"></svg></div><h4>联网检索</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch" type="button" aria-label="联网检索"><i></i></button></article>
           <article class="tool-card enabled"><div class="workspace-icon blue"><svg><use href="#i-check"/></svg></div><h4>数据分析</h4><p>调用工具增强智能体执行能力</p><button class="workspace-switch active" type="button" aria-label="数据分析"><i></i></button></article>
@@ -831,15 +829,18 @@
 
     <section class="doc-section component-section" id="tables" data-search="表格 table header row pagination action 操作">
       <div class="section-heading"><div><span class="section-index">14</span><h2>数据表格</h2><p>表头与单元格共用列宽，行高统一为 48px，操作列右对齐。</p></div><span class="component-count">13 components</span></div>
-      <div class="component-card table-card">
+      <div class="component-card table-card" data-channel-table>
         <div class="table-toolbar"><label><svg><use href="#i-search"/></svg><input placeholder="搜索渠道"></label><button class="button secondary"><svg><use href="#i-filter"/></svg>筛选</button><button class="button primary"><svg><use href="#i-plus"/></svg>新增渠道</button></div>
         <div class="data-table" role="table">
           <div class="tr th" role="row"><span>渠道</span><span>已分配</span><span>剩余额度</span><span>状态</span><span class="align-right">操作</span></div>
           <div class="tr" role="row"><span><b>OpenAI 中转（eco）</b><small>最近更新 10-25 09:20</small></span><span>¥9,000.00</span><span>¥3,888.00</span><span><em class="status success">正常</em></span><span class="actions"><button class="channel-edit-action">编辑</button><button class="channel-disable-action">停用</button></span></div>
           <div class="tr" role="row"><span><b>Moonshot</b><small>最近更新 10-24 16:40</small></span><span>¥3,500.00</span><span>¥289.70</span><span><em class="status warning">额度不足</em></span><span class="actions"><button>恢复</button><button>详情</button></span></div>
           <div class="tr" role="row"><span><b>DeepSeek</b><small>最近更新 10-23 12:10</small></span><span>¥5,000.00</span><span>¥0.00</span><span><em class="status danger">已停用</em></span><span class="actions"><button class="channel-enable-action">启用</button><button>删除</button></span></div>
+          <div class="tr" role="row" hidden><span><b>腾讯云</b><small>最近更新 10-22 10:00</small></span><span>¥6,000.00</span><span>¥4,250.00</span><span><em class="status success">正常</em></span><span class="actions"><button class="channel-edit-action">编辑</button><button class="channel-disable-action">停用</button></span></div>
+          <div class="tr" role="row" hidden><span><b>智谱</b><small>最近更新 10-22 10:00</small></span><span>¥4,000.00</span><span>¥2,100.00</span><span><em class="status success">正常</em></span><span class="actions"><button class="channel-edit-action">编辑</button><button class="channel-disable-action">停用</button></span></div>
+          <div class="tr" role="row" hidden><span><b>小米</b><small>最近更新 10-22 10:00</small></span><span>¥2,000.00</span><span>¥680.00</span><span><em class="status success">正常</em></span><span class="actions"><button class="channel-edit-action">编辑</button><button class="channel-disable-action">停用</button></span></div>
         </div>
-        <div class="pagination"><span>共 18 条</span><button disabled>上一页</button><button class="current">1</button><button>2</button><button>下一页</button></div>
+        <div class="pagination"><span data-channel-count role="status">第 1–3 条 · 共 6 条</span><button disabled>上一页</button><button class="current" aria-current="page">1</button><button>2</button><button>下一页</button></div>
       </div>
       <div class="component-card channel-management-card">
         <div class="channel-table-title"><div><h3>渠道列表</h3><p>渠道 / 厂商、接入地址、脱敏密钥、模型数、价格来源、状态、更新时间与行操作</p></div><button class="button primary">新增渠道</button></div>
@@ -1262,6 +1263,6 @@
   </aside>
 
   <script src="icons-data.js?v=92613049"></script>
-  <script src="script.js?v=71"></script>
+  <script src="script.js?v=72"></script>
 </body>
 </html>

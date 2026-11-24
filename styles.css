@@ -780,10 +780,6 @@ pre { margin: 0; padding: 16px; overflow: auto; color: var(--theme-text-neutral-
 
 /* Figma 910:6299 — AI Workspace Components */
 .ai-workspace-board { padding: 48px 56px; overflow: hidden; background: var(--theme-surface-fff, #fff); border: 1px solid var(--theme-border-e6eaf0, #e6eaf0); border-radius: 24px; }
-.ai-workspace-intro { margin-bottom: 16px; }
-.ai-workspace-intro > span { display: block; margin-bottom: 18px; color: var(--text-brand, var(--brand-600)); font-size: 12px; font-weight: 500; line-height: 18px; letter-spacing: .04em; }
-.ai-workspace-intro h3 { margin: 0; color: var(--text-strong); font-size: 28px; font-weight: 500; line-height: 40px; }
-.ai-workspace-intro p { margin: 8px 0 0; color: var(--text-secondary); font-size: 14px; line-height: 20px; }
 .ai-workspace-board .workspace-block { margin: 16px 0 0; border: 0; border-radius: 0; }
 .ai-workspace-board .workspace-block-head { display: block; min-height: 0; padding: 0; border: 0; }
 .ai-workspace-board .workspace-block-head h3 { font-weight: 500; }
@@ -1700,3 +1696,24 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .preset-row .preset-card.selected { background: var(--surface-selected); }
 
 .filter-select .doc-select-trigger > svg { position: static; }
+
+/* Documentation chrome and wide examples at narrow viewport widths. */
+#layout .radius-demo { flex-wrap: wrap; }
+#layout .token-block { min-width: 0; }
+#layout .spacing-demo { overflow-x: auto; }
+.search-popover a { gap: 12px; }
+.search-popover a:focus-visible { background: var(--surface-hover); outline: 2px solid var(--border-focus); outline-offset: -2px; }
+.search-popover small { text-align: right; }
+[data-channel-table] .pagination button[hidden] { display: none; }
+.ai-workspace-board > .workspace-block:first-child { margin-top: 0; }
+
+@media (max-width: 1050px) {
+  .topbar { gap: 12px; }
+  .topbar .doc-search { flex: 1 1 0; min-width: 0; max-width: 420px; }
+  .topbar .appearance-control, .topbar .figma-link { white-space: nowrap; }
+  .topbar .figma-link { font-size: 0; gap: 0; }
+}
+@media (max-width: 480px) {
+  .doc-search kbd { display: none; }
+  .doc-search input { padding-right: 8px; }
+}

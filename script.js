@@ -637,15 +637,36 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
   const pages = [...pagination.querySelectorAll('button')].filter((button) => /^\d+$/.test(button.textContent.trim()));
   const previous = [...pagination.querySelectorAll('button')].find((button) => button.textContent.trim() === '上一页');
   const next = [...pagination.querySelectorAll('button')].find((button) => button.textContent.trim() === '下一页');
+  const channelTable = pagination.closest('[data-channel-table]');
+  const rows = [...(channelTable?.querySelectorAll('.tr:not(.th)') ?? [])];
+  const filter = channelTable?.querySelector('.table-toolbar input');
+  const count = pagination.querySelector('[data-channel-count]');
+  const rowsPerPage = 3;
+  const matchingRows = () => {
+    const keyword = filter.value.trim().toLowerCase();
+    return rows.filter((row) => row.textContent.toLowerCase().includes(keyword));
+  };
   const selectPage = (page) => {
+    const index = pages.indexOf(page);
+    let lastIndex = pages.length - 1;
+    if (channelTable) {
+      const matches = matchingRows();
+      lastIndex = Math.max(0, Math.ceil(matches.length / rowsPerPage) - 1);
+      const start = index * rowsPerPage;
+      const visible = matches.slice(start, start + rowsPerPage);
+      rows.forEach((row) => { row.hidden = !visible.includes(row); });
+      pages.forEach((item, pageIndex) => { item.hidden = pageIndex > lastIndex; });
+      count.textContent = visible.length
+        ? `第 ${start + 1}–${start + visible.length} 条 · 共 ${matches.length} 条`
+        : '没有匹配的渠道';
+    }
     pages.forEach((item) => {
       const current = item === page;
       item.classList.toggle('current', current);
       item.setAttribute('aria-current', current ? 'page' : 'false');
     });
-    const index = pages.indexOf(page);
     if (previous) previous.disabled = index === 0;
-    if (next) next.disabled = index === pages.length - 1;
+    if (next) next.disabled = index === lastIndex;
     const status = pagination.parentElement.querySelector('[data-page-status]');
     if (status) status.textContent = `第 ${index + 1} / ${pages.length} 页 · ${index === 0 ? 'Start' : index === pages.length - 1 ? 'End' : 'Middle'}`;
   };
@@ -658,13 +679,7 @@ document.querySelectorAll('.pagination').forEach((pagination) => {
     const index = pages.findIndex((page) => page.classList.contains('current'));
     if (index < pages.length - 1) selectPage(pages[index + 1]);
   });
-});
-
-document.querySelector('.table-toolbar input')?.addEventListener('input', (event) => {
-  const keyword = event.target.value.trim().toLowerCase();
-  document.querySelectorAll('.data-table .tr:not(.th)').forEach((row) => {
-    row.hidden = Boolean(keyword) && !row.textContent.toLowerCase().includes(keyword);
-  });
+  filter?.addEventListener('input', () => selectPage(pages[0]));
 });
 
 const promptModelMenu = document.querySelector('#promptModelMenu');
@@ -1695,21 +1710,93 @@ const closeDrawer = () => { drawer.classList.remove('open'); drawer.setAttribute
 document.querySelector('[data-open-drawer]').addEventListener('click', openDrawer);
 document.querySelector('[data-close-drawer]').addEventListener('click', closeDrawer);
 
+const searchEntries = sections.flatMap((section) => {
+  const chapter = section.querySelector('h1,h2')?.textContent.trim();
+  const headings = [...section.querySelectorAll('h3')];
+  const components = headings.map((heading) => {
+    const name = heading.textContent.trim();
+    if (!heading.id) {
+      const slug = name.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+      const base = `${section.id}-${slug}`;
+      let id = base;
+      for (let suffix = 2; document.getElementById(id); suffix++) id = `${base}-${suffix}`;
+      heading.id = id;
+    }
+    return { name, chapter, id: heading.id, keywords: name };
+  });
+  return [...components, { name: chapter, id: section.id, keywords: `${chapter} ${section.dataset.search ?? ''}` }];
+});
+
 const renderSearchResults = () => {
   const query = searchInput.value.trim().toLowerCase();
-  if (!query) { searchPopover.hidden = true; return; }
-  const matches = sections.filter((section) => `${section.dataset.search || ''} ${section.textContent}`.toLowerCase().includes(query)).slice(0, 7);
-  searchPopover.innerHTML = matches.length
-    ? matches.map((section) => `<a href="#${section.id}"><span>${section.querySelector('h1,h2')?.textContent.trim()}</span><small>跳转</small></a>`).join('')
-    : '<div class="search-empty">没有匹配的组件或规范</div>';
-  searchPopover.hidden = false;
+  searchPopover.hidden = !query;
+  if (!query) return;
+  const matches = searchEntries.filter(({ keywords }) => keywords.toLowerCase().includes(query)).slice(0, 7);
+  searchPopover.replaceChildren();
+  if (!matches.length) {
+    const empty = document.createElement('div');
+    empty.className = 'search-empty';
+    empty.setAttribute('role', 'status');
+    empty.textContent = '没有匹配的组件或规范';
+    searchPopover.append(empty);
+    return;
+  }
+  matches.forEach(({ name, chapter, id }) => {
+    const link = document.createElement('a');
+    link.href = `#${id}`;
+    const title = document.createElement('span');
+    title.textContent = name;
+    const context = document.createElement('small');
+    context.textContent = chapter || '章节';
+    link.append(title, context);
+    searchPopover.append(link);
+  });
 };
 searchInput.addEventListener('input', renderSearchResults);
-searchPopover.addEventListener('click', () => { searchInput.value = ''; searchPopover.hidden = true; });
-document.addEventListener('click', (event) => { if (!event.target.closest('.doc-search') && !event.target.closest('.search-popover')) searchPopover.hidden = true; });
+searchPopover.addEventListener('click', (event) => {
+  const link = event.target.closest('a');
+  if (!link) return;
+  const target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+  if (target) {
+    target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  }
+  searchInput.value = '';
+  searchPopover.hidden = true;
+});
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.doc-search, .search-popover')) searchPopover.hidden = true;
+});
 document.addEventListener('keydown', (event) => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); searchInput.focus(); }
-  if (event.key === 'Escape') { closeDrawer(); searchPopover.hidden = true; }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+    event.preventDefault();
+    searchInput.focus();
+    renderSearchResults();
+  }
+  const inSearch = event.target === searchInput || searchPopover.contains(event.target);
+  if (event.key === 'Escape') {
+    closeDrawer();
+    if (!searchPopover.hidden && inSearch) searchInput.focus();
+    searchPopover.hidden = true;
+  }
+  if (!inSearch) return;
+  if (event.target === searchInput && event.key === 'Enter' && !searchPopover.hidden) {
+    const firstResult = searchPopover.querySelector('a');
+    if (firstResult) {
+      event.preventDefault();
+      firstResult.click();
+    }
+  }
+  if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+  if (searchPopover.hidden) renderSearchResults();
+  const results = [...searchPopover.querySelectorAll('a')];
+  if (searchPopover.hidden || !results.length) return;
+  event.preventDefault();
+  const current = results.indexOf(event.target);
+  const next = event.key === 'ArrowDown'
+    ? (current + 1) % results.length
+    : (current <= 0 ? results.length - 1 : current - 1);
+  results[next].focus();
 });
 
 const mobileAgent = document.querySelector('[data-mobile-agent]');
