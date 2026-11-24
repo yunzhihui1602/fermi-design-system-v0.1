@@ -1732,7 +1732,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .guide-code pre { max-width: 100%; padding: var(--space-12); overflow-x: auto; background: var(--surface-page); border: 1px solid var(--border-default); border-radius: var(--radius-8); }
 .guide-copy-status { margin-inline-start: var(--space-8); color: var(--text-secondary); }
 .guide-api { margin: 0; }
-.guide-api > div { display: grid; grid-template-columns: minmax(110px, 1fr) 3fr; gap: var(--space-12); padding-block: var(--space-8); border-bottom: 1px solid var(--border-default); }
+.guide-api-row { display: grid; grid-template-columns: minmax(110px, 1fr) 3fr; gap: var(--space-12); padding: 12px 0; border-bottom: 1px solid var(--border-default); }
 .guide-api dd { margin: 0; }
 .guide-api :is(dt,dd) { overflow-wrap: anywhere; }
 .guide-table-wrap { overflow-x: auto; }
@@ -1751,6 +1751,6 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow: visible; }
 .guide-form-status.error { color: var(--text-danger-action, var(--danger)); }
 .channel-guide-dialog footer { flex-wrap: wrap; }
 @media (max-width: 480px) {
-  .guide-api > div { grid-template-columns: 1fr; gap: var(--space-4); }
+  .guide-api-row { grid-template-columns: 1fr; gap: var(--space-4); }
   .channel-guide-dialog footer .button { min-width: 0; }
 }

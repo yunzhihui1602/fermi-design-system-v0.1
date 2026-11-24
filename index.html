@@ -7,7 +7,7 @@
   <script src="theme.js?v=2"></script>
   <link rel="stylesheet" href="figma-tokens.css?v=2">
   <link rel="stylesheet" href="tokens.css?v=3">
-  <link rel="stylesheet" href="styles.css?v=74">
+  <link rel="stylesheet" href="styles.css?v=75">
   <link rel="stylesheet" href="theme-colors.css?v=3">
   <link rel="stylesheet" href="theme.css?v=22">
 </head>
@@ -1176,7 +1176,7 @@
           <span role="status" class="guide-copy-status"></span>
         </details>
         <h4>属性与事件</h4>
-        <dl class="guide-api"><div><dt><code>class</code></dt><dd><code>button primary</code> 或 <code>button secondary</code>。</dd></div><div><dt><code>type / disabled</code></dt><dd>显式设置按钮类型。提交期间使用原生禁用状态。</dd></div><div><dt><code>click</code></dt><dd>绑定业务操作。</dd></div></dl>
+        <dl class="guide-api"><div class="guide-api-row"><dt><code>class</code></dt><dd><code>button primary</code> 或 <code>button secondary</code>。</dd></div><div class="guide-api-row"><dt><code>type / disabled</code></dt><dd>显式设置按钮类型。提交期间使用原生禁用状态。</dd></div><div class="guide-api-row"><dt><code>click</code></dt><dd>绑定业务操作。</dd></div></dl>
         <p class="guide-keyboard">键盘使用 Tab 聚焦，Enter 或空格触发。</p>
         <div class="guide-links"><a href="#core-components">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
       </article>
@@ -1198,7 +1198,7 @@
           <span role="status" class="guide-copy-status"></span>
         </details>
         <h4>属性与事件</h4>
-        <dl class="guide-api"><div><dt><code>id / name</code></dt><dd><code>id</code> 配合标签，<code>name</code> 用于表单取值。</dd></div><div><dt><code>required / maxlength</code></dt><dd>定义基础约束。业务校验可用 <code>setCustomValidity()</code>。</dd></div><div><dt><code>input / change</code></dt><dd>输入时更新，提交前校验；错误说明可通过 <code>aria-describedby</code> 关联。</dd></div></dl>
+        <dl class="guide-api"><div class="guide-api-row"><dt><code>id / name</code></dt><dd><code>id</code> 配合标签，<code>name</code> 用于表单取值。</dd></div><div class="guide-api-row"><dt><code>required / maxlength</code></dt><dd>定义基础约束。业务校验可用 <code>setCustomValidity()</code>。</dd></div><div class="guide-api-row"><dt><code>input / change</code></dt><dd>输入时更新，提交前校验；错误说明可通过 <code>aria-describedby</code> 关联。</dd></div></dl>
         <p class="guide-keyboard">键盘使用 Tab 聚焦，浏览器负责文本编辑。</p>
         <div class="guide-links"><a href="#forms">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
       </article>
@@ -1226,7 +1226,7 @@
           <span role="status" class="guide-copy-status"></span>
         </details>
         <h4>属性与事件</h4>
-        <dl class="guide-api"><div><dt><code>name / value</code></dt><dd>用 <code>name</code> 提交选中项的 <code>value</code>。</dd></div><div><dt><code>change</code></dt><dd>监听选择变化。站内增强版保留原生 select 作为数据源。</dd></div><div><dt><code>disabled</code></dt><dd>字段不可操作时禁用。</dd></div></dl>
+        <dl class="guide-api"><div class="guide-api-row"><dt><code>name / value</code></dt><dd>用 <code>name</code> 提交选中项的 <code>value</code>。</dd></div><div class="guide-api-row"><dt><code>change</code></dt><dd>监听选择变化。站内增强版保留原生 select 作为数据源。</dd></div><div class="guide-api-row"><dt><code>disabled</code></dt><dd>字段不可操作时禁用。</dd></div></dl>
         <p class="guide-keyboard">站内增强版支持方向键浏览、回车选择和 Esc 关闭。复制示例单独使用时采用浏览器原生选择器。</p>
         <div class="guide-links"><a href="#forms">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
       </article>
@@ -1235,16 +1235,6 @@
         <p>用模态对话框承载需要确认的操作。示例使用支持 HTML 按钮 command 属性的浏览器。</p>
         <div class="guide-preview">
 <button type="button" class="button secondary" commandfor="guide-example-dialog" command="show-modal">打开对话框</button>
-<dialog id="guide-example-dialog" class="modal transaction-dialog" aria-labelledby="guide-example-title">
-  <header><h2 id="guide-example-title">确认操作</h2></header>
-  <div class="tx-body">请核对当前配置。</div>
-  <footer>
-    <form method="dialog" class="guide-dialog-actions">
-      <button class="button secondary" value="cancel">取消</button>
-      <button class="button primary" value="confirm">确认</button>
-    </form>
-  </footer>
-</dialog>
         </div>
         <details class="guide-code"><summary>查看代码</summary>
           <pre><code>&lt;button type=&quot;button&quot; class=&quot;button secondary&quot; commandfor=&quot;guide-example-dialog&quot; command=&quot;show-modal&quot;&gt;打开对话框&lt;/button&gt;
@@ -1262,7 +1252,7 @@
           <span role="status" class="guide-copy-status"></span>
         </details>
         <h4>属性与事件</h4>
-        <dl class="guide-api"><div><dt><code>showModal() / close()</code></dt><dd>脚本可用这两个原生方法控制打开和关闭。</dd></div><div><dt><code>aria-labelledby</code></dt><dd>指向对话框标题。</dd></div><div><dt><code>close / cancel</code></dt><dd>读取 <code>returnValue</code> 区分提交结果，处理 Esc 取消。</dd></div></dl>
+        <dl class="guide-api"><div class="guide-api-row"><dt><code>showModal() / close()</code></dt><dd>脚本可用这两个原生方法控制打开和关闭。</dd></div><div class="guide-api-row"><dt><code>aria-labelledby</code></dt><dd>指向对话框标题。</dd></div><div class="guide-api-row"><dt><code>close / cancel</code></dt><dd>读取 <code>returnValue</code> 区分提交结果，处理 Esc 取消。</dd></div></dl>
         <p class="guide-keyboard">Esc 可关闭；关闭后焦点返回打开按钮。旧浏览器可用 showModal() 绑定打开按钮。</p>
         <div class="guide-links"><a href="#overlays">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
       </article>
@@ -1290,7 +1280,7 @@
           <span role="status" class="guide-copy-status"></span>
         </details>
         <h4>属性与事件</h4>
-        <dl class="guide-api"><div><dt><code>caption / scope</code></dt><dd>描述表格用途，标记行头或列头。</dd></div><div><dt><code>thead / tbody</code></dt><dd>区分列标题与数据。</dd></div><div><dt><code>aria-sort</code></dt><dd>为实际可排序的表头声明当前排序方向。</dd></div></dl>
+        <dl class="guide-api"><div class="guide-api-row"><dt><code>caption / scope</code></dt><dd>描述表格用途，标记行头或列头。</dd></div><div class="guide-api-row"><dt><code>thead / tbody</code></dt><dd>区分列标题与数据。</dd></div><div class="guide-api-row"><dt><code>aria-sort</code></dt><dd>为实际可排序的表头声明当前排序方向。</dd></div></dl>
         <p class="guide-keyboard">可操作元素按正常 Tab 顺序访问，静态单元格沿用表格语义。</p>
         <div class="guide-links"><a href="#tables">查看组件状态</a><a href="https://www.figma.com/design/uO08O8ANzzskvuyAiElbuE/?node-id=910-5582">Figma 规范</a></div>
       </article>
@@ -1364,7 +1354,18 @@
     <button type="button" role="option" data-model-type-option="reasoning" aria-selected="false"><span>推理模型</span><svg><use href="#i-check"/></svg></button>
   </div>
 
-  <dialog class="modal transaction-dialog channel-guide-dialog" id="channelGuideDialog" aria-labelledby="guide-channel-title">
+  <dialog id="guide-example-dialog" class="guide-example-dialog modal transaction-dialog" aria-labelledby="guide-example-title">
+    <header><h2 id="guide-example-title">确认操作</h2></header>
+    <div class="tx-body">请核对当前配置。</div>
+    <footer>
+      <form method="dialog" class="guide-dialog-actions">
+        <button class="button secondary" value="cancel">取消</button>
+        <button class="button primary" value="confirm">确认</button>
+      </form>
+    </footer>
+  </dialog>
+
+  <dialog class="channel-guide-dialog modal transaction-dialog" id="channelGuideDialog" aria-labelledby="guide-channel-title">
     <form>
       <header><div><h2 id="guide-channel-title">新增渠道</h2><p>使用演示数据完成表单校验和保存流程。</p></div></header>
       <div class="tx-body">
